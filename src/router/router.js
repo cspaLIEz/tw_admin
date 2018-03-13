@@ -78,69 +78,74 @@ export const appRouter = [
     },
     {
         path: '/program',
-        icon: 'wrench',
+        icon: 'ios-paper',
         name: 'program',
         title: '节目管理',
         component: Main,
         children: [
-            { path: 'index', title: '节目管理', name: 'program_index', component: () => import('@/views/access/access.vue') }
+            { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', component: () => import('@/views/program/build/build.vue') },
+            { path: 'lists', title: '节目列表', name: 'program_lists', icon: 'ios-list-outline', component: () => import('@/views/program/lists/lists.vue') },
+            { path: 'approval', title: '节目审批', name: 'program_approval', icon: 'funnel', component: () => import('@/views/program/approval/approval.vue') },
+            { path: 'broadcast', title: '插播消息', name: 'program_broadcast', icon: 'monitor', component: () => import('@/views/program/broadcast/broadcast.vue') }
         ]
     },
     {
-        path: '/terminus',
-        icon: 'wrench',
-        name: 'terminus',
+        path: '/release',
+        icon: 'ios-paperplane',
+        name: 'release',
+        title: '发布管理',
+        component: Main,
+        children: [
+            { path: 'schedule', title: '发布日程', name: 'release_build', icon:'ios-calendar', component: () => import('@/views/release/schedule/schedule.vue') },
+            { path: 'approval', title: '发布审批', name: 'release_lists', icon: 'compose', component: () => import('@/views/release/approval/approval.vue') },
+            { path: 'lists', title: '发布列表', name: 'release_approval', icon: 'android-list', component: () => import('@/views/release/lists/lists.vue') }
+        ]
+    },
+    {
+        path: '/terminal',
+        icon: 'android-desktop',
+        name: 'terminal',
         title: '终端管理',
         component: Main,
         children: [
-            { path: 'index', title: '终端管理', name: 'terminus_index', component: () => import('@/views/access/access.vue') }
+            { path: 'information', title: '终端信息', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') },
+            { path: 'state', title: '终端状态', name: 'terminal_state', icon:'ios-pulse', component: () => import('@/views/terminal/state/state.vue') },
+            { path: 'control', title: '终端控制', name: 'terminal_control', icon:'mouse', component: () => import('@/views/terminal/control/control.vue') }
         ]
     },
     {
-        path: '/access-test',
-        icon: 'lock-combination',
-        title: '权限测试页',
-        name: 'accesstest',
-        access: 0,
+        path: '/resources',
+        icon: 'social-buffer',
+        name: 'resources',
+        title: '资源管理',
         component: Main,
         children: [
-            { path: 'index', title: '权限测试页', name: 'accesstest_index', access: 0, component: () => import('@/views/access/access-test.vue') }
+            { path: 'material', title: '素材', name: 'resources_material', icon:'filing', component: () => import('@/views/resources/material/material.vue') },
+            { path: 'template', title: '模板', name: 'resources_template', icon:'document-text', component: () => import('@/views/resources/template/template.vue') }
         ]
     },
     {
-        path: '/material',
-        icon: 'earth',
-        title: "素材管理",
-        name: 'material',
+        path: '/journal',
+        icon: 'ios-paper-outline',
+        name: 'journal',
+        title: '日志管理',
         component: Main,
         children: [
-            { path: 'index', title: "素材管理", name: 'material_index', component: () => import('@/views/international/international.vue') }
-        ]
-    },
-    {
-        path: '/journaling',
-        icon: 'android-checkbox',
-        name: 'journaling',
-        title: '日志报表',
-        component: Main,
-        children: [
-            { path: 'artical-publish', title: '文章发布', name: 'artical-publish', icon: 'compose', component: () => import('@/views/form/article-publish/article-publish.vue') },
-            { path: 'workflow', title: '工作流', name: 'workflow', icon: 'arrow-swap', component: () => import('@/views/form/work-flow/work-flow.vue') }
-
+            { path: 'handle', title: '操作日志', name: 'journal_handle', icon: 'ios-cog', component: () => import('@/views/journal/handle/handle.vue') },
+            { path: 'broadcast-message', title: '插播消息日志', name: 'journal_broadcast-message', icon: 'ios-pricetags', component: () => import('@/views/journal/broadcast-message/broadcast-message.vue') }
         ]
     },
     {
         path: '/systems',
-        icon: 'ios-grid-view',
+        icon: 'wrench',
         name: 'systems',
         title: '系统管理',
         component: Main,
         children: [
-            { path: 'dragableTable', title: '可拖拽排序', name: 'dragable-table', icon: 'arrow-move', component: () => import('@/views/tables/dragable-table.vue') },
-            { path: 'editableTable', title: '可编辑表格', name: 'editable-table', icon: 'edit', component: () => import('@/views/tables/editable-table.vue') },
-            { path: 'searchableTable', title: '可搜索表格', name: 'searchable-table', icon: 'search', component: () => import('@/views/tables/searchable-table.vue') },
-            { path: 'exportableTable', title: '表格导出数据', name: 'exportable-table', icon: 'code-download', component: () => import('@/views/tables/exportable-table.vue') },
-            { path: 'table2image', title: '表格转图片', name: 'table-to-image', icon: 'images', component: () => import('@/views/tables/table-to-image.vue') }
+            { path: 'institution', title: '机构管理', name: 'systems_institution', icon: 'podium', component: () => import('@/views/systems/institution/institution.vue') },
+            { path: 'role', title: '角色管理', name: 'systems_role', icon: 'android-options', component: () => import('@/views/systems/role/role.vue') },
+            { path: 'user', title: '用户管理', name: 'systems_user', icon: 'ios-people', component: () => import('@/views/systems/user/user.vue') },
+            { path: 'parameter', title: '系统参数', name: 'systems_parameter', icon: 'ios-settings', component: () => import('@/views/systems/parameter/parameter.vue') }
         ]
     }
 ];
