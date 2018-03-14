@@ -186,6 +186,7 @@ import countUp from './components/countUp.vue';
 import inforCard from './components/inforCard.vue';
 import mapDataTable from './components/mapDataTable.vue';
 import toDoListItem from './components/toDoListItem.vue';
+import { apitest } from '../../api/api';
 
 export default {
     name: 'home',
@@ -234,6 +235,13 @@ export default {
         avatorPath () {
             return localStorage.avatorImgPath;
         }
+    },
+    mounted(){
+        //http://open.douyucdn.cn/api/RoomApi/live/1
+        //util.ajax()
+        apitest().then(function(res){
+            console.log(res)
+        })
     },
     methods: {
         addNewToDoItem () {
