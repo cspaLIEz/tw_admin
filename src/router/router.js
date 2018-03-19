@@ -108,7 +108,7 @@ export const appRouter = [
         title: '终端管理',
         component: Main,
         children: [
-            { path: 'information', title: '终端信息', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') },
+            { path: 'information', title: '终端注册', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') },
             { path: 'state', title: '终端状态', name: 'terminal_state', icon:'ios-pulse', component: () => import('@/views/terminal/state/state.vue') },
             { path: 'control', title: '终端控制', name: 'terminal_control', icon:'mouse', component: () => import('@/views/terminal/control/control.vue') }
         ]
@@ -142,7 +142,7 @@ export const appRouter = [
         title: '系统管理',
         component: Main,
         children: [
-            { path: 'institution', title: '机构管理', name: 'systems_institution', icon: 'podium', component: () => import('@/views/systems/institution/institution.vue') },
+            { path: 'organization', title: '机构管理', name: 'systems_organization', icon: 'podium', component: () => import('@/views/systems/organization/organization.vue') },
             { path: 'role', title: '角色管理', name: 'systems_role', icon: 'android-options', component: () => import('@/views/systems/role/role.vue') },
             { path: 'user', title: '用户管理', name: 'systems_user', icon: 'ios-people', component: () => import('@/views/systems/user/user.vue') },
             { path: 'parameter', title: '系统参数', name: 'systems_parameter', icon: 'ios-settings', component: () => import('@/views/systems/parameter/parameter.vue') }

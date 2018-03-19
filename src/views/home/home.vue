@@ -238,10 +238,10 @@ export default {
     },
     mounted(){
         //http://open.douyucdn.cn/api/RoomApi/live/1
-        //util.ajax()
-        apitest().then(function(res){
-            console.log(res)
-        })
+        // util.ajax()
+        // apitest().then(function(res){
+        //     console.log(res)
+        // })
     },
     methods: {
         addNewToDoItem () {

@@ -1,8 +1,8 @@
 import axios from '@/libs/axios';
 
-export const apitest = data => axios.post('/article/lists', {params:data});
+export const apitest = data => axios.post('/article/lists', data);
 
-export const Login = data => axios.post('/user/ulogin', {params:data});
+export const Login = data => axios.post('/user/ulogin', data);
 
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);

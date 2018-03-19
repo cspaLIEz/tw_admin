@@ -1,19 +1,22 @@
 import axios from 'axios';
+// import jsonpAdapter from 'axios-jsonp';
 import env from '../../build/env';
 
 const ajaxUrl = env === 'development'
-? 'http://localhost:3001'
+? 'http://47.95.201.45:8080/mzfb'
 : env === 'production'
-    ? 'https://www.url.com'
+    ? 'http://47.95.201.45:8080/mzfb'
     : 'https://debug.url.com';
 
 let options = {
   baseURL:ajaxUrl,
   timeout: 30000,
+//   adapter:jsonpAdapter,
   headers: {
       post: {
           'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'
-      }
+      },
+      'X-Custom-Header': 'foobar'
   }
 }
 
