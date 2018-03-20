@@ -3,8 +3,8 @@
 @import "../../../styles/common.less";
 </style>
 <template>
-  <div class="view-systems-organization">
-    <div class="view-top padding-10">
+  <Card class="view-systems-organization">
+    <div class="view-top margin-bottom-10">
       <Row type="flex">
           <Col span="12" class="handle-top-left">
               <Button type="primary">添加机构</Button>
@@ -35,7 +35,7 @@
             <Page :total="100" :current="1" @on-change="changePage"></Page>
         </div>
     </div>
-  </div>
+  </Card>
 </template>
 <script>
 export default {

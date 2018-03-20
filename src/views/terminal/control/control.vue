@@ -3,7 +3,7 @@
     @import "../../../styles/common.less";
 </style>
 <template>
-  <div class="view-terminal-control">
+  <Card class="view-terminal-control">
     <div class="view-left">
       <Card>
           <p slot="title">终端列表</p>
@@ -11,7 +11,7 @@
       </Card>
     </div>
     <div class="view-right">
-        <div class="padding-10">
+        <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
                     <Button type="primary">开始播放</Button>
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-  </div>
+  </Card>
 </template>
 <script>
 export default {

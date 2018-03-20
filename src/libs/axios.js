@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import jsonpAdapter from 'axios-jsonp';
 import env from '../../build/env';
 
 const ajaxUrl = env === 'development'
@@ -11,12 +10,10 @@ const ajaxUrl = env === 'development'
 let options = {
   baseURL:ajaxUrl,
   timeout: 30000,
-//   adapter:jsonpAdapter,
   headers: {
       post: {
           'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      'X-Custom-Header': 'foobar'
+      }
   }
 }
 
