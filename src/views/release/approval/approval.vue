@@ -23,12 +23,7 @@
         <Table border  :columns="columns" :data="tableData"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Button type="info">上一周</Button>
-                <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
-                <Button type="info">下一周</Button>
-                <span>&nbsp;&nbsp;</span>
-                <Input v-model="value2" style="width: 30px"></Input>
-                <Button type="info">跳转</Button>
+                <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
     </Card>
