@@ -8,8 +8,8 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">新建节目</Button>
-                    <Button type="warning">删除节目</Button>
+                    <Button type="info" @click="$router.push('/program/build')">新建节目</Button>
+                    <Button type="warning" @click="deleteSelectProgram">删除节目</Button>
                     <Button type="success">导出节目</Button>
                     <Button type="warning">导入节目</Button>
                 </Col>
@@ -26,7 +26,7 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData"></Table>
+        <Table border ref="selection" :columns="columns" :data="tableData" @on-selection-change="onSelectionChange"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -159,8 +159,8 @@ export default {
                     "approve": "通过"
                 },
                 {
-                    "code": "PM2018030821360001",
-                    "name": "节目1",
+                    "code": "PM2018030821360002",
+                    "name": "节目2",
                     "fbl": "1900*1200",
                     "view": "使用节目缩略图，点击后预览",
                     "time": "2016-10-03",
@@ -170,7 +170,8 @@ export default {
                     "from": "新建",
                     "approve": "通过"
                 }
-            ]
+            ],
+            checkedDatas:[]
         }
     },
     methods:{
@@ -182,6 +183,31 @@ export default {
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
+        },
+        onSelectionChange(selection){
+            console.log(selection)
+            this.checkedDatas = selection;
+        },
+        deleteSelectProgram(){
+            this.$Modal.confirm({
+                title: '<h4>警 告</h4>',
+                content: '<p>请确认删除所选中的节目！(要求判断有一个或多个节目被选中了才能转到这一步，否则提示需要先选择节目)</p>',
+                onOk: () => {
+                    if(this.checkedDatas.length>0){
+                        this.checkedDatas.forEach(function(item){
+                            this.tableData.forEach(function(row,index){
+                                if(item.code == row.code){
+                                    this.tableData.splice(index,1);
+                                }
+                            }.bind(this))
+                        }.bind(this))
+                    }
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel');
+                }
+            });
+            
         }
     }
 };
