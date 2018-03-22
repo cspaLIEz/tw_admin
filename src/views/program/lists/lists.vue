@@ -48,19 +48,11 @@ export default {
                 },
                 {
                     value: 'name',
-                    label: '终端名称'
+                    label: '节目名称'
                 },
                 {
                     value: 'status',
-                    label: '终端状态'
-                },
-                {
-                    value: 'ip',
-                    label: 'IP'
-                },
-                {
-                    value: '分辨率',
-                    label: '分辨率'
+                    label: '更新时间'
                 }
             ],
             searchLikes:"",
@@ -77,16 +69,44 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
+                    title: '节目编号',
+                    key: 'code'
+                },
+                {
+                    title: '节目名称',
                     key: 'name'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '分辨率',
+                    key: 'fbl'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '预览',
+                    key: 'view'
+                },
+                {
+                    title: '时长',
+                    key: 'time'
+                },
+                {
+                    title: '大小（MB）',
+                    key: 'size'
+                },
+                {
+                    title: '创建人',
+                    key: 'author'
+                },
+                {
+                    title: '更新时间',
+                    key: 'updateTime'
+                },
+                {
+                    title: '节目来源',
+                    key: 'from'
+                },
+                {
+                    title: '审批状态',
+                    key: 'approve'
                 },
                 {
                     title: 'Action',
@@ -127,28 +147,28 @@ export default {
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    "code": "PM2018030821360001",
+                    "name": "节目1",
+                    "fbl": "1900*1200",
+                    "view": "使用节目缩略图，点击后预览",
+                    "time": "2016-10-03",
+                    "size": "",
+                    "author": "admin",
+                    "updateTime": "2016-10-03",
+                    "from": "新建",
+                    "approve": "通过"
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
+                    "code": "PM2018030821360001",
+                    "name": "节目1",
+                    "fbl": "1900*1200",
+                    "view": "使用节目缩略图，点击后预览",
+                    "time": "2016-10-03",
+                    "size": "",
+                    "author": "admin",
+                    "updateTime": "2016-10-03",
+                    "from": "新建",
+                    "approve": "通过"
                 }
             ]
         }
