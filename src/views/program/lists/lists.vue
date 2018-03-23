@@ -32,6 +32,19 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal
+            v-model="copyModel"
+            title="复制节目"
+            width="500">
+            <Form :model="copyForm" :label-width="100">
+                <FormItem label="待复制节目名">
+                    <Input v-model="copyForm.copyName"></Input>
+                </FormItem>
+                <FormItem label="新节目名">
+                    <Input v-model="copyForm.newName"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </Card>
 </template>
 
@@ -40,6 +53,11 @@ export default {
     name: 'releaseschedule',
     data(){
         return {
+            copyModel:false,
+            copyForm:{
+                copyName:"",
+                newName:""
+            },
             terminalType:"all",
             typeList:[
                 {
@@ -123,7 +141,11 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.detail(params.index)
+                                    this.copyModel = true;
+                                    // this.copyModel(params)
+                                    console.log(params);
+                                    this.copyForm.copyName = params.row.name;
+                                    this.copyForm.newName = params.row.name + "-001";
                                 }
                             }
                         }, '复制'),

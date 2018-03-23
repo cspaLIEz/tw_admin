@@ -8,8 +8,8 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">上传</Button>
-                    <Button type="warning">删除</Button>
+                    <Button type="info">新建消息</Button>
+                    <Button type="warning">清空消息</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -88,15 +88,15 @@ export default {
                 },
                 {
                     value: 'name',
-                    label: '素材名称'
+                    label: '节目名称'
                 },
                 {
                     value: 'status',
-                    label: '素材格式'
+                    label: '更新时间'
                 },
                 {
                     value: 'time',
-                    label: '上传时间'
+                    label: '主旨'
                 }
             ],
             searchLikes:"",

@@ -26,6 +26,31 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal
+            v-model="approvalModel"
+            title="复制节目"
+            width="500">
+            <Form :model="approvalForm" :label-width="100">
+                <FormItem label="节目名称">
+                    <Input v-model="approvalForm.name"></Input>
+                </FormItem>
+                <FormItem label="发布者">
+                    <Input v-model="approvalForm.author"></Input>
+                </FormItem>
+                <FormItem label="发布时间">
+                    <Input v-model="approvalForm.createdTime"></Input>
+                </FormItem>
+                <FormItem label="分辨率">
+                    <Input v-model="approvalForm.fbl"></Input>
+                </FormItem>
+                <FormItem label="节目时长">
+                    <Input v-model="approvalForm.times"></Input>
+                </FormItem>
+                <FormItem label="大小">
+                    <Input v-model="approvalForm.size"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </Card>
 </template>
 
@@ -33,6 +58,15 @@
 export default {
     data(){
         return {
+            approvalModel:false,
+            approvalForm:{
+                name:"",
+                author:"",
+                createdTime:"",
+                fbl:"",
+                times:"",
+                size:""
+            },
             terminalType:"all",
             typeList:[
                 {
@@ -41,19 +75,11 @@ export default {
                 },
                 {
                     value: 'name',
-                    label: '终端名称'
+                    label: '节目'
                 },
                 {
-                    value: 'status',
-                    label: '终端状态'
-                },
-                {
-                    value: 'ip',
-                    label: 'IP'
-                },
-                {
-                    value: '分辨率',
-                    label: '分辨率'
+                    value: 'updateTime',
+                    label: '更新时间'
                 }
             ],
             searchLikes:"",
@@ -65,16 +91,36 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
+                    title: '节目名称',
                     key: 'name'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '预览',
+                    key: 'view'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '分辨率',
+                    key: 'fbl'
+                },
+                {
+                    title: '节目时长',
+                    key: 'times'
+                },
+                {
+                    title: '大小(MB)',
+                    key: 'size'
+                },
+                {
+                    title: '更新时间',
+                    key: 'updateTime'
+                },
+                {
+                    title: '审批时间',
+                    key: 'approveTime'
+                },
+                {
+                    title: '审批状态',
+                    key: 'state'
                 },
                 {
                     title: 'Action',
@@ -91,7 +137,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.detail(params.index)
+                                    this.approvalModel = true;
                                 }
                             }
                         }, '审批')
@@ -101,28 +147,24 @@ export default {
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    "name": "节目1",
+                    "view": "使用节目缩略图，点击后预览",
+                    "fbl": "1900*1200",
+                    "times": "1000",
+                    "size": "<span>111</span>",
+                    "updateTime": "2016-10-03",
+                    "approveTime": "2016-10-03",
+                    "state": "待审批"
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
+                    "name": "节目2",
+                    "view": "使用节目缩略图，点击后预览",
+                    "fbl": "1900*1200",
+                    "times": "1000",
+                    "size": "<span>111</span>",
+                    "updateTime": "2016-10-03",
+                    "approveTime": "2016-10-03",
+                    "state": "待审批"
                 }
             ]
         }
