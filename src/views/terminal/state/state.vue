@@ -43,63 +43,55 @@
               终端基本信息设置
           </p>
           <div style="text-align:center">
-              <Form :model="formItem" :label-width="80">
-                <FormItem label="Input">
-                    <Input v-model="formItem.input" placeholder="Enter something..."></Input>
+              <Form :model="detailForm" :label-width="80">
+                <FormItem label="终端标识">
+                    <Input></Input>
                 </FormItem>
-                <FormItem label="Select">
-                    <Select v-model="formItem.select">
-                        <Option value="beijing">New York</Option>
-                        <Option value="shanghai">London</Option>
-                        <Option value="shenzhen">Sydney</Option>
+                <FormItem label="终端ID">
+                    <Input></Input>
+                </FormItem>
+                <FormItem label="组名">
+                    <Select>
+                        <Option value="beijing">酒楼大厦</Option>
+                        <Option value="shanghai">周边道路</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="DatePicker">
-                    <Row>
-                        <Col span="11">
-                            <DatePicker type="date" placeholder="Select date" v-model="formItem.date"></DatePicker>
-                        </Col>
-                        <Col span="2" style="text-align: center">-</Col>
-                        <Col span="11">
-                            <TimePicker type="time" placeholder="Select time" v-model="formItem.time"></TimePicker>
-                        </Col>
-                    </Row>
+                <FormItem label="终端名称">
+                    <Input></Input>
                 </FormItem>
-                <FormItem label="Radio">
-                    <RadioGroup v-model="formItem.radio">
-                        <Radio label="male">Male</Radio>
-                        <Radio label="female">Female</Radio>
-                    </RadioGroup>
+                <FormItem label="IP地址">
+                    <Input></Input>
                 </FormItem>
-                <FormItem label="Checkbox">
-                    <CheckboxGroup v-model="formItem.checkbox">
-                        <Checkbox label="Eat"></Checkbox>
-                        <Checkbox label="Sleep"></Checkbox>
-                        <Checkbox label="Run"></Checkbox>
-                        <Checkbox label="Movie"></Checkbox>
-                    </CheckboxGroup>
+                <FormItem label="终端类型">
+                    <Select>
+                        <Option value="beijing">Windows</Option>
+                        <Option value="shanghai">Mac</Option>
+                        <Option value="shanghai">Android</Option>
+                    </Select>
                 </FormItem>
-                <FormItem label="Switch">
-                    <i-switch v-model="formItem.switch" size="large">
-                        <span slot="open">On</span>
-                        <span slot="close">Off</span>
-                    </i-switch>
+                <FormItem label="安装地址">
+                    <Input></Input>
                 </FormItem>
-                <FormItem label="Slider">
-                    <Slider v-model="formItem.slider" range></Slider>
+                <FormItem label="经度">
+                    <Input></Input>
                 </FormItem>
-                <FormItem label="Text">
-                    <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+                <FormItem label="纬度">
+                    <Input></Input>
                 </FormItem>
-                <FormItem>
-                    <Button type="primary">Submit</Button>
-                    <Button type="ghost" style="margin-left: 8px">Cancel</Button>
+                <FormItem label="下载带宽">
+                    <Input></Input>
+                </FormItem>
+                <FormItem label="设置音量">
+                    <Input></Input>
+                </FormItem>
+                <FormItem label="存储报警阈值">
+                    <Input></Input>
                 </FormItem>
             </Form>
           </div>
           <div slot="footer">
               <Button type="primary">保存</Button>
-              <Button type="warning" @click="editorModel=false">关闭</Button>
+              <Button type="warning">关闭</Button>
           </div>
       </Modal>
     </div>
@@ -112,37 +104,47 @@ export default {
       autoRefresh: false,
       editorModel: false,
       modal_loading: false,
-      treeData: [
-        {
-          title: "parent 1",
-          expand: true,
-          children: [
-            {
-              title: "parent 1-1",
+      treeData:[
+          {
+              title: '机构1',
               expand: true,
               children: [
-                {
-                  title: "leaf 1-1-1"
-                },
-                {
-                  title: "leaf 1-1-2"
-                }
+                  {
+                      title: '管理员1',
+                      expand: true,
+                      children: [{
+                          title: '分组1',
+                          expand: true,
+                          children: [{
+                              title:'终端1'
+                          }]
+                      },{
+                          title: '分组2'
+                      }]
+                  },
+                  {
+                      title: '管理员2',
+                      expand: true,
+                      children: [{
+                          title: '分组1'
+                      },{
+                          title: '分组2'
+                      }]
+                  }
               ]
-            },
-            {
-              title: "parent 1-2",
+          },
+          {
+              title: '机构2',
               expand: true,
               children: [
-                {
-                  title: "leaf 1-2-1"
-                },
-                {
-                  title: "leaf 1-2-1"
-                }
+                  {
+                      title: '管理员1'
+                  },
+                  {
+                      title: '管理员2'
+                  }
               ]
-            }
-          ]
-        }
+          }
       ],
       terminalType: "all",
       typeList: [
@@ -171,16 +173,46 @@ export default {
       searchInResult: "",
       columns: [
         {
-          title: "Name",
-          key: "name"
+            type: 'index',
+            width: 70,
+            title: '序号',
+            align: 'center'
         },
         {
-          title: "Age",
-          key: "age"
+            title: '终端名称',
+            key: 'name'
         },
         {
-          title: "Address",
-          key: "address"
+            title: '终端ID',
+            key: 'id'
+        },
+        {
+            title: '终端状态',
+            key: 'status'
+        },
+        {
+            title: '在线时长',
+            key: 'times'
+        },
+        {
+            title: '终端类型',
+            key: 'type'
+        },
+        {
+            title: '磁盘空间（GB）',
+            key: 'diskSize'
+        },
+        {
+            title: '地点',
+            key: 'address'
+        },
+        {
+            title: '所属机构',
+            key: 'org'
+        },
+        {
+            title: '更新时间',
+            key: 'updateTime'
         },
         {
           title: "Action",
@@ -211,31 +243,29 @@ export default {
       ],
       tableData: [
         {
-          name: "John Brown",
-          age: 18,
-          address: "New York No. 1 Lake Park",
-          date: "2016-10-03"
+            name: 'test1',
+            id: 1,
+            status: '在线',
+            times: '1900*1200',
+            type: 'windows',
+            diskSize: '192.168.1.100',
+            address: '武汉东西湖区',
+            org: '酒店大堂',
+            updateTime: '2018-3-22'
         },
         {
-          name: "Jim Green",
-          age: 24,
-          address: "London No. 1 Lake Park",
-          date: "2016-10-01"
-        },
-        {
-          name: "Joe Black",
-          age: 30,
-          address: "Sydney No. 1 Lake Park",
-          date: "2016-10-02"
-        },
-        {
-          name: "Jon Snow",
-          age: 26,
-          address: "Ottawa No. 2 Lake Park",
-          date: "2016-10-04"
+            name: 'test2',
+            id: 2,
+            status: '离线',
+            times: '800*600',
+            type: 'windows',
+            diskSize: '192.168.1.100',
+            address: '武汉东西湖区',
+            org: '酒店大堂',
+            updateTime: '2018-3-22'
         }
       ],
-      formItem: {
+      detailForm: {
         input: '',
         select: '',
         radio: 'male',

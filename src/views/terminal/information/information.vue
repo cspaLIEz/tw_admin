@@ -38,6 +38,54 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <!-- 删除框 -->
+        <Modal v-model="deleteModal" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>终端删除</span>
+            </p>
+            <div style="text-align:center">
+                <p>本操作将删除指定终端！该终端所有信息将被删除，不可再使用。请确认！</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" @click="deleteModal=false">取消</Button>
+                <Button type="error" @click="remove">确认</Button>
+            </div>
+        </Modal>
+        <!-- 注册框 -->
+        <Modal v-model="registerModal" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>终端注册</span>
+            </p>
+            <div style="text-align:center">
+                <Form :model="formRegister" :label-width="80">
+                    <FormItem label="终端名称">
+                        <Input v-model="formRegister.name" readonly></Input>
+                    </FormItem>
+                    <FormItem label="终端ID">
+                        <Input v-model="formRegister.id" readonly></Input>
+                    </FormItem>
+                    <FormItem label="终端标识">
+                        <Input v-model="formRegister.mark" readonly></Input>
+                    </FormItem>
+                    <FormItem label="终端类型">
+                        <Input v-model="formRegister.type" readonly></Input>
+                    </FormItem>
+                    <FormItem label="安装地址">
+                        <Input v-model="formRegister.address" readonly></Input>
+                    </FormItem>
+                    <FormItem label="管理员">
+                        <Select>
+                            <Option value="admin">admin</Option>
+                            <Option value="zs">张三</Option>
+                        </Select>
+                    </FormItem>
+                </Form>
+            </div>
+            <div slot="footer">
+                <Button type="error" @click="registerModal=false">取消</Button>
+                <Button type="error" @click="register">确认</Button>
+            </div>
+        </Modal>
     </div>
   </Card>
 </template>
@@ -45,34 +93,63 @@
 export default {
     data(){
         return {
+            deleteModal:false,
+            deleteIndex:'',
+            registerModal:false,
+            formRegister:{
+                name:'',
+                id:'',
+                mark:'',
+                type:'',
+                address:''
+            },
             treeData:[
                 {
-                    title: 'parent 1',
+                    title: '未注册',
                     expand: true,
                     children: [
                         {
-                            title: 'parent 1-1',
+                            title: '终端1'
+                        }
+                    ]
+                },
+                {
+                    title: '机构1',
+                    expand: true,
+                    children: [
+                        {
+                            title: '管理员1',
                             expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-1-1'
-                                },
-                                {
-                                    title: 'leaf 1-1-2'
-                                }
-                            ]
+                            children: [{
+                                title: '分组1',
+                                expand: true,
+                                children: [{
+                                    title:'终端1'
+                                }]
+                            },{
+                                title: '分组2'
+                            }]
                         },
                         {
-                            title: 'parent 1-2',
+                            title: '管理员2',
                             expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-2-1'
-                                },
-                                {
-                                    title: 'leaf 1-2-1'
-                                }
-                            ]
+                            children: [{
+                                title: '分组1'
+                            },{
+                                title: '分组2'
+                            }]
+                        }
+                    ]
+                },
+                {
+                    title: '机构2',
+                    expand: true,
+                    children: [
+                        {
+                            title: '管理员1'
+                        },
+                        {
+                            title: '管理员2'
                         }
                     ]
                 }
@@ -104,15 +181,44 @@ export default {
             searchInResult:"",
             columns: [
                 {
-                    title: 'Name',
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '终端名称',
                     key: 'name'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '设备ID',
+                    key: 'deviceId'
                 },
                 {
-                    title: 'Address',
+                    title: '终端状态',
+                    key: 'status'
+                },
+                {
+                    title: '分辨率',
+                    key: 'fbl'
+                },
+                {
+                    title: '终端类型',
+                    key: 'type'
+                },
+                {
+                    title: 'IP地址',
+                    key: 'ipAddress'
+                },
+                {
+                    title: '所属机构',
+                    key: 'org'
+                },
+                {
+                    title: '管理员',
+                    key: 'admin'
+                },
+                {
+                    title: '位置信息',
                     key: 'address'
                 },
                 {
@@ -131,6 +237,7 @@ export default {
                             on: {
                                 click: () => {
                                     this.register(params.index)
+                                    this.registerModal = true;
                                 }
                             }
                         }, '注册'),
@@ -141,7 +248,9 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.remove(params.index)
+                                    // this.remove(params.index)
+                                    this.deleteModal = true;
+                                    this.deleteIndex = params.index;
                                 }
                             }
                         }, '删除')
@@ -151,28 +260,26 @@ export default {
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    name: 'test1',
+                    deviceId: 1,
+                    status: '在线',
+                    fbl: '1900*1200',
+                    type: 'windows',
+                    ipAddress: '192.168.1.100',
+                    org: '酒店大堂',
+                    admin: '张三',
+                    address: '武汉东西湖区'
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
+                    name: 'test2',
+                    deviceId: 2,
+                    status: '离线',
+                    fbl: '800*600',
+                    type: 'windows',
+                    ipAddress: '192.168.1.100',
+                    org: '酒店大堂',
+                    admin: '张三',
+                    address: '武汉东西湖区'
                 }
             ]
         }
@@ -181,8 +288,9 @@ export default {
         register(index){
 
         },
-        remove (index) {
-            this.tableData.splice(index, 1);
+        remove () {
+            this.tableData.splice(this.deleteIndex, 1);
+            this.deleteModal = false;
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();

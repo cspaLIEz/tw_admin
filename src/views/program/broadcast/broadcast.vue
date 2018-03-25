@@ -107,16 +107,34 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
-                    key: 'name'
+                    type: 'index',
+                    width: 70,
+                    title: '序号',
+                    align: 'center'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '终端编号',
+                    key: 'deviceCode'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '所属机构',
+                    key: 'org'
+                },
+                {
+                    title: '主旨',
+                    key: 'gist'
+                },
+                {
+                    title: '开始时间',
+                    key: 'startTime'
+                },
+                {
+                    title: '结束时间',
+                    key: 'endTime'
+                },
+                {
+                    title: '插播状态',
+                    key: 'state'
                 },
                 {
                     title: 'Action',
@@ -154,28 +172,28 @@ export default {
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    deviceCode: '100001',
+                    org: 18,
+                    gist: 'New York No. 1 Lake Park',
+                    startTime: '2016-10-03',
+                    endTime: '2016-10-03',
+                    state: '2016-10-03'
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
+                    deviceCode: '100002',
+                    org: 18,
+                    gist: 'New York No. 1 Lake Park',
+                    startTime: '2016-10-03',
+                    endTime: '2016-10-03',
+                    state: '2016-10-03'
                 },
                 {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
+                    deviceCode: '100003',
+                    org: 18,
+                    gist: 'New York No. 1 Lake Park',
+                    startTime: '2016-10-03',
+                    endTime: '2016-10-03',
+                    state: '2016-10-03'
                 }
             ]
         }
