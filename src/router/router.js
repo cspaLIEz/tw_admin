@@ -43,6 +43,13 @@ export const preview = {
     component: () => import('@/views/form/article-publish/preview.vue')
 };
 
+// 节目制作
+export const build = {
+    path: '/build',
+    name: 'build',
+    component: () => import('@/views/build/index.vue')
+};
+
 export const locking = {
     path: '/locking',
     name: 'locking',
@@ -81,7 +88,7 @@ export const appRouter = [
         title: '节目管理',
         component: Main,
         children: [
-            { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', component: () => import('@/views/program/build/build.vue') },
+            { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', redirect: '/build'},
             { path: 'lists', title: '节目列表', name: 'program_lists', icon: 'ios-list-outline', component: () => import('@/views/program/lists/lists.vue') },
             { path: 'approval', title: '节目审批', name: 'program_approval', icon: 'funnel', component: () => import('@/views/program/approval/approval.vue') },
             { path: 'broadcast', title: '插播消息', name: 'program_broadcast', icon: 'monitor', component: () => import('@/views/program/broadcast/broadcast.vue') }
@@ -153,6 +160,7 @@ export const routers = [
     loginRouter,
     otherRouter,
     preview,
+    build,
     locking,
     ...appRouter,
     page500,
