@@ -3,6 +3,7 @@
     height: 100%;
     overflow: hidden;
     color: #fff;
+    background: #202427;
     .build-header{
         height: 60px;
         background: #202427;
@@ -63,6 +64,143 @@
         }
         &-center{
             width: calc(~"100% - 540px");
+        }
+        &-left{
+            background: #323233;
+            .bml-header{
+                height: 40px;
+                background: #323233;
+                padding: 12px 60px 12px 10px;
+                box-sizing: border-box;
+                position: relative;
+                p{
+                    height: 16px;
+                    box-sizing: border-box;
+                    border-top: 1px dashed #6F6F6F;
+                    border-bottom: 1px dashed #6F6F6F;
+                }
+                img{
+                    position: absolute;
+                    right: 20px;
+                    top: 9px;
+                }
+            }
+            .ivu-collapse{
+                background-color: inherit;
+                border-radius: none;
+                border: none;
+                &>.ivu-collapse-item {
+                    border-top: none;
+                }
+                .ivu-collapse-header{
+                    height: 38px;
+                    color: inherit;
+                    padding-left: 0px;
+                    &>i {
+                        display: none;
+                    }
+                }
+                .ivu-collapse-content{
+                    background: inherit;
+                    color: inherit;
+                    padding: 0;
+                    .ivu-collapse-content-box{
+                        padding: 0;
+                    }
+                }
+            }
+            .bml-group{
+                background: #202427;
+                .group-header{
+                    height: 38px;
+                    line-height: 36px;
+                    background: #666666;
+                    border: 1px solid #DADADA;
+                    box-sizing: border-box;
+                    position: relative;
+                    padding-left: 15px;
+                    span{
+                        position: absolute;
+                        right: 0px;
+                        top: 0px;
+                        width: 40px;
+                        height: 36px;
+                        text-align: center;
+                        color: #DADADA;
+                    }
+                }
+            }
+            .program-tree{
+                .ivu-collapse-content{
+                    padding: 0 16px;
+                    .ivu-tree-title{
+                        color: inherit;
+                    }
+                    .ivu-tree-title:hover {
+                        background-color: inherit;
+                    }
+                }
+                
+            }
+            .components-group{
+                .component-collapse{
+                    padding: 0px 10px;
+                    .component-group-header{
+                        height: 30px;
+                        line-height: 28px;
+                        border-bottom: 1px solid #535353;
+                        box-sizing: border-box;
+                        position: relative;
+                        padding-left: 10px;
+                        span{
+                            position: absolute;
+                            right: 0px;
+                            top: 0px;
+                            width: 40px;
+                            height: 36px;
+                            text-align: center;
+                            color: #DADADA;
+                        }
+                    }
+                }
+            }
+            .template-group{
+                .ivu-collapse-content .ivu-collapse-content-box{
+                    padding: 10px;
+                }
+                .template-group-box{
+                    .template-group-item{
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+        }
+        &-right{
+            background: #323233;
+            .bmr-header{
+                height: 40px;
+                background: #323233;
+                padding: 12px 10px 12px 60px;
+                box-sizing: border-box;
+                position: relative;
+                p{
+                    height: 16px;
+                    box-sizing: border-box;
+                    border-top: 1px dashed #6F6F6F;
+                    border-bottom: 1px dashed #6F6F6F;
+                }
+                img{
+                    position: absolute;
+                    left: 20px;
+                    top: 9px;
+                }
+            }
+            .bmr-content{
+                height: calc(~"100vh - 100px");
+                background: #3B3B3B;
+            }
+            
         }
     }
 }
