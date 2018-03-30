@@ -35,7 +35,7 @@
                             </span>
                         </div>
                         <div slot="content">
-                            <Tree :data="programTreeData"></Tree>
+                            <Tree :data="programTreeData" @on-select-change="onTreeSelectChange"></Tree>
                         </div>
                     </Panel>
                     <Panel name="2" class="components-group bml-group">
@@ -53,8 +53,13 @@
                                         <Icon type="arrow-down-b"></Icon>
                                     </span>
                                 </div>
-                                <div slot="content">
-
+                                <div slot="content" class="component-group-box">
+                                    <Row>
+                                        <Col span="8" class="component-group-item" v-for="item in allComponents">
+                                            <img :src=item.img alt="">
+                                            <p>模板1</p>
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Panel>
                             <Panel name="2">

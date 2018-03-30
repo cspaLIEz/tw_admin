@@ -104,6 +104,8 @@
                     background: inherit;
                     color: inherit;
                     padding: 0;
+                    max-height: calc(~"(100vh - 214px) / 3");
+                    overflow-y: auto;
                     .ivu-collapse-content-box{
                         padding: 0;
                     }
@@ -139,6 +141,10 @@
                     .ivu-tree-title:hover {
                         background-color: inherit;
                     }
+                    .ivu-tree-title-selected{
+                        background-color: inherit;
+                        color: yellow;
+                    }
                 }
                 
             }
@@ -161,6 +167,12 @@
                             text-align: center;
                             color: #DADADA;
                         }
+                    }
+                }
+                .component-group-box{
+                    .component-group-item{
+                        text-align: center;
+                        margin-bottom: 20px;
                     }
                 }
             }
