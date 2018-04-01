@@ -15,7 +15,7 @@ config[0] = {
     code: '0001',
     name: '文本框',
     ctype: 'input',
-    img: '../../images/build/input.png',
+    img: './src/images/build/input.png',
     attrs: {
         value:"",
         fontFamily:attrconfig.fontFamily,
@@ -44,7 +44,7 @@ config[1] = {
     code: '0002',
     name: '文字',
     ctype: 'text',
-    img: '../../images/build/text.png',
+    img: './src/images/build/text.png',
     attrs: {
         value:"",
         fontFamily:attrconfig.fontFamily,

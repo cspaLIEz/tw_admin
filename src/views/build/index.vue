@@ -56,8 +56,10 @@
                                 <div slot="content" class="component-group-box">
                                     <Row>
                                         <Col span="8" class="component-group-item" v-for="item in allComponents">
-                                            <img :src=item.img alt="">
-                                            <p>模板1</p>
+                                            <div class="component-img-box">
+                                                <img :src=item.img alt="">
+                                            </div>
+                                            <p>{{item.name}}</p>
                                         </Col>
                                     </Row>
                                 </div>
@@ -125,7 +127,9 @@
                 </Collapse>
             </div>
             <div class="build-main-center">
+                <div class="build-page">
 
+                </div>
             </div>
             <div class="build-main-right">
                 <div class="bmr-header">
