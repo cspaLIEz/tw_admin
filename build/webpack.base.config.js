@@ -77,6 +77,11 @@ module.exports = {
             loaders: ['babel-loader'],
             threadPool: happyThreadPool,
             verbose: true
+        }),
+        new webpack.optimize.CommonsChunkPlugin('common.js'),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ],
     resolve: {

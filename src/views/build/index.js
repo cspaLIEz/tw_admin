@@ -1,4 +1,6 @@
 import allComponents from '../../config/components_config';
+import jQuery from 'jquery';
+import *as func from 'jquery-ui';
 export default {
     data(){
         return {
@@ -46,9 +48,23 @@ export default {
             allComponents:allComponents
         }
     },
+    watch:{
+        allComponents(){
+            this.onComponentsReload();
+        }
+    },
+    mounted(){
+        this.onComponentsReload();
+        console.log(func)
+    },
     methods:{
         onTreeSelectChange(item){
             console.log(item);
+        },
+        onComponentsReload(){
+            setTimeout(() => {
+                // jQuery(".component-group-item").draggable();
+            }, 100);
         }
     }
 }
