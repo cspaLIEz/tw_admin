@@ -16,6 +16,7 @@ config[0] = {
     name: '文本框',
     ctype: 'input',
     img: './src/images/build/input.png',
+    nodeName:"input",
     attrs: {
         value:"",
         fontFamily:attrconfig.fontFamily,
@@ -45,6 +46,7 @@ config[1] = {
     name: '文字',
     ctype: 'text',
     img: './src/images/build/text.png',
+    nodeName:"label",
     attrs: {
         value:"",
         fontFamily:attrconfig.fontFamily,

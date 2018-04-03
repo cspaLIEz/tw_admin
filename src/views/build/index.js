@@ -1,6 +1,5 @@
 import allComponents from '../../config/components_config';
-import jQuery from 'jquery';
-import *as func from 'jquery-ui';
+
 export default {
     data(){
         return {
@@ -55,7 +54,14 @@ export default {
     },
     mounted(){
         this.onComponentsReload();
-        console.log(func)
+        $(".build-page").droppable({
+            accept: ".component-group-item",
+            drop: function( event, ui ) {
+                var code = ui.draggable.find("img").attr("componentCode");
+
+                console.log(code);
+            }
+        });
     },
     methods:{
         onTreeSelectChange(item){
@@ -63,7 +69,20 @@ export default {
         },
         onComponentsReload(){
             setTimeout(() => {
-                // jQuery(".component-group-item").draggable();
+                $(".component-group-item").draggable({
+                    appendTo: ".build-page",
+                    helper: "clone",
+                    addClasses: false,
+                    drag: function(event, ui){
+                        if(ui && ui.position.left>0 && ui.position.top>0){
+                            if(ui && ui.position){
+                                // ui.position.left = ui.position.left/$(".build-page").css("scale");
+                                // ui.position.top=ui.position.top/$(".build-page").css("scale")
+                            }
+                        }
+                        
+                    }
+                });
             }, 100);
         }
     }

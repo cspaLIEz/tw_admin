@@ -57,7 +57,7 @@
                                     <Row>
                                         <Col span="8" class="component-group-item" v-for="item in allComponents">
                                             <div class="component-img-box">
-                                                <img :src=item.img alt="">
+                                                <img :src=item.img alt="" :componentCode=item.code />
                                             </div>
                                             <p>{{item.name}}</p>
                                         </Col>
