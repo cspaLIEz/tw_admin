@@ -59,7 +59,6 @@ export default {
             drop: function( event, ui ) {
                 var code = ui.draggable.find("img").attr("componentCode");
 
-                console.log(code);
             }
         });
     },
