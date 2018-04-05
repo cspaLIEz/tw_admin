@@ -9,56 +9,47 @@ export default {
                 {
                     title: '节目名',
                     expand: true,
-                    type: 'program',
+                    type: '普通节目',
+                    duration: '',
+                    fbl:'1920*1080',
+                    bgAudio:'',
+                    bgColor:'#fff',
+                    nodeType: 'programTitle',
                     children: [
                         {
                             title: '页面1',
                             expand: true,
-                            type: 'page',
+                            nodeType: 'page',
                             children: [
-                                {
-                                    title: 'text1',
-                                    type: 'component'
-                                },
-                                {
-                                    title: 'text2',
-                                    type: 'component'
-                                }
-                            ]
-                        },
-                        {
-                            title: '页面2',
-                            expand: true,
-                            type: 'page',
-                            children: [
-                                {
-                                    title: 'text1',
-                                    type: 'component'
-                                },
-                                {
-                                    title: 'text2',
-                                    type: 'component'
-                                }
+                                
                             ]
                         }
                     ]
                 }
             ],
-            allComponents:allComponents
+            allComponents:allComponents,
+            htmlNodes:[],
+            attrList:[]
         }
     },
     watch:{
         allComponents(){
             this.onComponentsReload();
+        },
+        htmlNodes(){
+
         }
     },
     mounted(){
+        var self = this;
         this.onComponentsReload();
         $(".build-page").droppable({
             accept: ".component-group-item",
             drop: function( event, ui ) {
                 var code = ui.draggable.find("img").attr("componentCode");
-
+                var node = self.findComponent(code);
+                console.log(node);
+                self.addNodeToView(event, node);
             }
         });
     },
@@ -83,6 +74,104 @@ export default {
                     }
                 });
             }, 100);
+        },
+        renderContent (h, { root, node, data }) {
+            return h('span', {
+                style: {
+                    display: 'inline-block',
+                    width: '100%'
+                }
+            }, [
+                h('span', [
+                    h('span', data.title)
+                ]),
+                h('span', {
+                    style: {
+                        display: 'inline-block',
+                        float: 'right',
+                        marginRight: '32px'
+                    }
+                }, [
+                    h('Button', {
+                        props: Object.assign({}, this.buttonProps, {
+                            icon: 'ios-minus-empty'
+                        }),
+                        on: {
+                            click: () => { this.remove(root, node, data) }
+                        }
+                    })
+                ])
+            ]);
+        },
+        append (data) {
+            const children = data.children || [];
+            children.push({
+                title: 'appended node',
+                expand: true
+            });
+            this.$set(data, 'children', children);
+        },
+        remove (root, node, data) {
+            const parentKey = root.find(el => el === node).parent;
+            const parent = root.find(el => el.nodeKey === parentKey).node;
+            const index = parent.children.indexOf(data);
+            parent.children.splice(index, 1);
+        },
+        findComponent(code){
+            if(!code) return;
+            var node;
+            this.allComponents.forEach(function(item){
+                if(code==item.code){
+                    node = item;
+                }
+            }.bind(this));
+            return node;
+        },
+        refreshNodeToView(){
+            //htmlNodes
+            this.htmlNodes.forEach(element => {
+                //静态组件
+                if(element.nodeName){
+                    var node_html = $(element.cloneTag);
+                    $(".build-page").append(node_html);
+                }
+            });
+        },
+        addNodeToView(event, node){
+            if(!node) return;
+            this.htmlNodes.push(node);
+            if(node.nodeName){
+                let node_html = $('<div class="ui-widget-content"></div>').append($(node.cloneTag));
+                $(".build-page").append(node_html);
+                node_html.css({
+                    "position":"absolute"
+                });
+                
+                var l = event.clientX-$(".build-page").eq(0).offset().left-node_html.width()/2;
+                l = l>0?l:0;
+                var w = event.clientY-$(".build-page").eq(0).offset().top-node_html.height()/2;
+                w = w>0?w:0;
+                
+                node_html.css({
+                    "left":l/$(".build-page").css("scale"),
+                    "top":w/$(".build-page").css("scale")
+                });
+                node_html.children().eq(0).click();
+                node_html.draggable({
+                    grid: [ 10, 10 ],
+                    drag: function(event, ui){
+                        window.ui = ui;
+                        if(ui && ui.position){
+                            ui.position.left = ui.position.left/$(".build-page").css("scale");
+                            ui.position.top=ui.position.top/$(".build-page").css("scale")
+                        }
+                    }
+                });
+                node_html.resizable({
+                    handles: "all",
+                    aspectRatio: false
+                });
+            }
         }
     }
 }

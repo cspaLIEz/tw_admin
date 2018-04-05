@@ -127,8 +127,13 @@
                 </Collapse>
             </div>
             <div class="build-main-center">
-                <div class="build-page">
+                <div class="tool-bar-container">
+                    
+                </div>
+                <div class="build-page-container">
+                    <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}">
 
+                    </div>
                 </div>
             </div>
             <div class="build-main-right">
@@ -137,7 +142,32 @@
                     <p></p>
                 </div>
                 <div class="bmr-content">
+                    <div class="program-attr-setbox">
+                        <div class="setbox-item">
+                            <span>节目名称</span> <input type="text" v-model="programTreeData[0].title">
+                        </div>
+                        <div class="setbox-item">
+                            <span>节目时长</span> <input type="text" v-model="programTreeData[0].duration">
+                        </div>
+                        <div class="setbox-item">
+                            <span>节目分辨率</span> <input type="text" v-model="programTreeData[0].fbl">
+                        </div>
+                        <div class="setbox-item">
+                            <span>节目类型</span> <input type="text" v-model="programTreeData[0].type">
+                        </div>
+                        <div class="setbox-item">
+                            <span>背景音乐</span> <input type="text" v-model="programTreeData[0].bgAudio">
+                        </div>
+                        <div class="setbox-item">
+                            <span>背景颜色</span> <input type="text" v-model="programTreeData[0].bgColor">
+                        </div>
+                        <div>
+                            
+                        </div>
+                    </div>
+                    <div class="component-attr-setbox">
 
+                    </div>
                 </div>
             </div>
         </div>
