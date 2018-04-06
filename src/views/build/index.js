@@ -236,20 +236,20 @@ export default {
             let data = {
                 progCode:"<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>",
                 progName: this.programTreeData[0].title,
-                resolutionCode: 1,
+                resolutionCode: "1",
                 progTime: "100",
-                progSourceCode: 1,
+                progSourceCode: "1",
                 progDesc: "",
                 progTypeCode: "1",
-                userCode: '123',
-                progId: this.programTreeData[0].id,
+                userCode: "123",
+                progId: "123",
             };
             SaveProgram(data).then(function(res){
                 console.log(res);
             })
         },
         cancel(){
-
+            this.$router.go(-1);
         }
     }
 }
