@@ -4,10 +4,10 @@ attrconfig.fontSize = "16px";//字体大小
 attrconfig.color = "#333";//字体颜色
 attrconfig.borderColor = "transparent";//边框颜色
 attrconfig.bgColor = "inherit";//
-attrconfig.verticalAlign = null;
+attrconfig.verticalAlign = "normal";
 attrconfig.fontWeight = "normal";
 attrconfig.fontStyle = "normal";
-attrconfig.align = "inherit";
+attrconfig.align = "normal";
 
 const config = [];
 
@@ -17,18 +17,21 @@ config[0] = {
     ctype: 'text',
     img: './src/images/build/input.png',
     nodeName:"text",
-    cloneTag:"<p>文本内容</p>",
+    cloneTag:'<p>文本内容</p>',
+    className: 'normal-component',
+    styles: {
+        "font-family":attrconfig.fontFamily,
+        "font-size":attrconfig.fontSize,
+        "color":attrconfig.color,
+        "border-color":attrconfig.borderColor,
+        "background-color":attrconfig.bgColor,
+        "align-items": attrconfig.verticalAlign,
+        "font-weight":attrconfig.fontWeight,
+        "font-style":attrconfig.fontStyle,
+        "justify-content": attrconfig.align
+    },
     attrs: {
-        innerHtml:"",
-        fontFamily:attrconfig.fontFamily,
-        fontSize:attrconfig.fontSize,
-        color:attrconfig.color,
-        borderColor:attrconfig.borderColor,
-        bgColor:attrconfig.bgColor,
-        verticalAlign: attrconfig.verticalAlign,
-        fontWeight:attrconfig.fontWeight,
-        fontStyle:attrconfig.fontStyle,
-        align: attrconfig.align
+        innerHtml:"文本内容"
     },
     contextmenu: {
         copy:true,

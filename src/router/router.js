@@ -49,6 +49,12 @@ export const build = {
     name: 'build',
     component: () => import('@/views/build/index.vue')
 };
+// 节目制作预览
+export const buildpreview = {
+    path: '/buildpreview',
+    name: 'buildpreview',
+    component: () => import('@/views/build/preview.vue')
+};
 
 export const locking = {
     path: '/locking',
@@ -161,6 +167,7 @@ export const routers = [
     otherRouter,
     preview,
     build,
+    buildpreview,
     locking,
     ...appRouter,
     page500,

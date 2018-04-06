@@ -4,6 +4,8 @@ export const apitest = data => axios.post('/article/lists', data);
 
 export const Login = data => axios.post('/user/ulogin', data);
 
+export const SaveProgram = data => axios.post('/program/saveprogram', data);
+
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册
