@@ -74,8 +74,15 @@ module.exports = merge(webpackBaseConfig, {
                 'text-editor.vue'
             ]
         }),
+        new CopyWebpackPlugin([
+            {
+              from: path.resolve(__dirname, '../static'),
+              to: 'static',
+              ignore: ['.*']
+            }
+        ]),
         new HtmlWebpackPlugin({
-            title: 'iView admin v' + package.version,
+            title: '麦子科技 v' + package.version,
             favicon: './td_icon.ico',
             filename: '../index.html',
             template: '!!ejs-loader!./src/template/index.ejs',
