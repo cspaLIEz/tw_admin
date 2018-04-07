@@ -190,7 +190,7 @@
                             <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
                         </div>
                         <div class="setbox-item" v-show="activeNode.styles['font-style']">
-                            <span>样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
                         </div>
                         <div class="setbox-item" v-show="activeNode.styles['color']">
                             <span>字体颜色</span> <input type="text" v-model="activeNode.styles['color']">

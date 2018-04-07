@@ -38,8 +38,14 @@ export default {
         allComponents(){
             this.onComponentsReload();
         },
-        htmlNodes(){
-
+        activeNode:{
+            handler(){
+                if(this.activeNode && this.activeNode.styles && this.activeNode.styles.left){
+                    this.activeNode.styles.left = parseInt(this.activeNode.styles.left) + "px";
+                    this.activeNode.styles.top = parseInt(this.activeNode.styles.top) + "px";
+                }
+            },
+            deep:true
         }
     },
     mounted(){
@@ -159,8 +165,8 @@ export default {
                 // });
                 var style = {
                     "position":"absolute",
-                    "left":l/$(".build-page").css("scale") +"px",
-                    "top":w/$(".build-page").css("scale") +"px"
+                    "left":parseInt(l/$(".build-page").css("scale")) +"px",
+                    "top":parseInt(w/$(".build-page").css("scale")) +"px"
                 }
                 style = $.extend({},node.styles,style);
                 var attrs = $.extend({},node.attrs);
@@ -236,8 +242,22 @@ export default {
             window.open("#/buildpreview")
         },
         saveProgram(){
+            var self = this;
+            var progCode = `
+                <!DOCTYPE html>
+                <html lang="zh-CN">
+                <head>
+                    <title>麦子科技</title>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+                </head>
+                <body>
+                    ${"<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>"}
+                </body>
+                </html>
+            `;
             let data = {
-                progCode:"<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>",
+                progCode:progCode,
                 progName: this.programTreeData[0].title,
                 resolutionCode: "1",
                 progTime: "100",
@@ -245,10 +265,13 @@ export default {
                 progDesc: "",
                 progTypeCode: "1",
                 userCode: "123",
-                progId: "123",
+                progId:this.programTreeData[0].progId,
             };
             SaveProgram(data).then(function(res){
                 console.log(res);
+                if(res.data && res.data.progId){
+                    self.programTreeData[0].progId = res.data.progId;
+                }
             })
         },
         cancel(){
