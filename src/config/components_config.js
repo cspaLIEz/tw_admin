@@ -1,3 +1,9 @@
+//图片资源
+import input_png from '../images/build/input.png';
+import text_png from '../images/build/text.png';
+import img_png from '../images/build/img.png';
+//text
+
 const attrconfig = {};
 attrconfig.fontFamily = "微软雅黑";//字体
 attrconfig.fontSize = "16px";//字体大小
@@ -15,7 +21,7 @@ config[0] = {
     code: '0001',
     name: '文本框',
     ctype: 'text',
-    img: './src/images/build/input.png',
+    img: input_png,
     nodeName:"text",
     cloneTag:'<p>文本内容</p>',
     className: 'normal-component',
@@ -49,7 +55,7 @@ config[0] = {
 //     code: '0002',
 //     name: '文字',
 //     ctype: 'text',
-//     img: './src/images/build/text.png',
+//     img: text_png,
 //     nodeName:"label",
 //     attrs: {
 //         value:"",
@@ -79,7 +85,7 @@ config[1] = {
     code: '0003',
     name: '图片',
     ctype: 'image',
-    img: './src/images/build/img.png',
+    img: img_png,
     nodeName:"img",
     cloneTag:'<img src="" alt="图片" />',
     attrs: {

@@ -169,7 +169,7 @@
                     </div>
                     <div class="component-attr-setbox" v-if="activeNode">
                         <div class="setbox-item" v-show="activeNode.attrs.innerHtml">
-                            <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml">
+                            <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml" @keyup="componentConentChange">
                         </div>
                         <div class="setbox-item" v-show="activeNode.styles['font-family']">
                             <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">

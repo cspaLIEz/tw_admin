@@ -226,6 +226,9 @@ export default {
                 });
             },10)
         },
+        componentConentChange(){
+            $(".build-page-node.active").html(this.activeNode.attrs.innerHtml);
+        },
         preview(){
             localStorage.setItem("previewHtml","<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>");
             // window.open("preview.html");
