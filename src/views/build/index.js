@@ -31,7 +31,9 @@ export default {
             allComponents:allComponents,
             htmlNodes:[],
             attrList:[],
-            activeNode:null
+            activeNode:null,
+            activeNodes:[],
+            ctrl_press:false
         }
     },
     watch:{
@@ -56,10 +58,13 @@ export default {
             drop: function( event, ui ) {
                 var code = ui.draggable.find("img").attr("componentCode");
                 var node = self.findComponent(code);
-                console.log(node);
+                // console.log(node);
                 self.addNodeToView(event, node);
             }
         });
+        $(document).on("keyup",function(event){
+            this.ctrl_press = false;
+        }.bind(this))
     },
     methods:{
         onTreeSelectChange(item){
@@ -199,9 +204,17 @@ export default {
             }
         },
         checkNode(item){
-            this.clearNodeActive();
-            item.isActive = true;
-            this.activeNode = item;
+            if(this.ctrl_press){
+                item.isActive = true;
+                this.activeNodes.push(item);
+            } else {
+                this.clearNodeActive();
+                item.isActive = true;
+                this.activeNode = item;
+                this.activeNodes.length = 0;
+                this.activeNodes.push(this.activeNode);
+            }
+            this.$refs.buildPageContainer.focus();
         },
         clearNodeActive(){
             this.htmlNodes.forEach(function(ele){
@@ -235,10 +248,54 @@ export default {
         componentConentChange(){
             $(".build-page-node.active").html(this.activeNode.attrs.innerHtml);
         },
+        // tool func
+        containerFocus(event){
+            
+            $(event.target).off("keydown");
+            $(event.target).on("keydown",function(evo){
+                if(evo.ctrlKey){
+                    this.ctrl_press = true;
+                }
+            }.bind(this))
+        },
+        alignAction(direction){
+            console.log(this.activeNodes.length,direction)
+            if(this.activeNodes.length>1){
+                switch (direction) {
+                    case "top" :
+                        this.activeNodes.forEach(function(item,index){
+                            if(index>0){
+                                item.styles.top = this.activeNodes[0].styles.top;
+                            }
+                        }.bind(this));
+                        break;
+                    case "bottom" :
+                        this.activeNodes.forEach(function(item,index){
+                            if(index>0){
+                                item.styles.top = this.activeNodes[0].styles.top;
+                            }
+                        }.bind(this));
+                        break;
+                    case "left" :
+                        this.activeNodes.forEach(function(item,index){
+                            if(index>0){
+                                item.styles.left = this.activeNodes[0].styles.left;
+                            }
+                        }.bind(this));
+                        break;
+                    case "right" :
+                        this.activeNodes.forEach(function(item,index){
+                            if(index>0){
+                                item.styles.left = this.activeNodes[0].styles.left;
+                            }
+                        }.bind(this));
+                        break;
+                }
+            }
+            
+        },
         preview(){
             localStorage.setItem("previewHtml","<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>");
-            // window.open("preview.html");
-            // console.log()
             window.open("#/buildpreview")
         },
         saveProgram(){

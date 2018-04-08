@@ -128,9 +128,72 @@
             </div>
             <div class="build-main-center">
                 <div class="tool-bar-container">
-                    
+                    <a href="javascript:;" @click="alignAction('top')">
+                        <img src="../../images/build/align_top.png" alt="">
+                        <p>上对其</p>
+                    </a>
+                    <a href="javascript:;" @click="alignAction('bottom')">
+                        <img src="../../images/build/align_down.png" alt="">
+                        <p>下对其</p>
+                    </a>
+                    <a href="javascript:;" @click="alignAction('left')">
+                        <img src="../../images/build/align_left.png" alt="">
+                        <p>左对其</p>
+                    </a>
+                    <a href="javascript:;" @click="alignAction('right')">
+                        <img src="../../images/build/align_right.png" alt="">
+                        <p>右对其</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/zindex_top.png" alt="">
+                        <p>置顶</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/zindex_bottom.png" alt="">
+                        <p>置底</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/zindex_up.png" alt="">
+                        <p>上移一层</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/zindex_down.png" alt="">
+                        <p>下移一层</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/equal_width.png" alt="">
+                        <p>等宽</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/equal_height.png" alt="">
+                        <p>等高</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/scale_up.png" alt="">
+                        <p>放大</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/scale_down.png" alt="">
+                        <p>缩小</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/lock_close.png" alt="">
+                        <p>锁定</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/lock_open.png" alt="">
+                        <p>解锁</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/fullscreen.png" alt="">
+                        <p>全屏</p>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="../../images/build/trash.png" alt="">
+                        <p>清空</p>
+                    </a>
                 </div>
-                <div class="build-page-container">
+                <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="item in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" @click.stop="checkNode(item)" v-html="item.nodeHtml">
                             
@@ -167,7 +230,7 @@
                             
                         </div>
                     </div>
-                    <div class="component-attr-setbox" v-if="activeNode">
+                    <div class="component-attr-setbox" v-if="activeNode && activeNodes.length<=1">
                         <div class="setbox-item" v-show="activeNode.attrs.innerHtml">
                             <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml" @keyup="componentConentChange">
                         </div>

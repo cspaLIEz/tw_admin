@@ -1,7 +1,7 @@
 .build-container{
     position: relative;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     color: #fff;
     background: #202427;
     .build-header{
@@ -67,6 +67,8 @@
         }
         &-left{
             background: #323233;
+            box-sizing: border-box;
+            padding-right: 5px;
             .ivu-tree{
                 .ivu-btn{
                     width: 18px;
@@ -267,12 +269,28 @@
             box-sizing: border-box;
             background: #202427;
             .tool-bar-container{
-                height: 40px;
+                height: 44px;
                 background: #515151;
+                width: auto;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                &>a{
+                    display: inline-block;
+                    font-size: 10px;
+                    color: #eee;
+                    padding: 4px 10px 0px;
+                    line-height: 1;
+                    text-align: center;
+                    img{
+                        max-height: 22px;
+                    }
+                }
             }
             .build-page-container{
-                height: 100%;
-                margin: 15px 15px 0px;
+                height: calc(~"100% - 44px");
+                box-sizing: border-box;
+                padding: 15px 30px 0px;
                 overflow: hidden;
                 .build-page{
                     width: 100%;
@@ -281,7 +299,7 @@
                     transform-origin: center center;
                     position: relative;
                     /*border: 1px solid red;*/
-                    // background: url("../../images/build/artboard.png");
+                    background: url("../../images/build/artboard.png");
                     // background-color: #ccc;
                     .ui-icon-gripsmall-diagonal-se{
                         display: none !important;
