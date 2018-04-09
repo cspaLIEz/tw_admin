@@ -160,19 +160,19 @@
                         <img src="../../images/build/zindex_down.png" alt="">
                         <p>下移一层</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="equilAction('width')">
                         <img src="../../images/build/equal_width.png" alt="">
                         <p>等宽</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="equilAction('height')">
                         <img src="../../images/build/equal_height.png" alt="">
                         <p>等高</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="scaleAction('biger')">
                         <img src="../../images/build/scale_up.png" alt="">
                         <p>放大</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="scaleAction('smaller')">
                         <img src="../../images/build/scale_down.png" alt="">
                         <p>缩小</p>
                     </a>
@@ -184,7 +184,7 @@
                         <img src="../../images/build/lock_open.png" alt="">
                         <p>解锁</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="fullPageAction()">
                         <img src="../../images/build/fullscreen.png" alt="">
                         <p>全屏</p>
                     </a>
@@ -195,7 +195,7 @@
                 </div>
                 <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
-                        <div class="build-page-node ui-widget-content" v-for="item in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" @click.stop="checkNode(item)" v-html="item.nodeHtml">
+                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" :ref="'compontent'+item.code" @click.stop="checkNode(item)" v-html="item.nodeHtml">
                             
                         </div>
                     </div>

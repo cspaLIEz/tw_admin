@@ -1,5 +1,6 @@
 import allComponents from '../../config/components_config';
 import { SaveProgram } from '../../api/api';
+import { num_random } from '../../libs/helper';
 
 export default {
     data(){
@@ -152,22 +153,14 @@ export default {
         },
         addNodeToView(event, node){
             if(!node) return;
-            //this.htmlNodes.push(node);
             if(node.nodeName){
                 let node_html = $(node.cloneTag);
-                //$(".build-page").append(node_html);
-                // node_html.css({
-                //     "position":"absolute"
-                // });
+
                 var l = event.clientX-$(".build-page").eq(0).offset().left-node_html.width()/2;
                 l = l>0?l:0;
                 var w = event.clientY-$(".build-page").eq(0).offset().top-node_html.height()/2;
                 w = w>0?w:0;
                 
-                // node_html.css({
-                //     "left":l/$(".build-page").css("scale"),
-                //     "top":w/$(".build-page").css("scale")
-                // });
                 var style = {
                     "position":"absolute",
                     "left":parseInt(l/$(".build-page").css("scale")) +"px",
@@ -176,7 +169,9 @@ export default {
                 style = $.extend({},node.styles,style);
                 var attrs = $.extend({},node.attrs);
                 var contextmenu = $.extend({},node.contextmenu);
+                let code = num_random(100000,999999);
                 this.htmlNodes.push({
+                    code:code,
                     nodeHtml:node.cloneTag,
                     className:node.className,
                     styles:style,
@@ -186,21 +181,6 @@ export default {
                 });
                 this.checkNode(this.htmlNodes[this.htmlNodes.length-1]);
                 this.setBuildPageNode();
-                // node_html.children().eq(0).click();
-                // node_html.draggable({
-                //     grid: [ 10, 10 ],
-                //     drag: function(event, ui){
-                //         window.ui = ui;
-                //         if(ui && ui.position){
-                //             ui.position.left = ui.position.left/$(".build-page").css("scale");
-                //             ui.position.top=ui.position.top/$(".build-page").css("scale")
-                //         }
-                //     }
-                // });
-                // node_html.resizable({
-                //     handles: "all",
-                //     aspectRatio: false
-                // });
             }
         },
         checkNode(item){
@@ -272,7 +252,8 @@ export default {
                     case "bottom" :
                         this.activeNodes.forEach(function(item,index){
                             if(index>0){
-                                item.styles.top = this.activeNodes[0].styles.top;
+                                let top = parseInt(this.activeNodes[0].styles.top)+$(this.$refs['compontent'+this.activeNodes[0].code]).height()-$(this.$refs['compontent'+item.code]).height();
+                                item.styles.top = top+"px";
                             }
                         }.bind(this));
                         break;
@@ -286,13 +267,68 @@ export default {
                     case "right" :
                         this.activeNodes.forEach(function(item,index){
                             if(index>0){
-                                item.styles.left = this.activeNodes[0].styles.left;
+                                let left = parseInt(this.activeNodes[0].styles.left)+$(this.$refs['compontent'+this.activeNodes[0].code]).width()-$(this.$refs['compontent'+item.code]).width();
+                                item.styles.left = left + "px";
                             }
                         }.bind(this));
                         break;
                 }
             }
             
+        },
+        equilAction(attr){
+            this.activeNodes.forEach(function(item,index){
+                if(index>0){
+                    if(attr == "width"){
+                        item.styles.width = $(this.$refs['compontent'+this.activeNodes[0].code]).width()+"px";
+                    } else if(attr == "height"){
+                        item.styles.height = $(this.$refs['compontent'+this.activeNodes[0].code]).height()+"px";
+                    }
+                }
+            }.bind(this));
+        },
+        scaleAction(action){
+            if(action=="biger"){
+                $(".build-page").css({ scale: '+=0.1' });
+                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
+                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                    $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
+                    
+                } else {
+                    $(".build-page").css("left",0)
+                }
+                if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
+                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
+                    
+                } else {
+                    $(".build-page").css("top",0)
+                }
+            } else if(action=="smaller") {
+                $(".build-page").css({ scale: '-=0.1' });
+                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
+                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                    $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
+                } else {
+                    $(".build-page").css("left",0)
+                }
+                if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
+                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
+                    
+                } else {
+                    $(".build-page").css("top",0)
+                }
+            }
+            
+        },
+        fullPageAction(){
+            if(this.activeNodes.length>0){
+                this.activeNodes[0].styles.width = "100%";
+                this.activeNodes[0].styles.height = "100%";
+                this.activeNodes[0].styles.left = 0;
+                this.activeNodes[0].styles.top = 0;
+            }
         },
         preview(){
             localStorage.setItem("previewHtml","<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>");
