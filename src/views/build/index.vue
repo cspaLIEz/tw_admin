@@ -144,19 +144,19 @@
                         <img src="../../images/build/align_right.png" alt="">
                         <p>右对其</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="changeIndex('top')">
                         <img src="../../images/build/zindex_top.png" alt="">
                         <p>置顶</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="changeIndex('bottom')">
                         <img src="../../images/build/zindex_bottom.png" alt="">
                         <p>置底</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="changeIndex('last')">
                         <img src="../../images/build/zindex_up.png" alt="">
                         <p>上移一层</p>
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="changeIndex('next')">
                         <img src="../../images/build/zindex_down.png" alt="">
                         <p>下移一层</p>
                     </a>
@@ -195,7 +195,7 @@
                 </div>
                 <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
-                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" :ref="'compontent'+item.code" @click.stop="checkNode(item)" v-html="item.nodeHtml">
+                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" v-html="item.nodeHtml">
                             
                         </div>
                     </div>

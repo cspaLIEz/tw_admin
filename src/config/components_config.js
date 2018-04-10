@@ -23,7 +23,7 @@ config[0] = {
     ctype: 'text',
     img: input_png,
     nodeName:"text",
-    cloneTag:'<p>文本内容</p>',
+    cloneTag:'文本内容',
     className: 'normal-component',
     styles: {
         "font-family":attrconfig.fontFamily,

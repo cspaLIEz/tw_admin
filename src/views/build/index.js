@@ -49,6 +49,15 @@ export default {
                 }
             },
             deep:true
+        },
+        htmlNodes:{
+            handler(){
+                console.log(this.htmlNodes);
+                this.htmlNodes.forEach(function(item){
+
+                }.bind(this))
+            },
+            deep:true,
         }
     },
     mounted(){
@@ -183,7 +192,7 @@ export default {
                 this.setBuildPageNode();
             }
         },
-        checkNode(item){
+        checkNode(item,index){
             if(this.ctrl_press){
                 item.isActive = true;
                 this.activeNodes.push(item);
@@ -226,7 +235,7 @@ export default {
             },10)
         },
         componentConentChange(){
-            $(".build-page-node.active").html(this.activeNode.attrs.innerHtml);
+            $(".build-page-node.active>p").html(this.activeNode.attrs.innerHtml);
         },
         // tool func
         containerFocus(event){
@@ -275,6 +284,56 @@ export default {
                 }
             }
             
+        },
+        changeIndex(action){
+            var result = [];
+            // var len = this.htmlNodes.length;
+            // var lastIndex;
+            // for(var i=0;i<len;i++){
+            //     console.log(this.htmlNodes[i].index);
+            //     if(action == "top"){
+            //         if(this.activeNodes[0].code==this.htmlNodes[i].code){
+            //             // this.htmlNodes[i].index
+            //             // lastIndex = i;
+            //             // this.htmlNodes[len] = JSON.parse(JSON.stringify(this.htmlNodes[i]));
+            //             // this.$set(this.htmlNodes,len,JSON.parse(JSON.stringify(this.htmlNodes[i])))
+
+            //             // this.htmlNodes.splice(i,1);
+            //         } else {
+                        
+            //         }
+            //     }
+            // }
+            // this.$delete(this.htmlNodes,lastIndex,this.htmlNodes[lastIndex]);
+            // this.htmlNodes.splice(lastIndex,1);
+            
+            // this.htmlNodes.forEach(function(a,b){
+            //     console.log(a.code,b.code)
+            //     if(action == "top"){
+            //         if(this.activeNodes[0].code==a.code){
+            //             return 1;
+            //         } else {
+            //             return -1;
+            //         }
+                    
+            //     }
+                
+            //     return 0;
+            // }.bind(this))
+
+            this.htmlNodes = this.htmlNodes.filter(function(item){
+                if(action == "top"){
+                    if(this.activeNodes[0].code==item.code){
+                        return false;
+                    } else {
+                        return true;
+                    }
+                    
+                }
+                return true;
+            }.bind(this));
+            this.htmlNodes.push(this.activeNodes[0]);
+            // this.setBuildPageNode();
         },
         equilAction(attr){
             this.activeNodes.forEach(function(item,index){
