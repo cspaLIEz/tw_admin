@@ -248,7 +248,6 @@ export default {
             }.bind(this))
         },
         alignAction(direction){
-            console.log(this.activeNodes.length,direction)
             if(this.activeNodes.length>1){
                 switch (direction) {
                     case "top" :
