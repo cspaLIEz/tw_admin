@@ -2,7 +2,11 @@ import allComponents from '../../config/components_config';
 import { SaveProgram } from '../../api/api';
 import { num_random } from '../../libs/helper';
 
+//组件
+import MzText from './components/mzText'
+
 export default {
+    components:{MzText},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -49,15 +53,6 @@ export default {
                 }
             },
             deep:true
-        },
-        htmlNodes:{
-            handler(){
-                console.log(this.htmlNodes);
-                this.htmlNodes.forEach(function(item){
-
-                }.bind(this))
-            },
-            deep:true,
         }
     },
     mounted(){
@@ -68,7 +63,6 @@ export default {
             drop: function( event, ui ) {
                 var code = ui.draggable.find("img").attr("componentCode");
                 var node = self.findComponent(code);
-                // console.log(node);
                 self.addNodeToView(event, node);
             }
         });
@@ -77,10 +71,10 @@ export default {
         }.bind(this))
     },
     methods:{
-        onTreeSelectChange(item){
+        onTreeSelectChange(item){ //树节点改变选中时
             console.log(item);
         },
-        onComponentsReload(){
+        onComponentsReload(){ //组件重新加载
             setTimeout(() => {
                 $(".component-group-item").draggable({
                     appendTo: ".build-page",
@@ -89,8 +83,8 @@ export default {
                     drag: function(event, ui){
                         if(ui && ui.position.left>0 && ui.position.top>0){
                             if(ui && ui.position){
-                                // ui.position.left = ui.position.left/$(".build-page").css("scale");
-                                // ui.position.top=ui.position.top/$(".build-page").css("scale")
+                                ui.position.left = ui.position.left/$(".build-page").css("scale");
+                                ui.position.top=ui.position.top/$(".build-page").css("scale")
                             }
                         }
                         
@@ -98,49 +92,7 @@ export default {
                 });
             }, 100);
         },
-        renderContent (h, { root, node, data }) {
-            return h('span', {
-                style: {
-                    display: 'inline-block',
-                    width: '100%'
-                }
-            }, [
-                h('span', [
-                    h('span', data.title)
-                ]),
-                h('span', {
-                    style: {
-                        display: 'inline-block',
-                        float: 'right',
-                        marginRight: '32px'
-                    }
-                }, [
-                    h('Button', {
-                        props: Object.assign({}, this.buttonProps, {
-                            icon: 'ios-minus-empty'
-                        }),
-                        on: {
-                            click: () => { this.remove(root, node, data) }
-                        }
-                    })
-                ])
-            ]);
-        },
-        append (data) {
-            const children = data.children || [];
-            children.push({
-                title: 'appended node',
-                expand: true
-            });
-            this.$set(data, 'children', children);
-        },
-        remove (root, node, data) {
-            const parentKey = root.find(el => el === node).parent;
-            const parent = root.find(el => el.nodeKey === parentKey).node;
-            const index = parent.children.indexOf(data);
-            parent.children.splice(index, 1);
-        },
-        findComponent(code){
+        findComponent(code){ //查找某个组件
             if(!code) return;
             var node;
             this.allComponents.forEach(function(item){
@@ -150,7 +102,7 @@ export default {
             }.bind(this));
             return node;
         },
-        refreshNodeToView(){
+        refreshNodeToView(){ //刷新节点
             //htmlNodes
             this.htmlNodes.forEach(element => {
                 //静态组件
@@ -160,7 +112,7 @@ export default {
                 }
             });
         },
-        addNodeToView(event, node){
+        addNodeToView(event, node){ //新增节点到界面
             if(!node) return;
             if(node.nodeName){
                 let node_html = $(node.cloneTag);
@@ -181,8 +133,7 @@ export default {
                 let code = num_random(100000,999999);
                 this.htmlNodes.push({
                     code:code,
-                    nodeHtml:node.cloneTag,
-                    className:node.className,
+                    ctype:node.ctype,
                     styles:style,
                     attrs:attrs,
                     contextmenu:contextmenu,
@@ -192,7 +143,7 @@ export default {
                 this.setBuildPageNode();
             }
         },
-        checkNode(item,index){
+        checkNode(item,index){ //选中节点
             if(this.ctrl_press){
                 item.isActive = true;
                 this.activeNodes.push(item);
@@ -205,7 +156,7 @@ export default {
             }
             this.$refs.buildPageContainer.focus();
         },
-        clearNodeActive(){
+        clearNodeActive(){ //清除节点
             this.htmlNodes.forEach(function(ele){
                 ele.isActive = false;
             })
@@ -230,7 +181,17 @@ export default {
                 });
                 $(".build-page-node").resizable({
                     handles: "all",
-                    aspectRatio: false
+                    aspectRatio: false,
+                    stop: function(event, ui){
+                        if(self.activeNode && self.activeNode.styles){
+                            if(self.activeNode.styles.width){
+                                self.activeNode.styles.width = ui.size.width+"px";
+                            }
+                            if(self.activeNode.styles.height){
+                                self.activeNode.styles.height = ui.size.height+"px";
+                            }
+                        }
+                    }
                 });
             },10)
         },
@@ -239,7 +200,6 @@ export default {
         },
         // tool func
         containerFocus(event){
-            
             $(event.target).off("keydown");
             $(event.target).on("keydown",function(evo){
                 if(evo.ctrlKey){
@@ -285,7 +245,6 @@ export default {
             
         },
         changeIndex(action){
-            var result = [];
             // var len = this.htmlNodes.length;
             // var lastIndex;
             // for(var i=0;i<len;i++){
@@ -305,33 +264,28 @@ export default {
             // }
             // this.$delete(this.htmlNodes,lastIndex,this.htmlNodes[lastIndex]);
             // this.htmlNodes.splice(lastIndex,1);
-            
-            // this.htmlNodes.forEach(function(a,b){
-            //     console.log(a.code,b.code)
-            //     if(action == "top"){
-            //         if(this.activeNodes[0].code==a.code){
-            //             return 1;
-            //         } else {
-            //             return -1;
-            //         }
-                    
-            //     }
-                
-            //     return 0;
-            // }.bind(this))
 
-            this.htmlNodes = this.htmlNodes.filter(function(item){
-                if(action == "top"){
-                    if(this.activeNodes[0].code==item.code){
-                        return false;
-                    } else {
-                        return true;
-                    }
-                    
+            let change_index;
+            this.htmlNodes = this.htmlNodes.filter(function(item, index){
+                if(item.code==this.activeNodes[0].code){
+                    change_index = index;
+                    return false;
+                } else {
+                    return true;
                 }
                 return true;
             }.bind(this));
-            this.htmlNodes.push(this.activeNodes[0]);
+            if(action == "top"){
+                this.htmlNodes.push(this.activeNodes[0]);
+            } else if(action == "bottom"){
+                this.htmlNodes.unshift(this.activeNodes[0]);
+            } else if(action == "up"){
+                let start_index = (change_index+1)>(this.htmlNodes.length-1)?(this.htmlNodes.length-1):(change_index+1);
+                this.htmlNodes.splice(start_index,0,this.activeNodes[0]);
+            } else if(action == "down"){
+                let start_index = change_index-1<0?0:(change_index-1);
+                this.htmlNodes.splice(start_index,0,this.activeNodes[0]);
+            }
             // this.setBuildPageNode();
         },
         equilAction(attr){

@@ -152,11 +152,11 @@
                         <img src="../../images/build/zindex_bottom.png" alt="">
                         <p>置底</p>
                     </a>
-                    <a href="javascript:;" @click="changeIndex('last')">
+                    <a href="javascript:;" @click="changeIndex('up')">
                         <img src="../../images/build/zindex_up.png" alt="">
                         <p>上移一层</p>
                     </a>
-                    <a href="javascript:;" @click="changeIndex('next')">
+                    <a href="javascript:;" @click="changeIndex('down')">
                         <img src="../../images/build/zindex_down.png" alt="">
                         <p>下移一层</p>
                     </a>
@@ -195,8 +195,8 @@
                 </div>
                 <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
-                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive,'normal-component':item.className=='normal-component'}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" v-html="item.nodeHtml">
-                            
+                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)">
+                            <mz-text v-if="item.ctype = 'text'" :text="item.attrs.innerHtml"></mz-text>
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,7 @@ config[0] = {
         "font-style":attrconfig.fontStyle,
         "justify-content": attrconfig.align,
         "width":"auto",
-        "height":"height"
+        "height":"auto"
     },
     attrs: {
         innerHtml:"文本内容"
