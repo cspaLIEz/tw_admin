@@ -23,7 +23,6 @@ config[0] = {
     ctype: 'text',
     img: input_png,
     nodeName:"text",
-    cloneTag:'文本内容',
     className: 'normal-component',
     styles: {
         "font-family":attrconfig.fontFamily,
@@ -53,45 +52,19 @@ config[0] = {
     }
 };
 
-// config[1] = {
-//     code: '0002',
-//     name: '文字',
-//     ctype: 'text',
-//     img: text_png,
-//     nodeName:"label",
-//     attrs: {
-//         value:"",
-//         fontFamily:attrconfig.fontFamily,
-//         fontSize:attrconfig.fontSize,
-//         color:attrconfig.color,
-//         borderColor:attrconfig.borderColor,
-//         bgColor:attrconfig.bgColor,
-//         verticalAlign: attrconfig.verticalAlign,
-//         fontWeight:attrconfig.fontWeight,
-//         fontStyle:attrconfig.fontStyle,
-//         align: attrconfig.align
-//     },
-//     contextmenu: {
-//         copy:true,
-//         cut:true,
-//         stick:true,
-//         lock:true,
-//         unlock:true,
-//         delete:true,
-//         moveUp:true,
-//         moveDown:true
-//     }
-// };
-
 config[1] = {
     code: '0003',
     name: '图片',
     ctype: 'image',
     img: img_png,
     nodeName:"img",
-    cloneTag:'<img src="" alt="图片" />',
+    styles: {
+        "border-color":attrconfig.borderColor,
+        "width":"auto",
+        "height":"auto"
+    },
     attrs: {
-        href:""
+        src:img_png
     },
     contextmenu: {
         copy:true,

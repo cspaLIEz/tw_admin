@@ -196,7 +196,8 @@
                 <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)">
-                            <mz-text v-if="item.ctype = 'text'" :text="item.attrs.innerHtml"></mz-text>
+                            <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
+                            <mz-image v-if="item.ctype == 'image'" :image="item.attrs.src"></mz-image>
                         </div>
                     </div>
                 </div>
@@ -270,8 +271,8 @@
                         <div class="setbox-item" v-show="activeNode.styles['border-color']">
                             <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
                         </div>
-                        <div class="setbox-item" v-show="activeNode.attrs['URL']">
-                            <span>URL</span> <input type="text" v-model="activeNode.attrs['URL']">
+                        <div class="setbox-item" v-show="activeNode.attrs['src']">
+                            <span>URL</span> <input type="text" v-model="activeNode.attrs['src']">
                         </div>
                     </div>
                 </div>

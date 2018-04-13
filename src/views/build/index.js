@@ -4,9 +4,10 @@ import { num_random } from '../../libs/helper';
 
 //组件
 import MzText from './components/mzText'
+import MzImage from './components/mzImage'
 
 export default {
-    components:{MzText},
+    components:{MzText,MzImage},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -102,24 +103,12 @@ export default {
             }.bind(this));
             return node;
         },
-        refreshNodeToView(){ //刷新节点
-            //htmlNodes
-            this.htmlNodes.forEach(element => {
-                //静态组件
-                if(element.nodeName){
-                    var node_html = $(element.cloneTag);
-                    $(".build-page").append(node_html);
-                }
-            });
-        },
         addNodeToView(event, node){ //新增节点到界面
             if(!node) return;
             if(node.nodeName){
-                let node_html = $(node.cloneTag);
-
-                var l = event.clientX-$(".build-page").eq(0).offset().left-node_html.width()/2;
+                var l = event.clientX-$(".build-page").eq(0).offset().left;
                 l = l>0?l:0;
-                var w = event.clientY-$(".build-page").eq(0).offset().top-node_html.height()/2;
+                var w = event.clientY-$(".build-page").eq(0).offset().top;
                 w = w>0?w:0;
                 
                 var style = {
