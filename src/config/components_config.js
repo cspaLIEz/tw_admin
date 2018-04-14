@@ -8,8 +8,8 @@ const attrconfig = {};
 attrconfig.fontFamily = "微软雅黑";//字体
 attrconfig.fontSize = "16px";//字体大小
 attrconfig.color = "#333";//字体颜色
-attrconfig.borderColor = "transparent";//边框颜色
-attrconfig.bgColor = "inherit";//
+attrconfig.borderColor = "";//边框颜色
+attrconfig.bgColor = "";//
 attrconfig.verticalAlign = "normal";
 attrconfig.fontWeight = "normal";
 attrconfig.fontStyle = "normal";
@@ -60,11 +60,12 @@ config[1] = {
     nodeName:"img",
     styles: {
         "border-color":attrconfig.borderColor,
-        "width":"auto",
-        "height":"auto"
+        "width":"200px",
+        "height":"200px",
+        "background-color":attrconfig.bgColor
     },
     attrs: {
-        src:img_png
+        srcs:[]
     },
     contextmenu: {
         copy:true,

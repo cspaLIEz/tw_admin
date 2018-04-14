@@ -12,6 +12,13 @@ export default {
         return {
             leftCollapse:[1,2,3],
             componentCollapse:[1],
+            imageList:[{
+                value:"http://img3.imgtn.bdimg.com/it/u=1357590662,4163728655&fm=27&gp=0.jpg",
+                label:"图片一"
+            },{
+                value:"http://img0.imgtn.bdimg.com/it/u=1498988971,2024984195&fm=27&gp=0.jpg",
+                label:"图片二"
+            }],
             programTreeData:[
                 {
                     title: '节目名',
@@ -269,7 +276,7 @@ export default {
             } else if(action == "bottom"){
                 this.htmlNodes.unshift(this.activeNodes[0]);
             } else if(action == "up"){
-                let start_index = (change_index+1)>(this.htmlNodes.length-1)?(this.htmlNodes.length-1):(change_index+1);
+                let start_index = (change_index+1)>(this.htmlNodes.length-1)?(this.htmlNodes.length):(change_index+1);
                 this.htmlNodes.splice(start_index,0,this.activeNodes[0]);
             } else if(action == "down"){
                 let start_index = change_index-1<0?0:(change_index-1);

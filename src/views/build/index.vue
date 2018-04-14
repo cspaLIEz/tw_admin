@@ -197,7 +197,7 @@
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
-                            <mz-image v-if="item.ctype == 'image'" :image="item.attrs.src"></mz-image>
+                            <mz-image v-if="item.ctype == 'image'" :style-set="item.styles" :image="item.attrs.srcs"></mz-image>
                         </div>
                     </div>
                 </div>
@@ -232,47 +232,73 @@
                         </div>
                     </div>
                     <div class="component-attr-setbox" v-if="activeNode && activeNodes.length<=1">
-                        <div class="setbox-item" v-show="activeNode.attrs.innerHtml">
-                            <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml" @keyup="componentConentChange">
+                        <!-- 文本框组件属性 -->
+                        <div v-if="activeNode.ctype == 'text'">
+                            <div class="setbox-item">
+                                <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml" @keyup="componentConentChange">
+                            </div> 
+                            <div class="setbox-item">
+                                <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体颜色</span><ColorPicker v-model="activeNode.styles['color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>URL</span> <input type="text" v-model="activeNode.attrs['src']">
+                            </div>
                         </div>
-                        <div class="setbox-item" v-show="activeNode.styles['font-family']">
-                            <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['left']">
-                            <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['top']">
-                            <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['width']">
-                            <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['height']">
-                            <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['font-size']">
-                            <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['font-style']">
-                            <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['color']">
-                            <span>字体颜色</span> <input type="text" v-model="activeNode.styles['color']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['background-color']">
-                            <span>组件背景色</span> <input type="text" v-model="activeNode.styles['background-color']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['justify-content']">
-                            <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['align-items']">
-                            <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.styles['border-color']">
-                            <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
-                        </div>
-                        <div class="setbox-item" v-show="activeNode.attrs['src']">
-                            <span>URL</span> <input type="text" v-model="activeNode.attrs['src']">
+                        <div v-if="activeNode.ctype == 'image'">
+                            <div class="setbox-item">
+                                <span>图片选择</span>
+                                <Select v-model="activeNode.attrs['srcs']" multiple style="width:160px">
+                                    <Option v-for="item in imageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -10,7 +10,12 @@ export default {
         if(data){
             $("#preview-container").html(data);
         }
-        
+        setTimeout(function(){
+          var mySwiper = new Swiper ('.swiper-container', {
+            autoplay: true,
+            loop: true
+          })
+        },1000)
     }
 }
 </script>
