@@ -5,18 +5,19 @@ import { num_random } from '../../libs/helper';
 //组件
 import MzText from './components/mzText'
 import MzImage from './components/mzImage'
+import MzMarquee from './components/MzMarquee'
 
 export default {
-    components:{MzText,MzImage},
+    components:{MzText,MzImage,MzMarquee},
     data(){
         return {
             leftCollapse:[1,2,3],
             componentCollapse:[1],
             imageList:[{
-                value:"http://img3.imgtn.bdimg.com/it/u=1357590662,4163728655&fm=27&gp=0.jpg",
+                value:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523814444032&di=a3052f88ca9a398c0947f7af05d483de&imgtype=0&src=http%3A%2F%2Fimg1.2345.com%2Fduoteimg%2FzixunImg%2Flocal%2F2017%2F02%2F24%2F14878982262042.jpg",
                 label:"图片一"
             },{
-                value:"http://img0.imgtn.bdimg.com/it/u=1498988971,2024984195&fm=27&gp=0.jpg",
+                value:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523814478386&di=b36b510a20f9d296331d1e2cd17aa425&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0120e658d9bd6ca801219c773855a6.jpg%403000w_1l_2o_100sh.jpg",
                 label:"图片二"
             }],
             programTreeData:[
@@ -112,7 +113,7 @@ export default {
         },
         addNodeToView(event, node){ //新增节点到界面
             if(!node) return;
-            if(node.nodeName){
+            if(node.code){
                 var l = event.clientX-$(".build-page").eq(0).offset().left;
                 l = l>0?l:0;
                 var w = event.clientY-$(".build-page").eq(0).offset().top;
@@ -135,6 +136,7 @@ export default {
                     contextmenu:contextmenu,
                     isActive:false
                 });
+                
                 this.checkNode(this.htmlNodes[this.htmlNodes.length-1]);
                 this.setBuildPageNode();
             }

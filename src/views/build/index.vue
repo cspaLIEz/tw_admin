@@ -198,6 +198,7 @@
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-set="item.styles" :image="item.attrs.srcs"></mz-image>
+                            <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
                         </div>
                     </div>
                 </div>
@@ -235,7 +236,8 @@
                         <!-- 文本框组件属性 -->
                         <div v-if="activeNode.ctype == 'text'">
                             <div class="setbox-item">
-                                <span>文本内容</span> <input type="text" v-model="activeNode.attrs.innerHtml" @keyup="componentConentChange">
+                                <span>文本内容</span>
+                                <input type="text" v-model="activeNode.attrs.innerHtml">
                             </div> 
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
@@ -298,6 +300,52 @@
                             </div>
                             <div class="setbox-item">
                                 <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                        </div>
+                        <!-- 滚动文本文本组件属性 -->
+                        <div v-if="activeNode.ctype == 'marquee'">
+                            <div class="setbox-item">
+                                <span>文本内容</span> 
+                                <textarea v-model="activeNode.attrs.content"></textarea>
+                            </div> 
+                            <div class="setbox-item">
+                                <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体颜色</span><ColorPicker v-model="activeNode.styles['color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>方向</span>
+                                <Select v-model="activeNode.attrs['direction']" style="width:160px">
+                                    <Option value="left">向左</Option>
+                                    <Option value="right">向右</Option>
+                                    <Option value="up">向上</Option>
+                                    <Option value="down">向下</Option>
+                                </Select>
                             </div>
                         </div>
                     </div>

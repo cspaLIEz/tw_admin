@@ -90,16 +90,16 @@
     display: none !important;
 }
 
-div::-webkit-scrollbar {/*滚动条整体样式*/
+div::-webkit-scrollbar,textarea::-webkit-scrollbar{/*滚动条整体样式*/
     width: 6px;     /*高宽分别对应横竖滚动条的尺寸*/
     height: 4px;
 }
-div::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+div::-webkit-scrollbar-thumb,textarea::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
     border-radius: 100px;
      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     background:  #019CE3;
 }
-div::-webkit-scrollbar-track {/*滚动条里面轨道*/
+div::-webkit-scrollbar-track,textarea::-webkit-scrollbar-track {/*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     border-radius: 100px;
     background: #323233;
