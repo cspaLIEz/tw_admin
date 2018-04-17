@@ -199,6 +199,7 @@
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-set="item.styles" :image="item.attrs.srcs"></mz-image>
                             <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
+                            <mz-nowdate v-if="item.ctype == 'dateformat'" :pattern="item.attrs.pattern"></mz-nowdate>
                         </div>
                     </div>
                 </div>
@@ -345,6 +346,58 @@
                                     <Option value="right">向右</Option>
                                     <Option value="up">向上</Option>
                                     <Option value="down">向下</Option>
+                                </Select>
+                            </div>
+                        </div>
+                        <!-- 文本框组件属性 -->
+                        <div v-if="activeNode.ctype == 'dateformat'">
+                           <div class="setbox-item">
+                                <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体颜色</span><ColorPicker v-model="activeNode.styles['color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>日期样式</span>
+                                <Select v-model="activeNode.attrs['pattern']" style="width:160px">
+                                    <Option value="yyyy-MM-dd hh:mm:ss">yyyy-MM-dd hh:mm:ss</Option>
+                                    <Option value="yyyy-MM-dd">yyyy-MM-dd</Option>
+                                    <Option value="hh:mm:ss">hh:mm:ss</Option>
+                                    <Option value="yyyy年MM月dd日 hh:mm:ss">yyyy年MM月dd日 hh:mm:ss</Option>
+                                    <Option value="yyyy年MM月dd日">yyyy年MM月dd日</Option>
+                                    <Option value="yyyy年MM月dd日 hh:mm:ss e">yyyy年MM月dd日 hh:mm:ss WEEK</Option>
+                                    <Option value="yyyy年MM月dd日 e">yyyy年MM月dd日 WEEK</Option>
+                                    <Option value="e">WEEK</Option>
                                 </Select>
                             </div>
                         </div>

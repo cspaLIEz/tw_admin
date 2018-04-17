@@ -11,11 +11,29 @@ export default {
             $("#preview-container").html(data);
         }
         setTimeout(function(){
-          var mySwiper = new Swiper ('.swiper-container', {
-            autoplay: true,
-            loop: true
-          })
-        },1000)
+            //图片轮播
+            let mySwiper = new Swiper ('.swiper-container', {
+                autoplay: true,
+                loop: true
+            })
+            //文字滚动
+            var marq_boxs = $(".marqueebox");
+            for(var i=0;i<marq_boxs.size();i++){
+                marq_boxs.eq(i).liMarquee({
+                    direction: marq_boxs.eq(i).attr("direction")
+                });
+            }
+            //日期
+            for(var j=0;j<$(".mz-now-date").size();j++){
+                $(".mz-now-date").eq(j).html(DateFormat.format(new Date(),$(".mz-now-date").eq(j).attr("pattern")));
+            }
+            setInterval(function(){
+                for(var j=0;j<$(".mz-now-date").size();j++){
+                    $(".mz-now-date").eq(j).html(DateFormat.format(new Date(),$(".mz-now-date").eq(j).attr("pattern")));
+                }
+            },1000);
+            
+        },200)
     }
 }
 </script>

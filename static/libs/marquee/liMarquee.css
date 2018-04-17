@@ -2,18 +2,14 @@
 .str_wrap {
 	overflow:hidden;
 	width:100%;
-	font-size:12px;
-	line-height:16px;
 	position:relative;
 	-moz-user-select: none;
 	-khtml-user-select: none;
-	user-select: none;  
-	background:#f6f6f6;
+	user-select: none;
 	white-space:nowrap;
 }
 
 .str_wrap.str_active {
-	background:#f1f1f1;
 }
 .str_move { 
 	white-space:nowrap;

@@ -2,6 +2,7 @@
 import input_png from '../images/build/input.png';
 import text_png from '../images/build/text.png';
 import img_png from '../images/build/img.png';
+import date_png from '../images/build/datepicker.png';
 //text
 
 const attrconfig = {};
@@ -34,8 +35,8 @@ config[0] = {
         "font-weight":attrconfig.fontWeight,
         "font-style":attrconfig.fontStyle,
         "justify-content": attrconfig.align,
-        "width":"auto",
-        "height":"auto"
+        "width":"200px",
+        "height":"100px"
     },
     attrs: {
         innerHtml:"文本内容"
@@ -92,12 +93,46 @@ config[2] = {
         "background-color":attrconfig.bgColor,
         "font-weight":attrconfig.fontWeight,
         "font-style":attrconfig.fontStyle,
-        "width":"100px",
-        "height":"18px"
+        "width":"200px",
+        "height":"100px"
     },
     attrs: {
         content:"滚动文本",
         direction:"left"
+    },
+    contextmenu: {
+        copy:true,
+        cut:true,
+        stick:true,
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+
+config[3] = {
+    code: '0004',
+    name: '时间和日期',
+    ctype: 'dateformat',
+    img: date_png,
+    styles: {
+        "font-family":attrconfig.fontFamily,
+        "font-size":attrconfig.fontSize,
+        "color":attrconfig.color,
+        "border-color":attrconfig.borderColor,
+        "background-color":attrconfig.bgColor,
+        "font-weight":attrconfig.fontWeight,
+        "font-style":attrconfig.fontStyle,
+        "align-items": attrconfig.verticalAlign,
+        "justify-content": attrconfig.align,
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        pattern: ''
     },
     contextmenu: {
         copy:true,

@@ -1,5 +1,5 @@
 <template>
-  <div class="marqueebox" style="width:100%;min-height:100%;">
+  <div class="marqueebox" style="width:100%;min-height:100%;" :direction="direction" ref="marqueebox">
       {{content}}
   </div>
 </template>
@@ -14,18 +14,18 @@ export default {
     mounted(){
         var self = this;
         $(function(){
-            self.dowebok = $('.marqueebox').liMarquee({
-                direction: self.direction,
-                runshort: false,
-            });
+            // self.dowebok = $(self.$refs.marqueebox).liMarquee({
+            //     direction: self.direction,
+            //     runshort: false,
+            // });
         });
     },
     watch:{
         direction(newVal){
-            this.dowebok.liMarquee('destroy');
-            $('.marqueebox').liMarquee({
-                direction: this.direction
-            });
+            // this.dowebok.liMarquee('destroy');
+            // $(this.$refs.marqueebox).liMarquee({
+            //     direction: this.direction
+            // });
         }
     }
 }

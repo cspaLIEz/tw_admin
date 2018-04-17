@@ -6,9 +6,10 @@ import { num_random } from '../../libs/helper';
 import MzText from './components/mzText'
 import MzImage from './components/mzImage'
 import MzMarquee from './components/MzMarquee'
+import MzNowdate from './components/MzNowdate'
 
 export default {
-    components:{MzText,MzImage,MzMarquee},
+    components:{MzText,MzImage,MzMarquee,MzNowdate},
     data(){
         return {
             leftCollapse:[1,2,3],
