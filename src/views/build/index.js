@@ -7,9 +7,10 @@ import MzText from './components/mzText'
 import MzImage from './components/mzImage'
 import MzMarquee from './components/MzMarquee'
 import MzNowdate from './components/MzNowdate'
+import MzTimer from './components/MzTimer'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -83,6 +84,16 @@ export default {
     methods:{
         onTreeSelectChange(item){ //树节点改变选中时
             console.log(item);
+        },
+        DatePickerOpenChange(res){
+            if(res){
+                setTimeout(function(){
+                    $(".setbox-item .ivu-select-dropdown").css({
+                        "left":"auto",
+                        "right":0
+                    })
+                },100)
+            }
         },
         onComponentsReload(){ //组件重新加载
             setTimeout(() => {

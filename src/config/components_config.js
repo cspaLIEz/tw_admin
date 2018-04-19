@@ -3,6 +3,7 @@ import input_png from '../images/build/input.png';
 import text_png from '../images/build/text.png';
 import img_png from '../images/build/img.png';
 import date_png from '../images/build/datepicker.png';
+import timer_png from '../images/build/timer.png';
 //text
 
 const attrconfig = {};
@@ -133,6 +134,40 @@ config[3] = {
     },
     attrs: {
         pattern: ''
+    },
+    contextmenu: {
+        copy:true,
+        cut:true,
+        stick:true,
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[4] = {
+    code: '0005',
+    name: '计时器',
+    ctype: 'timer',
+    img: timer_png,
+    styles: {
+        "font-family":attrconfig.fontFamily,
+        "font-size":attrconfig.fontSize,
+        "color":attrconfig.color,
+        "border-color":attrconfig.borderColor,
+        "background-color":attrconfig.bgColor,
+        "font-weight":attrconfig.fontWeight,
+        "font-style":attrconfig.fontStyle,
+        "align-items": attrconfig.verticalAlign,
+        "justify-content": attrconfig.align,
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        way:'2',
+        endTime: ''
     },
     contextmenu: {
         copy:true,
