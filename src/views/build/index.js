@@ -8,9 +8,10 @@ import MzImage from './components/mzImage'
 import MzMarquee from './components/MzMarquee'
 import MzNowdate from './components/MzNowdate'
 import MzTimer from './components/MzTimer'
+import MzVideo from './components/MzVideo'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo},
     data(){
         return {
             leftCollapse:[1,2,3],
