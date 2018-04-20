@@ -1,5 +1,5 @@
 <template>
-    <div class="mz-timer" ref="mzTimer" :startTime="startTime" :finishTime="finishTime">
+    <div class="mz-timer" ref="mzTimer" :startTime="startTime" :finishTime="finishTime" :way="way">
         <span class="days">0</span>天
         <span class="hours">0</span>小时
         <span class="minutes">0</span>分
@@ -23,7 +23,7 @@ export default {
             let a = new Date(this.endTime).getTime();
             this.finishTime = a-this.startTime>0 ? a: 0;
         } else {
-            this.finishTime = 0;
+            this.finishTime = new Date();
         }
     },
     mounted() {
@@ -35,12 +35,14 @@ export default {
                 let a = new Date(newVal).getTime();
                 this.finishTime = a-this.startTime>0 ? a: 0;
             } else {
-                this.finishTime = 0;
+                this.finishTime = new Date();
             }
             this.updateTime();
         },
         way(){
-            this.updateTime();
+            if(this.endTime && this.endTime!=' '){
+                this.updateTime();
+            }
         }
     },
     methods:{

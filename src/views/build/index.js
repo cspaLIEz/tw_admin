@@ -93,6 +93,8 @@ export default {
                         "right":0
                     })
                 },100)
+            } else {
+                this.activeNode.attrs.endTime = this.activeNode.attrs.getTime;
             }
         },
         onComponentsReload(){ //组件重新加载

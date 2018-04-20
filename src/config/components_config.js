@@ -4,6 +4,7 @@ import text_png from '../images/build/text.png';
 import img_png from '../images/build/img.png';
 import date_png from '../images/build/datepicker.png';
 import timer_png from '../images/build/timer.png';
+import video_png from '../images/build/video.png';
 //text
 
 const attrconfig = {};
@@ -167,7 +168,36 @@ config[4] = {
     },
     attrs: {
         way:'2',
+        getTime:'',
         endTime: ''
+    },
+    contextmenu: {
+        copy:true,
+        cut:true,
+        stick:true,
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[5] = {
+    code: '0006',
+    name: '视频',
+    ctype: 'video',
+    img: video_png,
+    styles: {
+        "background-color":attrconfig.bgColor,
+        "font-style":attrconfig.fontStyle,
+        "align-items": attrconfig.verticalAlign,
+        "justify-content": attrconfig.align,
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        url:''
     },
     contextmenu: {
         copy:true,

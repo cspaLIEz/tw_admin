@@ -413,7 +413,7 @@
                             </div>
                             <div class="setbox-item">
                                 <span>结束日期</span>
-                                <DatePicker type="datetime" v-model="activeNode.attrs.endTime" style="width: 160px;position:relative;color:#495060" @on-open-change="DatePickerOpenChange"></DatePicker>
+                                <DatePicker type="datetime" v-model="activeNode.attrs.getTime" style="width: 160px;position:relative;color:#495060" @on-open-change="DatePickerOpenChange"></DatePicker>
                             </div> 
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">

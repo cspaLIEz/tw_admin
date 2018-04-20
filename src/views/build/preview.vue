@@ -32,6 +32,31 @@ export default {
                     $(".mz-now-date").eq(j).html(DateFormat.format(new Date(),$(".mz-now-date").eq(j).attr("pattern")));
                 }
             },1000);
+
+            //计时器
+            for(var m=0;m<$(".mz-timer").size();m++){
+                
+                var startTime = parseInt($(".mz-timer").eq(m).attr("startTime"));
+                var finishTime = parseInt($(".mz-timer").eq(m).attr("finishTime"));
+                
+                if($(".mz-timer").eq(m).attr("way") == 2){
+                    $(".mz-timer").eq(m).downCount({
+                        date: DateFormat.format(new Date(finishTime),'yyyy/MM/dd hh:mm:ss'),
+                        offset: +10
+                    }, function () {
+                        alert('倒计时结束!');
+                    });
+                } else {
+                    $(".mz-timer").eq(m).upCount({
+                        startDate: DateFormat.format(new Date(startTime),'yyyy/MM/dd hh:mm:ss'),
+                        endDate: DateFormat.format(new Date(finishTime),'yyyy/MM/dd hh:mm:ss'),
+                        offset: +10
+                    }, function () {
+                        alert('计时结束!');
+                    });
+                }
+                
+            }
             
         },200)
     }
