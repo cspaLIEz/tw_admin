@@ -22,7 +22,7 @@ const config = [];
 
 config[0] = {
     code: '0001',
-    name: '文本框',
+    title: '文本框',
     ctype: 'text',
     img: input_png,
     nodeName:"text",
@@ -57,7 +57,7 @@ config[0] = {
 
 config[1] = {
     code: '0002',
-    name: '图片',
+    title: '图片',
     ctype: 'image',
     img: img_png,
     nodeName:"img",
@@ -84,7 +84,7 @@ config[1] = {
 
 config[2] = {
     code: '0003',
-    name: '滚动文本',
+    title: '滚动文本',
     ctype: 'marquee',
     img: text_png,
     styles: {
@@ -117,7 +117,7 @@ config[2] = {
 
 config[3] = {
     code: '0004',
-    name: '时间和日期',
+    title: '时间和日期',
     ctype: 'dateformat',
     img: date_png,
     styles: {
@@ -150,7 +150,7 @@ config[3] = {
 
 config[4] = {
     code: '0005',
-    name: '计时器',
+    title: '计时器',
     ctype: 'timer',
     img: timer_png,
     styles: {
@@ -185,19 +185,18 @@ config[4] = {
 
 config[5] = {
     code: '0006',
-    name: '视频',
+    title: '视频',
     ctype: 'video',
     img: video_png,
     styles: {
         "background-color":attrconfig.bgColor,
-        "font-style":attrconfig.fontStyle,
         "align-items": attrconfig.verticalAlign,
         "justify-content": attrconfig.align,
         "width":"200px",
         "height":"100px"
     },
     attrs: {
-        url:''
+        src:'http://jq22com.qiniudn.com/jq22-sp.mp4'
     },
     contextmenu: {
         copy:true,

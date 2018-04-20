@@ -59,7 +59,7 @@
                                             <div class="component-img-box">
                                                 <img :src=item.img alt="" :componentCode=item.code />
                                             </div>
-                                            <p>{{item.name}}</p>
+                                            <p>{{item.title}}</p>
                                         </Col>
                                     </Row>
                                 </div>
@@ -201,7 +201,7 @@
                             <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
                             <mz-nowdate v-if="item.ctype == 'dateformat'" :pattern="item.attrs.pattern"></mz-nowdate>
                             <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way"></mz-timer>
-                            <mz-timer v-if="item.ctype == 'video'"></mz-timer>
+                            <mz-video v-if="item.ctype == 'video'" :src="item.attrs.src" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
                         </div>
                     </div>
                 </div>
@@ -451,6 +451,37 @@
                             </div>
                             <div class="setbox-item">
                                 <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                        </div>
+                        <!-- 视频组件属性 -->
+                        <div v-if="activeNode.ctype == 'video'">
+                            <div class="setbox-item">
+                                <span>视频地址</span>
+                                <Select v-model="activeNode.attrs.src" style="width:160px">
+                                    <Option value="http://jq22com.qiniudn.com/jq22-sp.mp4">视频一</Option>
+                                    <Option value="http://183.6.222.82/6973FDD846944737D0B444A30/0300080100588B2FCADDE9000000018D2FFC24-6C71-F693-55B7-3CE83844770F.mp4?ccode=050F&duration=536&expire=18000&psid=f49b8fa19c5fb470d6ef67c7662270ee&sp=&ups_client_netip=1b10dd74&ups_ts=1524241207&ups_userid=&utid=UgZpEiiSXxMCAWVRz0Tll%2F1Y&vid=XMjA2NjM4NDk0NA%3D%3D&vkey=Be2e8bd5518d0a06455141fe86e734a36">视频二</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
                             </div>
                         </div>
                     </div>

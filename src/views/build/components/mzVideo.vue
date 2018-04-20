@@ -1,50 +1,66 @@
 <template>
-    <video :id="videoId" class="video-js" controls preload="auto":width="setStyle.width" :height="setStyle.height">
-        <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
-		<source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
-		<source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' />
-        <p class="vjs-no-js"> 
-			不支持HTML5 video
-		</p>
-    </video>
+    <div>
+        <video :id="videoId" class="video-js" controls width="200" height="100">
+            <!-- <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
+            <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
+            <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' /> -->
+            <p class="vjs-no-js"> 
+                不支持HTML5 video
+            </p>
+        </video>
+    </div>
 </template>
 <script>
 export default {
-    props:['code','src','styleSet'],
+    props:['code','src','styleWidth','StyleHeight'],
     data(){
         return {
             videoId:null,
             setStyle:{
-            width:'200',
-            height:'200'
-            }
+                width:'200',
+                height:'200'
+            },
+            myPlayer:null,
         }
     },
     mounted(){
         this.videoId = "video"+this.code;
-        this.setStyle.width = parseInt(this.styleSet.width);
-        this.setStyle.height = parseInt(this.styleSet.height);
+        this.setStyle.width = parseInt(this.styleWidth);
+        this.setStyle.height = parseInt(this.StyleHeight);
+
+        setTimeout(function(){
+            this.myPlayer = videojs(this.videoId,{
+                width:this.setStyle.width,
+                height:this.setStyle.height,
+                sources: [
+        　　　　　　{src: this.src,type: 'video/mp4'},
+        　　　　　　{src: this.src,type: 'video/webm'},
+        　　　　　　{src: this.src,type: 'video/ogg'}
+        　　　　]
+            },function(){
+                this.myPlayer.play();
+            }.bind(this));
+            window.myPlayer = this.myPlayer;
+        }.bind(this),100)
     },
     watch:{
       src(){
         this.initVideo();
       },
-      styleSet(){
-        console.log(this.styleSet.width)
-        this.setStyle.width = this.styleSet.width;
-        this.setStyle.height = this.styleSet.height;
+      styleWidth(newVal){
+          this.setStyle.width = parseInt(newVal);
+        this.myPlayer.width(this.setStyle.width);
+      },
+      StyleHeight(newVal){
+        this.setStyle.height = parseInt(newVal);
+        this.myPlayer.height(this.setStyle.height);
       }
     },
     methods:{
-      initVideo(){
-        setTimeout(function(){
-            var myPlayer = videojs(this.videoId);
-			videojs(this.videoId).ready(function(){
-				var myPlayer = this;
-				myPlayer.play();
-			});
-        },1000)
-      }
+        initVideo(){
+            var self = this;
+            this.myPlayer.src(self.src);
+        }
     }
 }
 </script>

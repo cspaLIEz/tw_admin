@@ -68,6 +68,7 @@ export default {
         }
     },
     mounted(){
+        this.programTreeData[0].children[0].children = this.htmlNodes;
         var self = this;
         this.onComponentsReload();
         $(".build-page").droppable({
