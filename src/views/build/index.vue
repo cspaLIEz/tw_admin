@@ -5,6 +5,16 @@
 
 <template>
     <div class="build-container">
+        <v-contextmenu ref="contextmenu">
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.cut">剪切</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete">删除</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveUp">上移一层</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveDown">下移一层</v-contextmenu-item>
+        </v-contextmenu>
         <div class="build-header">
             <div class="build-header-logo"> 
                 <img src="../../images/build/program_build.png" alt="">
@@ -193,15 +203,16 @@
                         <p>清空</p>
                     </a>
                 </div>
-                <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer">
+                <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer" @contextmenu.prevent>
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
-                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)">
+                        <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" @contextmenu.prevent="showContextMenu($event)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-set="item.styles" :image="item.attrs.srcs"></mz-image>
                             <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
                             <mz-nowdate v-if="item.ctype == 'dateformat'" :pattern="item.attrs.pattern"></mz-nowdate>
                             <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way"></mz-timer>
-                            <mz-video v-if="item.ctype == 'video'" :src="item.attrs.src" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
+                            <mz-video v-if="item.ctype == 'video'" :src="item.attrs.videosrc" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
+                            <mz-iframe v-if="item.ctype == 'iframe'" :pageurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-iframe>
                         </div>
                     </div>
                 </div>
@@ -456,11 +467,41 @@
                         <!-- 视频组件属性 -->
                         <div v-if="activeNode.ctype == 'video'">
                             <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
                                 <span>视频地址</span>
-                                <Select v-model="activeNode.attrs.src" style="width:160px">
+                                <Select v-model="activeNode.attrs.videosrc" style="width:160px">
                                     <Option value="http://jq22com.qiniudn.com/jq22-sp.mp4">视频一</Option>
                                     <Option value="http://183.6.222.82/6973FDD846944737D0B444A30/0300080100588B2FCADDE9000000018D2FFC24-6C71-F693-55B7-3CE83844770F.mp4?ccode=050F&duration=536&expire=18000&psid=f49b8fa19c5fb470d6ef67c7662270ee&sp=&ups_client_netip=1b10dd74&ups_ts=1524241207&ups_userid=&utid=UgZpEiiSXxMCAWVRz0Tll%2F1Y&vid=XMjA2NjM4NDk0NA%3D%3D&vkey=Be2e8bd5518d0a06455141fe86e734a36">视频二</Option>
                                 </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                        </div>
+                        
+                        <!-- 视频组件属性 -->
+                        <div v-if="activeNode.ctype == 'iframe'">
+                            
+                            <div class="setbox-item">
+                                <span>网页链接</span>
+                                <input type="text" v-model="activeNode.attrs.writeurl" @blur="activeNode.attrs.url=activeNode.attrs.writeurl">
                             </div>
                             <div class="setbox-item">
                                 <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
@@ -473,9 +514,6 @@
                             </div>
                             <div class="setbox-item">
                                 <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
-                            </div>
-                            <div class="setbox-item">
-                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
                             </div>
                             <div class="setbox-item">
                                 <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">

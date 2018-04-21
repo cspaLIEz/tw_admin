@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video :id="videoId" class="video-js" controls width="200" height="100">
+        <video :id="videoId" class="video-js mz-video" controls width="200" height="100">
             <!-- <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' /> -->
@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-    props:['code','src','styleWidth','StyleHeight'],
+    props:['code','src','styleWidth','styleHeight'],
     data(){
         return {
             videoId:null,
@@ -26,7 +26,7 @@ export default {
     mounted(){
         this.videoId = "video"+this.code;
         this.setStyle.width = parseInt(this.styleWidth);
-        this.setStyle.height = parseInt(this.StyleHeight);
+        this.setStyle.height = parseInt(this.styleHeight);
 
         setTimeout(function(){
             this.myPlayer = videojs(this.videoId,{
@@ -44,17 +44,17 @@ export default {
         }.bind(this),100)
     },
     watch:{
-      src(){
-        this.initVideo();
-      },
-      styleWidth(newVal){
-          this.setStyle.width = parseInt(newVal);
-        this.myPlayer.width(this.setStyle.width);
-      },
-      StyleHeight(newVal){
-        this.setStyle.height = parseInt(newVal);
-        this.myPlayer.height(this.setStyle.height);
-      }
+        src(){
+            this.initVideo();
+        },
+        styleWidth(newVal){
+            this.setStyle.width = parseInt(newVal);
+            this.myPlayer.width(this.setStyle.width);
+        },
+        styleHeight(newVal){
+            this.setStyle.height = parseInt(newVal);
+            this.myPlayer.height(this.setStyle.height);
+        }
     },
     methods:{
         initVideo(){

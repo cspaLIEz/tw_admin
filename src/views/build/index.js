@@ -9,9 +9,10 @@ import MzMarquee from './components/MzMarquee'
 import MzNowdate from './components/MzNowdate'
 import MzTimer from './components/MzTimer'
 import MzVideo from './components/MzVideo'
+import MzIframe from './components/MzIframe'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -68,7 +69,10 @@ export default {
         }
     },
     mounted(){
-        this.programTreeData[0].children[0].children = this.htmlNodes;
+        var children = this.programTreeData[0].children[0].children;
+        children = this.htmlNodes;
+        this.$set(this.programTreeData[0].children[0], 'children', children);
+
         var self = this;
         this.onComponentsReload();
         $(".build-page").droppable({
@@ -98,6 +102,14 @@ export default {
             } else {
                 this.activeNode.attrs.endTime = this.activeNode.attrs.getTime;
             }
+        },
+        showContextMenu(event){
+            const targetDimensions = event.target.getBoundingClientRect();
+            const postition = {
+              top: event.pageY,
+              left: event.pageX,
+            }
+            this.$refs.contextmenu.show(postition);
         },
         onComponentsReload(){ //组件重新加载
             setTimeout(() => {
@@ -140,11 +152,17 @@ export default {
                     "left":parseInt(l/$(".build-page").css("scale")) +"px",
                     "top":parseInt(w/$(".build-page").css("scale")) +"px"
                 }
+                if(node.ctype == "iframe"){
+                    style.left = 0;
+                    style.top = 0;
+                }
+
                 style = $.extend({},node.styles,style);
                 var attrs = $.extend({},node.attrs);
                 var contextmenu = $.extend({},node.contextmenu);
                 let code = num_random(100000,999999);
                 this.htmlNodes.push({
+                    title:node.title,
                     code:code,
                     ctype:node.ctype,
                     styles:style,
@@ -152,7 +170,7 @@ export default {
                     contextmenu:contextmenu,
                     isActive:false
                 });
-                
+
                 this.checkNode(this.htmlNodes[this.htmlNodes.length-1]);
                 this.setBuildPageNode();
             }

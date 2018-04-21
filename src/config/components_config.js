@@ -196,7 +196,7 @@ config[5] = {
         "height":"100px"
     },
     attrs: {
-        src:'http://jq22com.qiniudn.com/jq22-sp.mp4'
+        videosrc:'http://jq22com.qiniudn.com/jq22-sp.mp4'
     },
     contextmenu: {
         copy:true,
@@ -210,4 +210,26 @@ config[5] = {
     }
 };
 
+config[6] = {
+    code: '0007',
+    title: '网页',
+    ctype: 'iframe',
+    img: video_png,
+    styles: {
+        "width":"100%",
+        "height":"100%"
+    },
+    attrs: {
+        writeurl:'http://',
+        url:'http://',
+        refresh:''
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
 export default config;
