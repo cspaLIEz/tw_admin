@@ -5,14 +5,15 @@ import { num_random } from '../../libs/helper';
 //组件
 import MzText from './components/mzText'
 import MzImage from './components/mzImage'
-import MzMarquee from './components/MzMarquee'
-import MzNowdate from './components/MzNowdate'
-import MzTimer from './components/MzTimer'
-import MzVideo from './components/MzVideo'
-import MzIframe from './components/MzIframe'
+import MzMarquee from './components/mzMarquee'
+import MzNowdate from './components/mzNowdate'
+import MzTimer from './components/mzTimer'
+import MzVideo from './components/mzVideo'
+import MzIframe from './components/mzIframe'
+import MzQrcode from './components/mzQrcode'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode},
     data(){
         return {
             leftCollapse:[1,2,3],

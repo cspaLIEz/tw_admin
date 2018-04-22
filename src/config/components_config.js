@@ -232,4 +232,27 @@ config[6] = {
         moveDown:true
     }
 };
+
+config[7] = {
+    code: '0008',
+    title: '二维码',
+    ctype: 'qrcode',
+    img: video_png,
+    styles: {
+        "width":"200px",
+        "height":"200px"
+    },
+    attrs: {
+        qrWc:'Hello Qrcode',
+        qrContent:'Hello Qrcode',
+        logo:''
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
 export default config;

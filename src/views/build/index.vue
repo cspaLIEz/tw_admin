@@ -213,6 +213,7 @@
                             <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way"></mz-timer>
                             <mz-video v-if="item.ctype == 'video'" :src="item.attrs.videosrc" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
                             <mz-iframe v-if="item.ctype == 'iframe'" :pageurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-iframe>
+                            <mz-qrcode v-if="item.ctype == 'qrcode'" :content="item.attrs.qrContent" :logo-url="item.attrs.logo" :style-width="item.styles.width" :style-height="item.styles.height"></mz-qrcode>
                         </div>
                     </div>
                 </div>
@@ -520,6 +521,31 @@
                             </div>
                             <div class="setbox-item">
                                 <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                        </div>
+                        <!-- 二维码组件属性 -->
+                        <div v-if="activeNode.ctype == 'qrcode'">
+                            <div class="setbox-item">
+                                <span>内容</span>
+                                <input type="text" v-model="activeNode.attrs.qrWc" @blur="activeNode.attrs.qrContent=activeNode.attrs.qrWc">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>logo</span>
+                                <Select v-model="activeNode.attrs['logo']" style="width:160px">
+                                    <Option v-for="item in imageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
                             </div>
                         </div>
                     </div>
