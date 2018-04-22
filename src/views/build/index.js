@@ -11,9 +11,10 @@ import MzTimer from './components/mzTimer'
 import MzVideo from './components/mzVideo'
 import MzIframe from './components/mzIframe'
 import MzQrcode from './components/mzQrcode'
+import MzButton from './components/mzButton'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -375,6 +376,22 @@ export default {
                 this.activeNodes[0].styles.top = 0;
             }
         },
+
+        //右键菜单
+        deleteNode(){
+            this.htmlNodes = this.htmlNodes.filter((item, index) => {
+                if(item.code==this.activeNode.code){
+                    return false;
+                } else {
+                    return true;
+                }
+                return true;
+            });
+            var children = this.programTreeData[0].children[0].children;
+            children = this.htmlNodes;
+            this.$set(this.programTreeData[0].children[0], 'children', children);
+        },
+
         preview(){
             localStorage.setItem("previewHtml","<div class='build-page'>"+$(".build-page")[0].innerHTML+"</div>");
             window.open("#/buildpreview")

@@ -255,4 +255,35 @@ config[7] = {
         moveDown:true
     }
 };
+
+config[8] = {
+    code: '0009',
+    title: '按钮',
+    ctype: 'button',
+    img: video_png,
+    styles: {
+        "font-family":attrconfig.fontFamily,
+        "font-size":attrconfig.fontSize,
+        "color":attrconfig.color,
+        "border-color":attrconfig.borderColor,
+        "background-color":attrconfig.bgColor,
+        "align-items": attrconfig.verticalAlign,
+        "font-weight":attrconfig.fontWeight,
+        "font-style":attrconfig.fontStyle,
+        "justify-content": attrconfig.align,
+        "width":"100px",
+        "height":"25px"
+    },
+    attrs: {
+        content:'按钮内容',
+        url:'http://',
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
 export default config;

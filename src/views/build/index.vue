@@ -11,7 +11,7 @@
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete">删除</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete" @click="deleteNode">删除</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveUp">上移一层</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveDown">下移一层</v-contextmenu-item>
         </v-contextmenu>
@@ -214,6 +214,7 @@
                             <mz-video v-if="item.ctype == 'video'" :src="item.attrs.videosrc" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
                             <mz-iframe v-if="item.ctype == 'iframe'" :pageurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-iframe>
                             <mz-qrcode v-if="item.ctype == 'qrcode'" :content="item.attrs.qrContent" :logo-url="item.attrs.logo" :style-width="item.styles.width" :style-height="item.styles.height"></mz-qrcode>
+                            <mz-button v-if="item.ctype == 'button'" :content="item.attrs.content" :url="item.attrs.url"></mz-button>
                         </div>
                     </div>
                 </div>
@@ -546,6 +547,52 @@
                                 <Select v-model="activeNode.attrs['logo']" style="width:160px">
                                     <Option v-for="item in imageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                 </Select>
+                            </div>
+                        </div>
+                        <!-- 按钮框组件属性 -->
+                        <div v-if="activeNode.ctype == 'button'">
+                            <div class="setbox-item">
+                                <span>按钮文本</span>
+                                <input type="text" v-model="activeNode.attrs.content">
+                            </div>
+                            <div class="setbox-item">
+                                <span>URL</span><input type="text" v-model="activeNode.attrs['url']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体颜色</span><ColorPicker v-model="activeNode.styles['color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
                             </div>
                         </div>
                     </div>
