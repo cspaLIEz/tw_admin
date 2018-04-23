@@ -5,6 +5,9 @@ import img_png from '../images/build/img.png';
 import date_png from '../images/build/datepicker.png';
 import timer_png from '../images/build/timer.png';
 import video_png from '../images/build/video.png';
+import webpage_png from '../images/build/webpage.png';
+import button_png from '../images/build/button.png';
+import qrcode_png from '../images/build/qrcode.png';
 //text
 
 const attrconfig = {};
@@ -114,7 +117,6 @@ config[2] = {
     }
 };
 
-
 config[3] = {
     code: '0004',
     title: '时间和日期',
@@ -214,7 +216,7 @@ config[6] = {
     code: '0007',
     title: '网页',
     ctype: 'iframe',
-    img: video_png,
+    img: webpage_png,
     styles: {
         "width":"100%",
         "height":"100%"
@@ -237,7 +239,7 @@ config[7] = {
     code: '0008',
     title: '二维码',
     ctype: 'qrcode',
-    img: video_png,
+    img: qrcode_png,
     styles: {
         "width":"200px",
         "height":"200px"
@@ -260,7 +262,7 @@ config[8] = {
     code: '0009',
     title: '按钮',
     ctype: 'button',
-    img: video_png,
+    img: button_png,
     styles: {
         "font-family":attrconfig.fontFamily,
         "font-size":attrconfig.fontSize,
@@ -277,6 +279,69 @@ config[8] = {
     attrs: {
         content:'按钮内容',
         url:'http://',
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[9] = {
+    code: '0010',
+    title: '直播',
+    ctype: 'livebroadcast',
+    img: button_png,
+    styles: {
+        "width":"100px",
+        "height":"25px"
+    },
+    attrs: {
+        url:'',
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[9] = {
+    code: '0010',
+    title: '直播',
+    ctype: 'livebroadcast',
+    img: button_png,
+    styles: {
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        url:'',
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[10] = {
+    code: '0011',
+    title: '文档',
+    ctype: 'pdf',
+    img: button_png,
+    styles: {
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        url:'',
     },
     contextmenu: {
         lock:true,
