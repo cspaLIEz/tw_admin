@@ -18,7 +18,7 @@
                     终端名：终端1
                 </Col>
                 <Col span="8" class="handle-top-center">
-                    显示当这一周日期起止时间（YYYY-MM-DD）
+                    {{this.startstop}}
                 </Col>
                 <Col span="8" class="handle-top-right">
                     时段设置
@@ -33,7 +33,7 @@
             <div style="float: right;">
                 <Button type="info">上一周</Button>
                 <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
-                <Button type="info">下一周</Button>
+                <Button type="info" @click="one()">下一周</Button>
                 <span>&nbsp;&nbsp;</span>
                 <Input v-model="value2" style="width: 30px"></Input>
                 <Button type="info">跳转</Button>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import util from '../../../libs/util';
 export default {
     name: 'releaseschedule',
     data(){
@@ -102,77 +103,98 @@ export default {
             ],
             columns: [
                 {
-                    title: 'Name',
-                    key: 'name'
+                    title: '时段',
+                    key: 'timesect',
+                    align:'center'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '3月5日星期一',
+                    key: 'Monday',
+                    align:'center'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '3月6日星期二',
+                    key: 'Tuesday',
+                    align:'center'
                 },
                 {
-                    title: 'Action',
-                    key: 'action',
-                    render: (h, params) => {
-                    return h('div', [
-                        h('Button', {
-                            props: {
-                                type: 'primary',
-                                size: 'small'
-                            },
-                            style: {
-                                marginRight: '5px'
-                            },
-                            on: {
-                                click: () => {
-                                    this.register(params.index)
-                                }
-                            }
-                        }, '注册'),
-                        h('Button', {
-                            props: {
-                                type: 'error',
-                                size: 'small'
-                            },
-                            on: {
-                                click: () => {
-                                    this.remove(params.index)
-                                }
-                            }
-                        }, '删除')
-                    ]);
-                    }
+                    title: '3月7日星期三',
+                    key: 'Wednesday',
+                    align:'center'
+                },
+                {
+                    title: '3月8日星期四',
+                    key: 'Thursday',
+                    align:'center'
+                },
+                {
+                    title: '3月9日星期五',
+                    key: 'Friday',
+                    align:'center'
+                },
+                {
+                    title: '3月10日星期六',
+                    key: 'Saturday',
+                    align:'center'
+                },
+                {
+                    title: '3月11日星期日',
+                    key: 'Sunday',
+                    align:'center'
                 }
+                
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
+                    timesect: '8:00-9:00',
+                    Monday: 18,
+                    Tuesday:2,
+                    Wednesday:3,
+                    Thursday:4,
+                    Friday:5,
+                    Saturday:6,
+                    Sunday:7
                 }
-            ]
+            ],
+            startstop:'2014/8/8',
+            data: {
+                pinfo:[{
+                        date:'3月5日',//(日期)
+                        week:'星期一',//(星期)
+                        playsum:[
+                            {
+                            timesect:'8:00-9:00',//(时段)
+                            sum:'2'//(节目数)
+                            },
+                            {
+                            timesect:'9:00-10:00',//(时段)
+                            sum:'2'//(节目数)
+                            },
+                            {
+                            timesect:'10:00-11:00',//(时段)
+                            sum:'3'//(节目数)
+                            }
+                        ],//(分时段节目数) 
+                    },{
+                        date:'3月6日',//(日期)
+                        week:'星期二',//(星期)
+                        playsum:[
+                            {
+                            timesect:'8:00-9:00',//(时段)
+                            sum:'0'//(节目数)
+                            },
+                            {
+                            timesect:'9:00-10:00',//(时段)
+                            sum:'2'//(节目数)
+                            },
+                            {
+                            timesect:'10:00-11:00',//(时段)
+                            sum:'63'//(节目数)
+                            }
+                        ],//(分时段节目数) 
+                    }]
+            }
+
         }
     },
     methods:{
@@ -184,7 +206,27 @@ export default {
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
+        },
+        one (){
+            // alert(1);
+            // console.log(this.columns)
+            // this.columns[2].title=1
+            // let aa={
+            //     title: '3月11111日星期日',
+            //     key: 'address'
+            // }
+            // this.columns.push(aa)
+            alert(util.getMonday('s',-1)+','+util.getMonday('e',-1))
+        },
+        resetup (obj){
+            for(var i=0;i<obj.pinfo.length;i++){
+                
+            }
         }
+        
+    },
+    created:function(){
+        console.log(1)
     }
 };
 </script>

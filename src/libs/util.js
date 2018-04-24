@@ -243,6 +243,29 @@ util.fullscreenEvent = function (vm) {
     // 全屏相关
 };
 
+util.getMonday = function (type, dates) {
+    let now = new Date();
+    let nowTime = now.getTime();
+    let day = now.getDay();
+    let longTime = 24 * 60 * 60 * 1000;
+    let n = longTime * 7 * (dates || 0);
+    let dd;
+    if (type === 's') {
+        dd = nowTime - (day - 1) * longTime + n;
+    };
+    if (type === 'e') {
+        dd = nowTime + (7 - day) * longTime + n;
+    };
+    dd = new Date(dd);
+    let y = dd.getFullYear();
+    let m = dd.getMonth() + 1;
+    let d = dd.getDate();
+    m = m < 10 ? '0' + m : m;
+    d = d < 10 ? '0' + d : d;
+    let days = y + '-' + m + '-' + d;
+    return days        
+};
+
 // util.checkUpdate = function (vm) {
 //     axios.get('https://api.github.com/repos/iview/iview-admin/releases/latest').then(res => {
 //         let version = res.data.tag_name;
