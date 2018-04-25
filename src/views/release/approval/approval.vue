@@ -26,6 +26,51 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal v-model="deleteModal" title="发布详情" >
+            <p>1.节目信息</p>
+                <Form :model="terminalType" :label-width="80">
+                    <Col span='6'>
+                        <FormItem label="节目名称">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    </Col>
+                    <Col span='6'>
+                        <FormItem label="节目时长">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    </Col>
+                    <Col span='6'>
+                        <FormItem label="节目分辨率">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    </Col>
+                    <FormItem label="节目描述">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    <Col span='10'>
+                        <FormItem label="终端类型">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    </Col>
+                    <Col span='10'>
+                        <FormItem label="安装地址">
+                            <Input v-model="terminalType" ></Input>
+                        </FormItem>
+                    </Col>
+                    <Col span='10'>
+                        <FormItem label="管理员">
+                            <Select>
+                                <Option value="admin">admin</Option>
+                                <Option value="zs">张三</Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+                </Form>
+        <div slot="footer">
+            <Button type="" @click="deleteModal=false">取消</Button>
+            <Button type="" >确认</Button>
+        </div>
+    </Modal>
     </Card>
 </template>
 
@@ -34,6 +79,7 @@ export default {
     name: 'releaseschedule',
     data(){
         return {
+            deleteModal:false,
             value2:1,
             treeData:[
                 {
@@ -93,19 +139,40 @@ export default {
             searchLikes:"",
             columns: [
                 {
-                    title: 'Name',
-                    key: 'name'
+                    align:'center',
+                    width:60,
+                    title:'序号',
+                    type:'index'
+                    //key:'progid'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '发布单号',
+                    key: 'progid'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '节目名称',
+                    key: 'progName'
+                },{
+                    title: '审批状态',
+                    key: 'approveResultCode',
+                    render: (h, params) => {
+                            const row = params.row;
+                            const text = row.approveResultCode==1?'审核通过':'审核未通过';
+
+                            return h('div', {
+                                props: {
+                                }
+                            }, text);   
+                        }
+                },{
+                    title: '审批意见',
+                    key: 'approveResultValue'
+                },{
+                    title: '更新时间',
+                    key: 'updateTime'
                 },
                 {
-                    title: 'Action',
+                    title: ' ',
                     key: 'action',
                     render: (h, params) => {
                     return h('div', [
@@ -138,44 +205,83 @@ export default {
                     }
                 }
             ],
-            tableData: [
-                {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
-            ]
+            tableData: [],
+            data:{
+                pinfo:[{
+                    progid:'1',
+                    progName:'节目名',
+                    progCode:'节目源码',
+                    progTime:'节目时长',
+                    resolutionCode:"(节目分辨率代码)",
+                    resolutionValue:"(节目分辨率)",
+                    progSize:"(节目大小)",
+                    progTypeCode:"(节目类型代码)",
+                    progTypeName:"(节目类型)",
+                    progStatusCode:"(节目状态代码)",
+                    progStatusName:"(节目状态)",
+                    updateTime:"(节目更新时间)",
+                    progSourceCode:"(节目来源代码)",
+                    progSourceName:"(节目来源)",
+                    progUrl:"(节目下载地址)",
+                    approveResultCode:"1",
+                    approveUserId:"(审批人代码）",
+                    approveUserName:"(审批人名)",
+                    approveTime:"(审批时间)",
+            },{
+                    progid:'2',
+                    progName:'节目名',
+                    progCode:'节目源码',
+                    progTime:'节目时长',
+                    resolutionCode:"(节目分辨率代码)",
+                    resolutionValue:"(节目分辨率)",
+                    progSize:"(节目大小)",
+                    progTypeCode:"(节目类型代码)",
+                    progTypeName:"(节目类型)",
+                    progStatusCode:"(节目状态代码)",
+                    progStatusName:"(节目状态)",
+                    updateTime:"(节目更新时间)",
+                    progSourceCode:"(节目来源代码)",
+                    progSourceName:"(节目来源)",
+                    progUrl:"(节目下载地址)",
+                    approveResultCode:"0",
+                    approveUserId:"(审批人代码）",
+                    approveUserName:"(审批人名)",
+                    approveTime:"(审批时间)",
+            }],
+            ainfo:[{
+                    approveResultCode:"(审批结果代码)",
+                    approveResultValue:"(审批结果)"
+                }],
+            rinfo:[{
+                resolutionCode:"(分辨率代码)",
+                resolutionValue:"(分辨率)",
+
+                }],
+            sinfo:[{
+                progStatusCode:"（节目状态代码)",
+                progStatusValue:"(节目状态)",
+            }],
+            "totalPage": 1,
+            "pageSize": 20,
+            "currentPage": 1,
+            "totalRecord": 3
+
+            }
         }
     },
     methods:{
         detail(index){
-
+            this.deleteModal=true
         },
         approve (index) {
-            
+            this.deleteModal=true
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
         }
+    },
+    created:function(){
+        this.tableData=this.data.pinfo
     }
 };
 </script>

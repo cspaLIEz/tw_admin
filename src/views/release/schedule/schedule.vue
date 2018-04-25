@@ -28,7 +28,7 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData"></Table>
+        <Table border  :columns="columns" :data="tableData"  disabled-hover></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Button type="info">上一周</Button>
@@ -40,7 +40,21 @@
             </div>
         </div>
     </div>
+    <Modal v-model="deleteModal" width="360">
+        <p slot="header">
+            <span>1111</span>
+        </p>
+        <div style="text-align:center">
+            <p>111</p>
+        </div>
+        <div slot="footer">
+            <Button type="error" @click="deleteModal=false">取消</Button>
+            <Button type="error" >确认</Button>
+        </div>
+    </Modal>
   </Card>
+
+        
 </template>
 
 <script>
@@ -49,6 +63,7 @@ export default {
     name: 'releaseschedule',
     data(){
         return {
+            deleteModal:false,
             value2:1,
             treeData:[
                 {
@@ -110,37 +125,128 @@ export default {
                 {
                     title: '3月5日星期一',
                     key: 'Monday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Monday);
+                        }
                 },
                 {
                     title: '3月6日星期二',
                     key: 'Tuesday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Tuesday);
+                        }
                 },
                 {
                     title: '3月7日星期三',
                     key: 'Wednesday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Wednesday);
+                        }
                 },
                 {
                     title: '3月8日星期四',
                     key: 'Thursday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Thursday);
+                        }
                 },
                 {
                     title: '3月9日星期五',
                     key: 'Friday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Friday);
+                        }
                 },
                 {
                     title: '3月10日星期六',
                     key: 'Saturday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Saturday);
+                        }
                 },
                 {
                     title: '3月11日星期日',
                     key: 'Sunday',
-                    align:'center'
+                    align:'center',
+                    render: (h, params) => {
+                            return h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    width:'100%'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        this.show(params.row.Monday)
+                                    }
+                                }
+                            }, params.row.Sunday);
+                        }
                 }
                 
             ],
@@ -157,53 +263,45 @@ export default {
                 }
             ],
             startstop:'2014/8/8',
+            
             data: {
-                pinfo:[{
-                        date:'3月5日',//(日期)
-                        week:'星期一',//(星期)
+                        date:['3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一'],
                         playsum:[
                             {
-                            timesect:'8:00-9:00',//(时段)
-                            sum:'2'//(节目数)
-                            },
-                            {
-                            timesect:'9:00-10:00',//(时段)
-                            sum:'2'//(节目数)
-                            },
-                            {
-                            timesect:'10:00-11:00',//(时段)
-                            sum:'3'//(节目数)
+                            timesect:'8:00-9:00',
+                            Monday: 1,
+                            Tuesday:2,
+                            Wednesday:3,
+                            Thursday:4,
+                            Friday:5,
+                            Saturday:6,
+                            Sunday:7
+                            },{
+                            timesect:'9:00-10:00',
+                            Monday: 21,
+                            Tuesday:22,
+                            Wednesday:23,
+                            Thursday:24,
+                            Friday:25,
+                            Saturday:26,
+                            Sunday:27
+                            },{
+                            timesect:'10:00-11:00',
+                            Monday: 321,
+                            Tuesday:32,
+                            Wednesday:323,
+                            Thursday:34,
+                            Friday:35,
+                            Saturday:36,
+                            Sunday:37
                             }
-                        ],//(分时段节目数) 
-                    },{
-                        date:'3月6日',//(日期)
-                        week:'星期二',//(星期)
-                        playsum:[
-                            {
-                            timesect:'8:00-9:00',//(时段)
-                            sum:'0'//(节目数)
-                            },
-                            {
-                            timesect:'9:00-10:00',//(时段)
-                            sum:'2'//(节目数)
-                            },
-                            {
-                            timesect:'10:00-11:00',//(时段)
-                            sum:'63'//(节目数)
-                            }
-                        ],//(分时段节目数) 
-                    }]
+                            
+                        ]
             }
 
         }
     },
     methods:{
-        register(index){
-
-        },
-        remove (index) {
-            this.tableData.splice(index, 1);
-        },
         changePage (){
             // this.tableData1 = this.mockTableData1();
         },
@@ -219,14 +317,18 @@ export default {
             alert(util.getMonday('s',-1)+','+util.getMonday('e',-1))
         },
         resetup (obj){
-            for(var i=0;i<obj.pinfo.length;i++){
-                
+            for(var i=0;i<obj.date.length;i++){
+                this.columns[i+1].title=obj.date[i]
             }
+            this.tableData=obj.playsum
+        },
+        show(index){
+            this.deleteModal=true
         }
         
     },
     created:function(){
-        console.log(1)
+        this.resetup(this.data)
     }
 };
 </script>
