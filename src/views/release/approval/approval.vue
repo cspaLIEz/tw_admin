@@ -27,50 +27,58 @@
             </div>
         </div>
         <Modal v-model="deleteModal" title="发布详情" >
-            <p>1.节目信息</p>
+            <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
                 <Form :model="terminalType" :label-width="80">
-                    <Col span='6'>
-                        <FormItem label="节目名称">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span='6'>
-                        <FormItem label="节目时长">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span='6'>
-                        <FormItem label="节目分辨率">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    </Col>
+                    <FormItem label="节目名称">
+                        <Input v-model="terminalType" ></Input>
+                    </FormItem>
+                    <FormItem label="节目时长">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <FormItem label="节目分辨率">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
                     <FormItem label="节目描述">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    <Col span='10'>
-                        <FormItem label="终端类型">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span='10'>
-                        <FormItem label="安装地址">
-                            <Input v-model="terminalType" ></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span='10'>
-                        <FormItem label="管理员">
-                            <Select>
-                                <Option value="admin">admin</Option>
-                                <Option value="zs">张三</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <FormItem label="发布模式">
+                        <Select  style="width:200px">
+                            <Option value="1">定时发布</Option>
+                            <Option value="1">周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    <FormItem label="发布时间">
+                        <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker> 
+                    </FormItem>
+                    <FormItem label="播放模式">
+                        <Select  style="width:200px">
+                            <Option >定时发布</Option>
+                            <Option >周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    <FormItem label="起止时间">
+                        <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker> 
+                    </FormItem>
                 </Form>
-        <div slot="footer">
-            <Button type="" @click="deleteModal=false">取消</Button>
-            <Button type="" >确认</Button>
-        </div>
-    </Modal>
+            <p style="font-size:16px;font-weigth:bold" >2.播放日程</p>
+            <p style="border:1px solid #dddee1;text-align:center">星期一 13:10~13:20</p>
+            <p style="font-size:16px;font-weigth:bold" >3.终端信息</p>
+            <Table border  :columns="columns" :data="tableData"></Table>
+            <p style="font-size:16px;font-weigth:bold" >4.审批操作</p>
+            <FormItem label="审批结果">
+                <Select  style="width:200px">
+                <Option >审批通过</Option>
+                <Option >审批未通过</Option>
+                </Select> 
+            </FormItem>
+            <FormItem label="审批意见">
+                <Input v-model="terminalType"></Input>
+            </FormItem>
+            <div slot="footer">
+                <Button type="" @click="deleteModal=false">取消</Button>
+                <Button type="" >确认</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 

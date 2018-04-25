@@ -251,16 +251,7 @@ export default {
                 
             ],
             tableData: [
-                {
-                    timesect: '8:00-9:00',
-                    Monday: 18,
-                    Tuesday:2,
-                    Wednesday:3,
-                    Thursday:4,
-                    Friday:5,
-                    Saturday:6,
-                    Sunday:7
-                }
+               
             ],
             startstop:'2014/8/8',
             
