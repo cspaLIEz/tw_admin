@@ -12,9 +12,10 @@ import MzVideo from './components/mzVideo'
 import MzIframe from './components/mzIframe'
 import MzQrcode from './components/mzQrcode'
 import MzButton from './components/mzButton'
+import MzLive from './components/mzLive'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton},
+    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive},
     data(){
         return {
             leftCollapse:[1,2,3],

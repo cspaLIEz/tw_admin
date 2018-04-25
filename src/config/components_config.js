@@ -8,6 +8,8 @@ import video_png from '../images/build/video.png';
 import webpage_png from '../images/build/webpage.png';
 import button_png from '../images/build/button.png';
 import qrcode_png from '../images/build/qrcode.png';
+import doc_png from '../images/build/doc.png';
+import live_png from '../images/build/live.png';
 //text
 
 const attrconfig = {};
@@ -313,14 +315,14 @@ config[9] = {
 config[9] = {
     code: '0010',
     title: '直播',
-    ctype: 'livebroadcast',
-    img: button_png,
+    ctype: 'live',
+    img: live_png,
     styles: {
         "width":"200px",
         "height":"100px"
     },
     attrs: {
-        url:'',
+        url:'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
     },
     contextmenu: {
         lock:true,
@@ -335,7 +337,7 @@ config[10] = {
     code: '0011',
     title: '文档',
     ctype: 'pdf',
-    img: button_png,
+    img: doc_png,
     styles: {
         "width":"200px",
         "height":"100px"
