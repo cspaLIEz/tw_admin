@@ -105,4 +105,8 @@
             }
         }
     };
+
+    $.fn.pafviewer = function(options, callback){
+        
+    }
 })(jQuery)

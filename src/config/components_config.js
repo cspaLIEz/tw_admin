@@ -336,14 +336,14 @@ config[9] = {
 config[10] = {
     code: '0011',
     title: '文档',
-    ctype: 'pdf',
+    ctype: 'file',
     img: doc_png,
     styles: {
         "width":"200px",
         "height":"100px"
     },
     attrs: {
-        url:'',
+        fileUrl:'',
     },
     contextmenu: {
         lock:true,

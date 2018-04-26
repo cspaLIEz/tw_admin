@@ -57,7 +57,23 @@ export default {
                 }
                 
             }
+
+            function createIframe (options) {
+                var iframe = document.createElement('iframe');
+                iframe.src = options.url;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                return iframe;
+            };
             
+            //文档
+            for(var n=0;n<$(".mz-file-site").size();n++){
+                $(".mz-file-site").append(createIframe({
+                    url:$(".mz-file-site").eq(n).attr('iframesrc')
+                }))
+            }
+            
+
         },200)
     }
 }
@@ -72,6 +88,7 @@ export default {
         overflow: hidden;
         transform-origin: center center;
         position: relative;
+        word-wrap: break-word;
         .ui-icon-gripsmall-diagonal-se{
             display: none !important;
         }
