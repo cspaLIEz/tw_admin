@@ -10,6 +10,8 @@
                 <Col span="12" class="handle-top-left">
                     <Button type="info">上传</Button>
                     <Button type="warning">删除</Button>
+                    <Button type="info">分组</Button>
+                    <Button type="info">缩略图查看</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -39,6 +41,43 @@
             </div>
           </div>
         </div>
+        <!-- 重命名 -->
+        <Modal v-model="renameModal" width="350">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>模板重命名</span>
+            </p>
+            <div style="text-align:center">
+                <Form :model="renameFrom" :label-width="80">
+                <FormItem label="原名">
+                    <Input v-model="renameFrom.oldName" disabled></Input>
+                </FormItem>
+                <FormItem label="新名">
+                    <Input v-model="renameFrom.matName"></Input>
+                </FormItem>
+                </Form>
+            </div>
+            <div slot="footer" class="btn_center_wrap">			
+                <Button type="primary" @click="">确认</Button>
+                <Button type="default" @click="renameModal=false">返回</Button>
+            </div>
+        </Modal>
+        <!-- 审批 -->
+        <Modal v-model="approvaModal" width="350">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>模板审批</span>
+            </p>
+            <div style="text-align:center">
+                <Form :model="approvaFrom" :label-width="80">
+                <FormItem label="模板名">
+                    <Input v-model="approvaFrom.matName" disabled></Input>
+                </FormItem>
+                </Form>
+            </div>
+            <div slot="footer" class="btn_center_wrap">			
+                <Button type="primary" @click="approvaModal=false">通过</Button>
+                <Button type="default" @click="approvaModal=false">不通过</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -48,36 +87,43 @@ export default {
     data(){
         return {
             value2:1,
+            renameModal:false,
+            approvaModal:false,
+            renameFrom:{},
+            approvaFrom:{},
             treeData:[
                 {
-                    title: '终端分组1',
+                    title: '素材文本',
                     expand: true,
                     children: [
                         {
-                            title: '终端1'
+                            title: '文本'
                         },
                         {
-                            title: '终端2'
+                            title: '表格'
                         },
                         {
-                            title: '终端2'
+                            title: '幻灯片'
+                        },
+                        {
+                            title: 'PDF'
                         }
                     ]
                 },
                 {
-                    title: '终端分组2',
+                    title: '图片素材',
                     expand: true,
                     children: [
                         {
-                            title: '终端1'
+                            title: '风光'
                         },
-                        {
-                            title: '终端2'
-                        },
-                        {
-                            title: '终端2'
-                        }
                     ]
+                },
+                {
+                    title: '视频素材',
+                },
+                {
+                    title: '音频素材',
                 }
             ],
             terminalType:"all",
@@ -107,19 +153,44 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
+                    type: 'index',
+                    title:"序号",
+                    align: 'center'
+                },
+                {
+                    title: '素材名称',
                     key: 'name'
                 },
                 {
-                    title: 'Age',
+                    title: '预览',
                     key: 'age'
                 },
                 {
-                    title: 'Address',
+                    title: '分辨率',
                     key: 'address'
                 },
                 {
-                    title: 'Action',
+                    title: '大小',
+                    key: 'address'
+                },
+                {
+                    title: '上传人',
+                    key: 'address'
+                },
+                {
+                    title: '审核人',
+                    key: 'address'
+                },
+                {
+                    title: '审核时间',
+                    key: 'address'
+                },
+                {
+                    title: '审核状态',
+                    key: 'address'
+                },
+                {
+                    title: '操作',
                     key: 'action',
                     render: (h, params) => {
                     return h('div', [
@@ -133,7 +204,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.detail(params.index)
+                                    this.renameModal=true
                                 }
                             }
                         }, '重命名'),
@@ -147,7 +218,7 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.detail(params.index)
+                                    this.approvaModal =true
                                 }
                             }
                         }, '审批')

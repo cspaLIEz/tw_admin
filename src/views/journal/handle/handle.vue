@@ -8,8 +8,8 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">上传</Button>
-                    <Button type="warning">删除</Button>
+                    <Button type="info">导出日志</Button>
+                    <Button type="warning">清理日志</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -48,16 +48,32 @@ export default {
                 },
                 {
                     value: 'name',
-                    label: '素材名称'
+                    label: '操作人'
                 },
                 {
                     value: 'status',
-                    label: '素材格式'
+                    label: 'IP地址'
                 },
                 {
                     value: 'time',
-                    label: '上传时间'
-                }
+                    label: '事件名'
+                },
+                {
+                    value: 'e1',
+                    label: '日志类型'
+                },
+                {
+                    value: 'e2',
+                    label: '日志级别'
+                },
+                {
+                    value: 'e4',
+                    label: '日志内容'
+                },
+                {
+                    value: 'e3',
+                    label: '操作结果'
+                },
             ],
             searchLikes:"",
             columns: [
@@ -68,79 +84,70 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
-                    key: 'name'
+                    title: '日志时间',
+                    key: 'createTime'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '操作人',
+                    key: 'userId'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '操作模块',
+                    key: 'operModule'
                 },
                 {
-                    title: 'Action',
-                    key: 'action',
-                    render: (h, params) => {
-                    return h('div', [
-                        h('Button', {
-                            props: {
-                                type: 'primary',
-                                size: 'small'
-                            },
-                            style: {
-                                marginRight: '5px'
-                            },
-                            on: {
-                                click: () => {
-                                    this.detail(params.index)
-                                }
-                            }
-                        }, '重命名'),
-                        h('Button', {
-                            props: {
-                                type: 'primary',
-                                size: 'small'
-                            },
-                            style: {
-                                marginRight: '5px'
-                            },
-                            on: {
-                                click: () => {
-                                    this.detail(params.index)
-                                }
-                            }
-                        }, '审批')
-                    ]);
-                    }
-                }
+                    title: 'IP',
+                    key: 'userIp',
+                },
+                {
+                    title: '事件名',
+                    key: 'ename',
+                },
+                {
+                    title: '日志类型',
+                    key: 'logType',
+                },
+                {
+                    title: '日志内容',
+                    key: 'logContent',
+                },
+                {
+                    title: '操作结果',
+                    key: 'operResult',
+                },
             ],
             tableData: [
                 {
-                    name: 'John Brown',
+                    operResult: 'John Brown',
                     age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    logContent: 'New York No. 1 Lake Park',
+                    createTime: '2016-10-03'
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
+                    operResult: 'John Brown',
+                    age: 18,
+                    logContent: 'New York No. 1 Lake Park',
+                    createTime: '2016-10-03'
                 },
                 {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
+                    operResult: 'John Brown',
+                    age: 18,
+                    logContent: 'New York No. 1 Lake Park',
+                    createTime: '2016-10-03'
                 },
                 {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
+                    operResult: 'John Brown',
+                    age: 18,
+                    logContent: 'New York No. 1 Lake Park',
+                    createTime: '2016-10-03'
+                },
+                {
+                    operResult: 'John Brown',
+                    age: 18,
+                    logContent: 'New York No. 1 Lake Park',
+                    createTime: '2016-10-03'
+                },
+                
             ]
         }
     },

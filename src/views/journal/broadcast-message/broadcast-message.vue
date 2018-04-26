@@ -82,19 +82,15 @@ export default {
                 },
                 {
                     value: 'name',
-                    label: '终端名称'
+                    label: '消息主旨'
                 },
                 {
                     value: 'status',
-                    label: '终端状态'
-                },
-                {
-                    value: 'ip',
-                    label: 'IP'
+                    label: '消息内容'
                 },
                 {
                     value: '分辨率',
-                    label: '分辨率'
+                    label: '创建人'
                 }
             ],
             searchLikes:"",
@@ -107,82 +103,134 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
-                    key: 'name'
+                    title: '终端编号',
+                    key: 'devId'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '消息主旨',
+                    key: 'msgTitle'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '消息内容',
+                    key: 'msgContent'
                 },
                 {
-                    title: 'Action',
-                    key: 'action',
-                    render: (h, params) => {
-                    return h('div', [
-                        h('Button', {
-                            props: {
-                                type: 'primary',
-                                size: 'small'
-                            },
-                            style: {
-                                marginRight: '5px'
-                            },
-                            on: {
-                                click: () => {
-                                    this.register(params.index)
-                                }
-                            }
-                        }, '注册'),
-                        h('Button', {
-                            props: {
-                                type: 'error',
-                                size: 'small'
-                            },
-                            on: {
-                                click: () => {
-                                    this.remove(params.index)
-                                }
-                            }
-                        }, '删除')
-                    ]);
-                    }
-                }
+                    title: '开始时间',
+                    key: 'playStartTime',                   
+                },
+                {
+                    title:"结束时间",
+                    key:'playEndTime'
+                },
+                {
+                    title:"创建人",
+                    key:'createPeople'
+                },
             ],
             tableData: [
                 {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
+                    createPeople: 'John Brown',
+                    devId: 18,
+                    msgContent: 'New York No. 1 Lake Park',
+                    playStartTime: '2016-10-03',
+                    playEndTime: '2016-10-03',
                 },
                 {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
+                    createPeople: 'John Brown',
+                    devId: 18,
+                    msgContent: 'New York No. 1 Lake Park',
+                    playStartTime: '2016-10-03',
+                    playEndTime: '2016-10-03',
                 },
                 {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
+                    createPeople: 'John Brown',
+                    devId: 18,
+                    msgContent: 'New York No. 1 Lake Park',
+                    playStartTime: '2016-10-03',
+                    playEndTime: '2016-10-03',
                 },
                 {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
+                    createPeople: 'John Brown',
+                    devId: 18,
+                    msgContent: 'New York No. 1 Lake Park',
+                    playStartTime: '2016-10-03',
+                    playEndTime: '2016-10-03',
+                },
+                
             ]
         }
+    },
+    mounted(){
+        console.log(88)
+        this.getLeftGroup()
     },
     methods:{
         register(index){
 
+        },
+        getLeftGroup(){
+            let url = "/device/getdevgroupinfolist";
+            
+            let data = [
+                {
+                    organId:"234",
+                    organName:"test1",
+                    group:[
+                        {
+                            userId:"122",
+                            userName:"管理员1",
+                            group:[
+                                {
+                                    devId:123,
+                                    devName:"终端一"
+                                },
+                                {
+                                    devId:1253,
+                                    devName:"终端二"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    organId:"234",
+                    organName:"test2",
+                    group:[
+                        {
+                            userId:"122",
+                            userName:"管理员2",
+                            group:[
+                                {
+                                    devId:1223,
+                                    devName:"终端1"
+                                },
+                                {
+                                    devId:12523,
+                                    devName:"终端2"
+                                }
+                            ]
+                        }
+                    ]
+                },
+            ];
+            data.map((item,index)=>{
+                if(item.group){
+                    item.children=item.group;
+                    item.title=item.organName;
+                    item.children.map((childItem,index)=>{
+                        if(childItem.group){
+                            childItem.children=childItem.group;
+                            childItem.title=childItem.userName;
+                            childItem.children.map((grandsonItem,index)=>{
+                                grandsonItem.title=grandsonItem.devName
+                            })
+                        }
+                        
+                    })
+                }
+            })
+            this.treeData=data
+            console.log(data)
         },
         remove (index) {
             this.tableData.splice(index, 1);

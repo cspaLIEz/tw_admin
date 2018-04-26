@@ -15,8 +15,8 @@
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
         "no-console": ["error"],
-        "no-empty": 2,
-        "no-eq-null": 2,
+        "no-empty": 4,
+        "no-eq-null": 4,
         "no-new": 0,
         "no-fallthrough": 0,
         "no-unreachable": 0
