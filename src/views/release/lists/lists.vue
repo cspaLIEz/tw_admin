@@ -103,16 +103,43 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: 'Name',
-                    key: 'name'
+                    title: '序号',
+                    type: 'index'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '节目编号',
+                    key: 'progId'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '节目名称',
+                    key: 'progName'
+                },{
+                    title: '分辨率',
+                    key: 'resolutionValue'
+                },{
+                    title: '预览',
+                    key: 'resolutionValue'
+                },{
+                    title: '时长',
+                    key: 'resolutionValue'
+                },{
+                    title: '大小（MB）',
+                    key: 'progSize'
+                },{
+                    title: '创建人',
+                    key: 'progSourceName'
+                },{
+                    title: '更新时间',
+                    key: 'updateTime'
+                },{
+                    title: '节目来源',
+                    key: 'progSourceName'
+                },{
+                    title: '审批状态',
+                    key: 'progSourceName'
+                },{
+                    title: '审批状态',
+                    key: 'progSourceName'
                 },
                 {
                     title: 'Action',
@@ -162,7 +189,47 @@ export default {
                     address: 'Ottawa No. 2 Lake Park',
                     date: '2016-10-04'
                 }
-            ]
+                
+            ],
+            data: {
+                pinfo: [{
+                    progId:"(节目ID)",
+                    progName:"(节目名)",
+                    progCode:"(节目源码)",
+                    progTime:"(节目时长)",
+                    resolutionCode:"(节目分辨率代码)",
+                    resolutionValue:"(节目分辨率)",
+                    progSize:"(节目大小)",
+                    progTypeCode:"(节目类型代码)",
+                    progTypeName:"(节目类型)",
+                    progStatusCode:"(节目状态代码)",
+                    progStatusName:"(节目状态)",
+                    updateTime:"(节目更新时间)",
+                    progSourceCode:"(节目来源代码)",
+                    progSourceName:"(节目来源)",
+                    progUrl:"(节目下载地址)",
+                }],
+                rinfo: [{
+                    resolutionCode:"(分辨率代码)",
+                    resolutionValue:"(分辨率)",
+                }],
+                tinfo: [{
+                    progTypeCode:"(节目类型代码)",
+                    progTypeValue:"(节目类型)",
+                }],
+                sinfo: [{
+                    progStatusCode:"（节目状态代码)",
+                    progStatusValue:"(节目状态)",
+                }],
+                tinfo: [{
+                    progSourceCode:"(节目来源代码)",
+                    progSourceValue:"(节目来源)",
+                }],
+                totalPage: 1,
+                pageSize: 20,
+                currentPage: 1,
+                totalRecord: 3
+            }
         }
     },
     methods:{
@@ -175,6 +242,9 @@ export default {
         changePage (){
             // this.tableData1 = this.mockTableData1();
         }
+    },
+    created:function(){
+        this.tableData=this.data.pinfo
     }
 };
 </script>

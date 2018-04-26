@@ -12,8 +12,8 @@
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete" @click="deleteNode">删除</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveUp">上移一层</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveDown">下移一层</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveUp" @click="changeIndex('up')">上移一层</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveDown" @click="changeIndex('down')">下移一层</v-contextmenu-item>
         </v-contextmenu>
         <div class="build-header">
             <div class="build-header-logo"> 
@@ -215,6 +215,8 @@
                             <mz-iframe v-if="item.ctype == 'iframe'" :pageurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-iframe>
                             <mz-qrcode v-if="item.ctype == 'qrcode'" :content="item.attrs.qrContent" :logo-url="item.attrs.logo" :style-width="item.styles.width" :style-height="item.styles.height"></mz-qrcode>
                             <mz-button v-if="item.ctype == 'button'" :content="item.attrs.content" :url="item.attrs.url"></mz-button>
+                            <mz-live v-if="item.ctype == 'live'" :liveurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-live>
+                            <mz-file v-if="item.ctype == 'file'" :fileurl="item.attrs.fileUrl" :style-width="item.styles.width" :style-height="item.styles.height"></mz-file>
                         </div>
                     </div>
                 </div>
@@ -593,6 +595,51 @@
                             </div>
                             <div class="setbox-item">
                                 <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                        </div>
+
+                        <!-- 直播组件属性 -->
+                        <div v-if="activeNode.ctype == 'live'">
+                            
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>视频地址</span>
+                                <Select v-model="activeNode.attrs.url" style="width:160px">
+                                    <Option value="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8">直播链接一</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                        </div>
+
+                        <!-- 直播组件属性 -->
+                        <div v-if="activeNode.ctype == 'file'">
+                            <div class="setbox-item">
+                                <span>文档选择</span>
+                                <Select v-model="activeNode.attrs.fileUrl" style="width:160px">
+                                    <Option value="http://localhost:8081/static/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf">文档一</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
                             </div>
                         </div>
                     </div>

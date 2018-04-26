@@ -26,6 +26,59 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal v-model="deleteModal" title="发布详情" >
+            <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
+                <Form :model="terminalType" :label-width="80">
+                    <FormItem label="节目名称">
+                        <Input v-model="terminalType" ></Input>
+                    </FormItem>
+                    <FormItem label="节目时长">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <FormItem label="节目分辨率">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <FormItem label="节目描述">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <FormItem label="发布模式">
+                        <Select  style="width:200px">
+                            <Option value="1">定时发布</Option>
+                            <Option value="1">周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    <FormItem label="发布时间">
+                        <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker> 
+                    </FormItem>
+                    <FormItem label="播放模式">
+                        <Select  style="width:200px">
+                            <Option >定时发布</Option>
+                            <Option >周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    <FormItem label="起止时间">
+                        <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker> 
+                    </FormItem>
+                </Form>
+            <p style="font-size:16px;font-weigth:bold" >2.播放日程</p>
+            <p style="border:1px solid #dddee1;text-align:center">星期一 13:10~13:20</p>
+            <p style="font-size:16px;font-weigth:bold" >3.终端信息</p>
+            <Table border  :columns="columns" :data="tableData"></Table>
+            <p style="font-size:16px;font-weigth:bold" >4.审批操作</p>
+            <FormItem label="审批结果">
+                <Select  style="width:200px">
+                <Option >审批通过</Option>
+                <Option >审批未通过</Option>
+                </Select> 
+            </FormItem>
+            <FormItem label="审批意见">
+                <Input v-model="terminalType"></Input>
+            </FormItem>
+            <div slot="footer">
+                <Button type="" @click="deleteModal=false">取消</Button>
+                <Button type="" >确认</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -34,6 +87,7 @@ export default {
     name: 'releaseschedule',
     data(){
         return {
+            deleteModal:false,
             value2:1,
             treeData:[
                 {
@@ -93,19 +147,40 @@ export default {
             searchLikes:"",
             columns: [
                 {
-                    title: 'Name',
-                    key: 'name'
+                    align:'center',
+                    width:60,
+                    title:'序号',
+                    type:'index'
+                    //key:'progid'
                 },
                 {
-                    title: 'Age',
-                    key: 'age'
+                    title: '发布单号',
+                    key: 'progid'
                 },
                 {
-                    title: 'Address',
-                    key: 'address'
+                    title: '节目名称',
+                    key: 'progName'
+                },{
+                    title: '审批状态',
+                    key: 'approveResultCode',
+                    render: (h, params) => {
+                            const row = params.row;
+                            const text = row.approveResultCode==1?'审核通过':'审核未通过';
+
+                            return h('div', {
+                                props: {
+                                }
+                            }, text);   
+                        }
+                },{
+                    title: '审批意见',
+                    key: 'approveResultValue'
+                },{
+                    title: '更新时间',
+                    key: 'updateTime'
                 },
                 {
-                    title: 'Action',
+                    title: ' ',
                     key: 'action',
                     render: (h, params) => {
                     return h('div', [
@@ -138,44 +213,83 @@ export default {
                     }
                 }
             ],
-            tableData: [
-                {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
-            ]
+            tableData: [],
+            data:{
+                pinfo:[{
+                    progid:'1',
+                    progName:'节目名',
+                    progCode:'节目源码',
+                    progTime:'节目时长',
+                    resolutionCode:"(节目分辨率代码)",
+                    resolutionValue:"(节目分辨率)",
+                    progSize:"(节目大小)",
+                    progTypeCode:"(节目类型代码)",
+                    progTypeName:"(节目类型)",
+                    progStatusCode:"(节目状态代码)",
+                    progStatusName:"(节目状态)",
+                    updateTime:"(节目更新时间)",
+                    progSourceCode:"(节目来源代码)",
+                    progSourceName:"(节目来源)",
+                    progUrl:"(节目下载地址)",
+                    approveResultCode:"1",
+                    approveUserId:"(审批人代码）",
+                    approveUserName:"(审批人名)",
+                    approveTime:"(审批时间)",
+            },{
+                    progid:'2',
+                    progName:'节目名',
+                    progCode:'节目源码',
+                    progTime:'节目时长',
+                    resolutionCode:"(节目分辨率代码)",
+                    resolutionValue:"(节目分辨率)",
+                    progSize:"(节目大小)",
+                    progTypeCode:"(节目类型代码)",
+                    progTypeName:"(节目类型)",
+                    progStatusCode:"(节目状态代码)",
+                    progStatusName:"(节目状态)",
+                    updateTime:"(节目更新时间)",
+                    progSourceCode:"(节目来源代码)",
+                    progSourceName:"(节目来源)",
+                    progUrl:"(节目下载地址)",
+                    approveResultCode:"0",
+                    approveUserId:"(审批人代码）",
+                    approveUserName:"(审批人名)",
+                    approveTime:"(审批时间)",
+            }],
+            ainfo:[{
+                    approveResultCode:"(审批结果代码)",
+                    approveResultValue:"(审批结果)"
+                }],
+            rinfo:[{
+                resolutionCode:"(分辨率代码)",
+                resolutionValue:"(分辨率)",
+
+                }],
+            sinfo:[{
+                progStatusCode:"（节目状态代码)",
+                progStatusValue:"(节目状态)",
+            }],
+            "totalPage": 1,
+            "pageSize": 20,
+            "currentPage": 1,
+            "totalRecord": 3
+
+            }
         }
     },
     methods:{
         detail(index){
-
+            this.deleteModal=true
         },
         approve (index) {
-            
+            this.deleteModal=true
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
         }
+    },
+    created:function(){
+        this.tableData=this.data.pinfo
     }
 };
 </script>

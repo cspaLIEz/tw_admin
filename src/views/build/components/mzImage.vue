@@ -29,7 +29,6 @@ export default {
       }
     },
     mounted(){
-      console.log(this.styleSet.width)
       this.setStyle.width = this.styleSet.width;
       this.setStyle.height = this.styleSet.height;
     },
