@@ -58,6 +58,7 @@
     img{
         display: block;
         border: 0 none;
+        transition: 0.5s;
     }
     .p2-dressup {
         position: absolute;
@@ -118,16 +119,29 @@
     .pt1 {
         right: calc(~"98.5% - 54px");
         bottom: 20%;
+        animation-delay: 0.5s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
     }
     .pt2 {
         right: calc(~"90% - 54px");
         bottom: 56%;
+        animation-delay: 1s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
     }
     .pt3 {
         right: calc(~"73.5% - 54px");
         bottom: 82%;
+        animation-delay: 1.5s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
     }
     .pt1,.pt2,.pt3{
+        display: block;
         a {
             .u-font {
                 float: right;
@@ -141,14 +155,32 @@
     .pt5 {
         left: calc(~"73.5% - 54px");
         bottom: 82%;
+        animation-delay: 2s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
     }
     .pt6 {
         left: calc(~"90% - 54px");
         bottom: 56%;
+        animation-delay: 2.5s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
     }
     .pt7 {
         left: calc(~"98.5% - 54px");
         bottom: 20%;
+        animation-delay: 3s;
+        visibility: visible;
+        animation-duration: 0.5s;
+        animation-name: fadeInRight;
+    }
+    .pt1:hover,.pt2:hover,.pt3:hover,.pt5:hover,.pt6:hover,.pt7:hover{
+        font-weight: bold;
+    }
+    .pt1:hover img,.pt2:hover img,.pt3:hover img,.pt5:hover img,.pt6:hover img,.pt7:hover img{
+        transform: scale(1.2)
     }
     
     .p2LineBox {
