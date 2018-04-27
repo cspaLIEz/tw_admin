@@ -8,7 +8,7 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">新建发布</Button>
+                    <Button type="info" @click="getlist">新建发布</Button>
                     <Button type="success">素材发布</Button>
                     <Button type="warning">一键发布</Button>
                 </Col>
@@ -31,14 +31,80 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal v-model="deleteModal" title="发布详情" width="880">
+            <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
+            
+                <Form :model="terminalType" :label-width="80">
+                    <Col span='8'>
+                    <FormItem label="节目名称">
+                        <Input v-model="terminalType" ></Input>
+                    </FormItem>
+                    </Col>
+                    <Col span='8'>
+                    <FormItem label="节目时长">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                     </Col>
+                    <Col span='8'>
+                    <FormItem label="节目分辨率">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                     </Col>
+                    <FormItem label="节目描述">
+                        <Input v-model="terminalType"></Input>
+                    </FormItem>
+                    <Col span='12'>
+                    <FormItem label="发布模式">
+                        <Select  style="width:200px">
+                            <Option value="1">定时发布</Option>
+                            <Option value="2">周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    </Col>
+                    <Col span='12'>
+                    <FormItem label="发布时间">
+                        <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker> 
+                    </FormItem>
+                    </Col>
+                    <FormItem label="播放模式">
+                        <Select  style="width:200px">
+                            <Option >定时发布</Option>
+                            <Option >周期发布</Option>
+                        </Select> 
+                    </FormItem>
+                    <FormItem label="起止时间">
+                        <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker> 
+                    </FormItem>
+                
+            <p style="font-size:16px;font-weigth:bold" >2.播放日程</p>
+            <p style="border:1px solid #dddee1;text-align:center">星期一 13:10~13:20</p>
+            <p style="font-size:16px;font-weigth:bold" >3.终端信息</p>
+            <Table border  :columns="columns" :data="tableData"></Table>
+            </Form>
+            <div slot="footer">
+                <Button type="" @click="deleteModal=false">取消</Button>
+                <Button type="" >确认</Button>
+            </div>
+        </Modal>
+        <Modal v-model="detilModal" title="发布进度详情" width="880">
+            <Table border  :columns="columns" :data="tableData"></Table>
+            <div slot="footer">
+                <Button type="" @click="detilModal=false">取消</Button>
+                <Button type="" >确认</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
 <script>
+import {Getrellist} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
         return {
+            terminalType:'aaa',
+            detilModal:false,
+            deleteModal:false,
             value2:1,
             treeData:[
                 {
@@ -156,10 +222,24 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.detail(params.index)
+                                    this.deleteModal=true
                                 }
                             }
-                        }, '详情')
+                        }, '详情'),
+                        h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.detilModal=true
+                                }
+                            }
+                        }, '进度详情')
                     ]);
                     }
                 }
@@ -241,10 +321,20 @@ export default {
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
+        },
+        getlist(){
+            Getrellist({
+                loginer:"admin",
+                currentPage:"1",
+                pageSize:"10"
+            }).then(function(res){
+                console.log(res)
+            })
         }
     },
     created:function(){
         this.tableData=this.data.pinfo
+        
     }
 };
 </script>

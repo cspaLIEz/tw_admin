@@ -10,7 +10,7 @@
               <Button type="primary" @click="addOrgModal=true">添加机构</Button>
               <Button type="primary">删除机构</Button>
               <Button type="primary" @click="handleEditOrg">编辑机构</Button>
-              <Button type="primary">机构导入</Button>
+              <Button type="primary" @click="organupdata=true">机构导入</Button>
               <Button type="primary">机构导出</Button>
           </Col>
           <Col span="12" class="handle-top-right">
@@ -65,6 +65,11 @@
 			<Button type="default" @click="addOrgModal=false">取消</Button>
 		</div>
 	</Modal>
+  <Modal v-model="organupdata" width="360" title='机构导入'>
+      <Upload action="http://47.95.201.45:8080/mzfb/upload">
+          <Button type="ghost" icon="ios-cloud-upload-outline">点击选择文件</Button>
+      </Upload>
+  </Modal>  
   </Card>
 </template>
 <script>
@@ -73,6 +78,7 @@ export default {
     return {
 	  terminalType: "all",
 	  addOrgModal:false,
+    organupdata:false,
 	  selectSearch:{},
 	  formInfo:{
 		  superiororganId:'',

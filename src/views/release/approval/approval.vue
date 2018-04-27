@@ -26,30 +26,41 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
-        <Modal v-model="deleteModal" title="发布详情" >
+        <Modal v-model="deleteModal" title="发布详情" width="880">
             <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
+            
                 <Form :model="terminalType" :label-width="80">
+                    <Col span='8'>
                     <FormItem label="节目名称">
                         <Input v-model="terminalType" ></Input>
                     </FormItem>
+                    </Col>
+                    <Col span='8'>
                     <FormItem label="节目时长">
                         <Input v-model="terminalType"></Input>
                     </FormItem>
+                     </Col>
+                    <Col span='8'>
                     <FormItem label="节目分辨率">
                         <Input v-model="terminalType"></Input>
                     </FormItem>
+                     </Col>
                     <FormItem label="节目描述">
                         <Input v-model="terminalType"></Input>
                     </FormItem>
+                    <Col span='12'>
                     <FormItem label="发布模式">
                         <Select  style="width:200px">
                             <Option value="1">定时发布</Option>
                             <Option value="1">周期发布</Option>
                         </Select> 
                     </FormItem>
+                    </Col>
+                    <Col span='12'>
                     <FormItem label="发布时间">
                         <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker> 
                     </FormItem>
+                    </Col>
                     <FormItem label="播放模式">
                         <Select  style="width:200px">
                             <Option >定时发布</Option>
@@ -59,7 +70,7 @@
                     <FormItem label="起止时间">
                         <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker> 
                     </FormItem>
-                </Form>
+                
             <p style="font-size:16px;font-weigth:bold" >2.播放日程</p>
             <p style="border:1px solid #dddee1;text-align:center">星期一 13:10~13:20</p>
             <p style="font-size:16px;font-weigth:bold" >3.终端信息</p>
@@ -74,6 +85,7 @@
             <FormItem label="审批意见">
                 <Input v-model="terminalType"></Input>
             </FormItem>
+            </Form>
             <div slot="footer">
                 <Button type="" @click="deleteModal=false">取消</Button>
                 <Button type="" >确认</Button>
