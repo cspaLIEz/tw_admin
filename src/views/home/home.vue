@@ -5,34 +5,60 @@
 <template>
     <div class="home-main">
         <Row :gutter="10">
-            <Col :md="24" :lg="8">
+            <Col :md="16" :lg="16">
                 <Row class-name="home-page-row1" :gutter="10">
-                    <Col :md="12" :lg="24" :style="{marginBottom: '10px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
                         <Card>
-                            <Row type="flex" class="user-infor">
-                                <Col span="8">
-                                    <Row class-name="made-child-con-middle" type="flex" align="middle">
-                                        <img class="avator-img" :src="avatorPath" />
-                                    </Row>
-                                </Col>
-                                <Col span="16" style="padding-left:6px;">
-                                    <Row class-name="made-child-con-middle" type="flex" align="middle">
-                                        <div>
-                                            <b class="card-user-infor-name">Admin</b>
-                                            <p>super admin</p>
-                                        </div>
-                                    </Row>
-                                </Col>
-                            </Row>
-                            <div class="line-gray"></div>
-                            <Row class="margin-top-8">
-                                <Col span="8"><p class="notwrap">上次登录时间:</p></Col>
-                                <Col span="16" class="padding-left-8">2017.09.12-13:32:20</Col>
-                            </Row>
-                            <Row class="margin-top-8">
-                                <Col span="8"><p class="notwrap">上次登录地点:</p></Col>
-                                <Col span="16" class="padding-left-8">北京</Col>
-                            </Row>
+                            <section class="home-page-gap">
+                                <div class="p2-dressup">
+                                    <img src="../../images/index/p2-des4.png">
+                                </div>
+                                <img class="p2-des1 wow mtRotate3 animated" src="../../images/index/p2-des1.png">
+                                <img class="p2-des2 wow mtRotate2 animated" src="../../images/index/p2-des2.png">
+                                <div class="p2LineBox">
+                                    <ul class="pdList wowList">
+                                        <li class="pt pt1 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group3.png"/></span>
+                                                <code>Material management</code><code>素材管理</code>
+                                            </a>
+                                        </li>
+                                        <li class="pt pt2 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group5.png"/></span>
+                                                <code>Program production</code><code>节目制作</code>
+                                            </a>
+                                        </li>
+                                        <li class="pt pt3 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group6.png"/></span>
+                                                <code>Program management</code><code>节目管理</code>
+                                            </a>
+                                        </li>
+                                        <li class="pt pt5 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group7.png"/></span>
+                                                <code>Terminal management</code><code>终端管理</code>
+                                            </a>
+                                        </li>
+                                        <li class="pt pt6 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group8.png"/></span>
+                                                <code>Quick release</code><code>快速发布</code>
+                                            </a>
+                                        </li>
+                                        <li class="pt pt7 wow animated">
+                                            <a href="javascript:;">
+                                                <span class="u-font"><img src="../../images/index/group9.png"/></span>
+                                                <code>Release management</code><code>发布管理</code>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <img class="p2-line3 wow mtRotate1 animated" src="../../images/index/p2-line3.png">
+                                    <img class="p2-line2 wow mtRotate1 animated" src="../../images/index/p2-line2.png">
+                                    <img class="p2-line1 wow mtRotate1 animated" src="../../images/index/p2-line1.png">
+                                </div>
+                            </section>
                         </Card>
                     </Col>
                     <Col :md="12" :lg="24" :style="{marginBottom: '10px'}">
@@ -66,7 +92,7 @@
                     </Col>
                 </Row>
             </Col>
-            <Col :md="24" :lg="16">
+            <Col :md="24" :lg="8">
                 <Row :gutter="5">
                     <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
                         <infor-card
