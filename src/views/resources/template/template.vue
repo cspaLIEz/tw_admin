@@ -8,9 +8,9 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">上传</Button>
+                    <Button type="info" @click="MaterialUpload=true">上传</Button>
                     <Button type="warning">删除</Button>
-                    <Button type="default">新建模板</Button>
+                    <Button type="default" @click="hrefs">新建模板</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -77,6 +77,36 @@
                 <Button type="default" @click="approvaModal=false">不通过</Button>
             </div>
         </Modal>
+        <!--素材上传-->
+        <Modal v-model="MaterialUpload" title="上传素材">
+            <Form :model="approvaFrom" :label-width="80">
+                <FormItem label="素材类型">
+                    <Select  style="width:200px">
+                        <Option >文本素材</Option>
+                        <Option >视频素材</Option>
+                        <Option >图片素材</Option>
+                        <Option >音频素材</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="素材分组">
+                    <Select  style="width:200px">
+                        <Option >1</Option>
+                        <Option >2</Option>
+                        <Option >3</Option>
+                        <Option >4</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="素材本地地址">
+                    <Upload action="//jsonplaceholder.typicode.com/posts/">
+                    <Button type="ghost" >浏览</Button>
+                </Upload>
+                </FormItem>
+            </Form>
+            <div slot="footer" class="btn_center_wrap">			
+                <Button type="primary" @click="MaterialUpload=false">上传</Button>
+                <Button type="default" @click="MaterialUpload=false">取消</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -88,6 +118,7 @@ export default {
             value2:1,
             renameModal:false,
             approvaModal:false,
+            MaterialUpload:false,
             renameFrom:{},
             approvaFrom:{},
             treeData:[
@@ -264,6 +295,9 @@ export default {
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
+        },
+        hrefs(){
+             this.$router.push('../build')
         }
     }
 };

@@ -14,11 +14,10 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="primary">开始播放</Button>
-                    <Button type="primary">停止播放</Button>
-                    <Button type="primary">清空节目</Button>
-                    <Button type="primary">重启终端</Button>
-                    <Button type="primary">节目管理</Button>
+                    <Button type="primary" @click="Restart=true">开始播放</Button>
+                    <Button type="primary" @click="Restart=true">停止播放</Button>
+                    <Button type="primary" @click="Restart=true">清空节目</Button>
+                    <Button type="primary" @click="Restart=true">重启终端</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -43,16 +42,30 @@
             </div>
         </div>
     </div>
+        <Modal v-model="Restart">
+            <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="information-circled"></Icon>
+            <span>警  告</span>
+            </p>
+        <div style="text-align:center">
+            <p>本操作将执行相对应操作，需要确认已有一个或多个终端 被选定，在此处理提示操作是否发送成功。点击确定后，后台再一定时间内将操作结果在页面上更新，超过规定时间完成操作的结果通过手动刷新页面获取结果</p>
+        </div>
+        <div slot="footer">
+            <Button type="error" size="large"  @click="Restart=false">确定</Button>
+        </div>
+        </Modal>
   </Card>
 </template>
 <script>
 export default {
     data(){
         return {
+            Restart:false,
             treeData:[
                 {
                     title: '机构1',
                     expand: true,
+                    Restart:false,
                     children: [
                         {
                             title: '管理员1',

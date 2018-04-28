@@ -8,7 +8,7 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">新建发布</Button>
+                    <Button type="info" @click="NewRelease=true">新建发布</Button>
                     <Button type="success">素材发布</Button>
                     <Button type="warning">一键发布</Button>
                 </Col>
@@ -93,6 +93,25 @@
                 <Button type="" >确认</Button>
             </div>
         </Modal>
+        <Modal v-model="NewRelease" width="880">
+            <div slot="header" style="">第1步：节目选择</div>
+            <Form :label-width="80">
+                <Row>
+                <Col span='18'>
+                <FormItem label="节目名">
+                    <Input ></Input>
+                </FormItem>
+                </Col>
+                <Col span='6'>
+                <Button style="margin-left:20px">预览</Button>
+                </Col>
+                </Row>
+            </Form>    
+            <div slot="footer">
+                <Button type="" @click="detilModal=false">取消</Button>
+                <Button type="" >下一步</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -105,6 +124,7 @@ export default {
             terminalType:'aaa',
             detilModal:false,
             deleteModal:false,
+            NewRelease:false,
             value2:1,
             treeData:[
                 {

@@ -14,7 +14,7 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="4" class="handle-top-left">
-                    <Button type="primary">批量导入</Button>
+                    <Button type="primary" @click="ImportModal=true">批量导入</Button>
                 </Col>
                 <Col span="20" class="handle-top-right">
                     <div class="search-item">
@@ -86,6 +86,26 @@
                 <Button type="error" @click="register">确认</Button>
             </div>
         </Modal>
+        <!--批量导入-->
+        <Modal v-model="ImportModal"  title="终端基本信息批量导入">
+            <Form :model="approvaFrom" :label-width="80">
+                <FormItem label="文件地址">
+                    <Upload action="//jsonplaceholder.typicode.com/posts/">
+                    <Button type="ghost" >浏览</Button>
+                </Upload>
+                </FormItem>
+                <FormItem label="已选择素材名">
+                    <Input  type="textarea" :autosize="{minRows: 4}" placeholder="（1）终端名称1（标识，IP地址，终端类型）
+（2）终端名称2（标识，IP地址，终端类型）
+（3）终端名称3（标识，IP地址，终端类型）
+读取的内容采用文本或者表格进行显示，确认后再进行提交，更新已有终端信息，插入不存在的终端 信息"></Input>
+                </FormItem>  
+            </Form>
+            <div slot="footer">
+                <Button type="default" @click="ImportModal=false">取消</Button>
+                <Button type="primary" @click="ImportModal=false">确认</Button>
+            </div>
+        </Modal>
     </div>
   </Card>
 </template>
@@ -96,6 +116,7 @@ export default {
             deleteModal:false,
             deleteIndex:'',
             registerModal:false,
+            ImportModal:false,
             formRegister:{
                 name:'',
                 id:'',
