@@ -8,7 +8,7 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info" @click="getlist">新建发布</Button>
+                    <Button type="info">新建发布</Button>
                     <Button type="success">素材发布</Button>
                     <Button type="warning">一键发布</Button>
                 </Col>
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import {Getrellist} from '@/api/api';
+import {getrellist} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
