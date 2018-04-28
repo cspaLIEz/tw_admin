@@ -9,199 +9,123 @@
                 <Row class-name="home-page-row1" :gutter="10">
                     <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
                         <Card>
-                            <section class="home-page-gap">
-                                <div class="p2-dressup">
-                                    <img src="../../images/index/p2-des4.png">
-                                </div>
-                                <img class="p2-des1 wow mtRotate3 animated" src="../../images/index/p2-des1.png">
-                                <img class="p2-des2 wow mtRotate2 animated" src="../../images/index/p2-des2.png">
-                                <div class="p2LineBox">
-                                    <ul class="pdList wowList">
-                                        <li class="pt pt1 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group3.png"/></span>
-                                                <code>Material management</code><code>素材管理</code>
-                                            </a>
-                                        </li>
-                                        <li class="pt pt2 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group5.png"/></span>
-                                                <code>Program production</code><code>节目制作</code>
-                                            </a>
-                                        </li>
-                                        <li class="pt pt3 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group6.png"/></span>
-                                                <code>Program management</code><code>节目管理</code>
-                                            </a>
-                                        </li>
-                                        <li class="pt pt5 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group7.png"/></span>
-                                                <code>Terminal management</code><code>终端管理</code>
-                                            </a>
-                                        </li>
-                                        <li class="pt pt6 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group8.png"/></span>
-                                                <code>Quick release</code><code>快速发布</code>
-                                            </a>
-                                        </li>
-                                        <li class="pt pt7 wow animated">
-                                            <a href="javascript:;">
-                                                <span class="u-font"><img src="../../images/index/group9.png"/></span>
-                                                <code>Release management</code><code>发布管理</code>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <img class="p2-line3 wow mtRotate1 animated" src="../../images/index/p2-line3.png">
-                                    <img class="p2-line2 wow mtRotate1 animated" src="../../images/index/p2-line2.png">
-                                    <img class="p2-line1 wow mtRotate1 animated" src="../../images/index/p2-line1.png">
-                                </div>
-                            </section>
+                            <home-gap></home-gap>
                         </Card>
                     </Col>
-                    <Col :md="12" :lg="24" :style="{marginBottom: '10px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
+                        <div class="border-top-3-blue">
+                            <terminal-status></terminal-status>
+                        </div>
+                    </Col>
+                </Row>
+            </Col>
+            <Col :md="8" :lg="8">
+                <Row :gutter="5">
+                    <Col :xs="24" :sm="24" :md="24" :style="{marginBottom: '10px'}">
+                        <infor-card
+                            id-name="user_created_count"
+                            :end-val="count.createUser"
+                            iconType="android-person-add"
+                            color="#4B89DC"
+                            intro-text="节目待审批"
+                        ></infor-card>
+                    </Col>
+                    <Col :xs="24" :sm="24" :md="24" :style="{marginBottom: '10px'}">
+                        <infor-card
+                            id-name="visit_count"
+                            :end-val="count.visit"
+                            iconType="ios-eye"
+                            color="#FECE4F"
+                            :iconSize="50"
+                            intro-text="素材待审批"
+                        ></infor-card>
+                    </Col>
+                    <Col :xs="24" :sm="24" :md="24" :style="{marginBottom: '10px'}">
+                        <infor-card
+                            id-name="collection_count"
+                            :end-val="count.collection"
+                            iconType="upload"
+                            color="#8DBF55"
+                            intro-text="发布待审批"
+                        ></infor-card>
+                    </Col>
+                    <Col :xs="24" :sm="24" :md="24" :style="{marginBottom: '10px'}">
+                        <infor-card
+                            id-name="transfer_count"
+                            :end-val="count.transfer"
+                            iconType="shuffle"
+                            color="#967BDC"
+                            intro-text="已使用授权"
+                        ></infor-card>
+                    </Col>
+                </Row>
+                <Row :gutter="5">
+                    <Col span="24" :style="{marginBottom: '10px',marginTop: '10px'}">
+                        <div class="border-top-3-blue">
+                            <Card class="reset-card data-statistics">
+                                <Row>
+                                    <Col span="12">
+                                        <Row type="flex" align="middle" justify="center" class="data-statistics-item">
+                                            <img src="../../images/index/copy.png" alt="">
+                                            <div class="item-text">
+                                                <span class="item-text-num">1503</span> <br/>
+                                                <span class="item-text-intro">节目总数</span>
+                                            </div>
+                                        </Row>
+                                    </Col>
+                                    <Col span="12">
+                                        <Row type="flex" align="middle" justify="center" class="data-statistics-item">
+                                            <img src="../../images/index/copy.png" alt="">
+                                            <div class="item-text">
+                                                <span class="item-text-num">1503</span> <br/>
+                                                <span class="item-text-intro">节目总数</span>
+                                            </div>
+                                        </Row>
+                                    </Col>
+                                    <Col span="12">
+                                        <Row type="flex" align="middle" justify="center" class="data-statistics-item">
+                                            <img src="../../images/index/copy.png" alt="">
+                                            <div class="item-text">
+                                                <span class="item-text-num">1503</span> <br/>
+                                                <span class="item-text-intro">节目总数</span>
+                                            </div>
+                                        </Row>
+                                    </Col>
+                                    <Col span="12">
+                                        <Row type="flex" align="middle" justify="center" class="data-statistics-item">
+                                            <img src="../../images/index/copy.png" alt="">
+                                            <div class="item-text">
+                                                <span class="item-text-num">1503</span> <br/>
+                                                <span class="item-text-intro">节目总数</span>
+                                            </div>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
                         <Card>
                             <p slot="title" class="card-title">
-                                <Icon type="android-checkbox-outline"></Icon>
-                                待办事项
+                                <Icon type="ios-pulse-strong"></Icon>
+                                终端类型
                             </p>
-                            <a type="text" slot="extra" @click.prevent="addNewToDoItem">
-                                <Icon type="plus-round"></Icon>
-                            </a>
-                            <Modal
-                                v-model="showAddNewTodo"
-                                title="添加新的待办事项"
-                                @on-ok="addNew"
-                                @on-cancel="cancelAdd">
-                                <Row type="flex" justify="center">
-                                    <Input v-model="newToDoItemValue" icon="compose" placeholder="请输入..." style="width: 300px" />
-                                </Row>
-                                <Row slot="footer">
-                                    <Button type="text" @click="cancelAdd">取消</Button>
-                                    <Button type="primary" @click="addNew">确定</Button>
-                                </Row>
-                            </Modal>
-                            <div class="to-do-list-con">
-                                <div v-for="(item, index) in toDoList" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-                                    <to-do-list-item :content="item.title"></to-do-list-item>
-                                </div>
+                            <div class="data-source-row">
+                                <data-source-pie></data-source-pie>
                             </div>
                         </Card>
                     </Col>
                 </Row>
             </Col>
-            <Col :md="24" :lg="8">
-                <Row :gutter="5">
-                    <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
-                        <infor-card
-                            id-name="user_created_count"
-                            :end-val="count.createUser"
-                            iconType="android-person-add"
-                            color="#2d8cf0"
-                            intro-text="今日新增用户"
-                        ></infor-card>
-                    </Col>
-                    <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
-                        <infor-card
-                            id-name="visit_count"
-                            :end-val="count.visit"
-                            iconType="ios-eye"
-                            color="#64d572"
-                            :iconSize="50"
-                            intro-text="今日浏览量"
-                        ></infor-card>
-                    </Col>
-                    <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
-                        <infor-card
-                            id-name="collection_count"
-                            :end-val="count.collection"
-                            iconType="upload"
-                            color="#ffd572"
-                            intro-text="今日数据采集量"
-                        ></infor-card>
-                    </Col>
-                    <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
-                        <infor-card
-                            id-name="transfer_count"
-                            :end-val="count.transfer"
-                            iconType="shuffle"
-                            color="#f25e43"
-                            intro-text="今日服务调用量"
-                        ></infor-card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Card :padding="0">
-                        <p slot="title" class="card-title">
-                            <Icon type="map"></Icon>
-                            今日服务调用地理分布
-                        </p>
-                        <div class="map-con">
-                            <Col span="10">
-                                <map-data-table :cityData="cityData" height="281" :style-obj="{margin: '12px 0 0 11px'}"></map-data-table>
-                            </Col>
-                            <Col span="14" class="map-incon">
-                                <Row type="flex" justify="center" align="middle">
-                                    <home-map :city-data="cityData"></home-map>
-                                </Row>
-                            </Col>
-                        </div>
-                    </Card>
-                </Row>
-            </Col>
-        </Row>
-        <Row :gutter="10" class="margin-top-10">
-            <Col :md="24" :lg="8" :style="{marginBottom: '10px'}">
-                <Card>
-                    <p slot="title" class="card-title">
-                        <Icon type="android-map"></Icon>
-                        上周每日来访量统计
-                    </p>
-                    <div class="data-source-row">
-                        <visite-volume></visite-volume>
-                    </div>
-                </Card>
-            </Col>
-            <Col :md="24" :lg="8" :style="{marginBottom: '10px'}">
-                <Card>
-                    <p slot="title" class="card-title">
-                        <Icon type="ios-pulse-strong"></Icon>
-                        数据来源统计
-                    </p>
-                    <div class="data-source-row">
-                        <data-source-pie></data-source-pie>
-                    </div>
-                </Card>
-            </Col>
-            <Col :md="24" :lg="8">
-                <Card>
-                    <p slot="title" class="card-title">
-                        <Icon type="android-wifi"></Icon>
-                        各类用户服务调用变化统计
-                    </p>
-                    <div class="data-source-row">
-                        <user-flow></user-flow>
-                    </div>
-                </Card>
-            </Col>
-        </Row>
-        <Row class="margin-top-10">
-            <Card>
-                <p slot="title" class="card-title">
-                    <Icon type="ios-shuffle-strong"></Icon>
-                    上周每日服务调用量(万)
-                </p>
-                <div class="line-chart-con">
-                    <service-requests></service-requests>
-                </div>
-            </Card>
         </Row>
     </div>
 </template>
 
 <script>
+import homeGap from './components/homeGap.vue';
+import terminalStatus from './components/terminalStatus.vue';
 import cityData from './map-data/get-city-value.js';
 import homeMap from './components/map.vue';
 import dataSourcePie from './components/dataSourcePie.vue';
@@ -217,6 +141,7 @@ import { apitest } from '../../api/api';
 export default {
     name: 'home',
     components: {
+        homeGap,
         homeMap,
         dataSourcePie,
         visiteVolume,
@@ -225,7 +150,8 @@ export default {
         countUp,
         inforCard,
         mapDataTable,
-        toDoListItem
+        toDoListItem,
+        terminalStatus
     },
     data () {
         return {

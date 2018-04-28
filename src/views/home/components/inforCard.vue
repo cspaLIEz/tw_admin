@@ -11,7 +11,8 @@
                 </Row>
             </Col>
             <Col span="16" class="height-100">
-                <Row type="flex" align="middle" justify="center" class="height-100">
+                <Row type="flex" align="middle" justify="space-between" class="height-100 padding-lr-16">
+                    <div class="infor-intro-text">{{ introText }}</div>
                     <count-up 
                         class="infor-card-count user-created-count" 
                         :id-name="idName" 
@@ -20,8 +21,10 @@
                         :countSize="countSize"
                         :countWeight="countWeight"
                     >
-                        <p class="infor-intro-text" slot="intro">{{ introText }}</p>
                     </count-up>
+                    <div class="infor-intro-img">
+                        <img src="../../../images/index/fill.png">
+                    </div>
                 </Row>
             </Col>
         </div>
