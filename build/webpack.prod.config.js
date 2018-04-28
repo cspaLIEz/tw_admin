@@ -57,7 +57,7 @@ module.exports = merge(webpackBaseConfig, {
         // }),
         new CopyWebpackPlugin([
             {
-                from: 'td_icon.ico'
+                from: 'favicon.png'
             },
             {
                 from: 'src/styles/fonts',
@@ -83,7 +83,7 @@ module.exports = merge(webpackBaseConfig, {
         ]),
         new HtmlWebpackPlugin({
             title: '麦子科技 v' + package.version,
-            favicon: './td_icon.ico',
+            favicon: './favicon.png',
             filename: '../index.html',
             template: '!!ejs-loader!./src/template/index.ejs',
             inject: false

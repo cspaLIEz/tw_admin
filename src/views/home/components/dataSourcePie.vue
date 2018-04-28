@@ -22,15 +22,34 @@ export default {
                 },
                 legend: {
                     orient: 'vertical',
-                    left: 'right',
+                    bottom: 'bottom',
                     data: ['ios', 'android', 'pc', 'web', 'others']
                 },
                 series: [
                     {
                         name: '访问来源',
-                        type: 'pie',
-                        radius: '66%',
-                        center: ['50%', '60%'],
+                        type:'pie',
+                        radius: ['55%', '75%'],
+                        avoidLabelOverlap: false,
+                        center: ['50%', '45%'],
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
                         data: [
                             {value: 2103456, name: 'ios', itemStyle: {normal: {color: '#9bd598'}}},
                             {value: 1305923, name: 'android', itemStyle: {normal: {color: '#ffd58f'}}},
