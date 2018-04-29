@@ -12,7 +12,7 @@ export default {
                 width:'200px',
                 height:'100px'
             },
-            iframeSrc:'http://localhost:8081/static/libs/pdfjs/web/viewer.html',
+            iframeSrc:'/static/libs/pdfjs/web/viewer.html',
         }
     },
     created(){

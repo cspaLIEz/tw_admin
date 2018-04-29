@@ -626,7 +626,7 @@
                             <div class="setbox-item">
                                 <span>文档选择</span>
                                 <Select v-model="activeNode.attrs.fileUrl" style="width:160px">
-                                    <Option value="http://localhost:8081/static/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf">文档一</Option>
+                                    <Option value="http://localhost:8080/static/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf">文档一</Option>
                                 </Select>
                             </div>
                             <div class="setbox-item">

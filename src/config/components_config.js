@@ -320,7 +320,7 @@ config[9] = {
     styles: {
         "width":"200px",
         "height":"100px"
-    },
+    },//http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8
     attrs: {
         url:'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
     },
