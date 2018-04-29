@@ -20,7 +20,7 @@ export default {
     data(){
         return {
             leftCollapse:[1,2,3],
-            componentCollapse:[1],
+            componentCollapse:[],
             imageList:[{
                 value:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523814444032&di=a3052f88ca9a398c0947f7af05d483de&imgtype=0&src=http%3A%2F%2Fimg1.2345.com%2Fduoteimg%2FzixunImg%2Flocal%2F2017%2F02%2F24%2F14878982262042.jpg",
                 label:"图片一"

@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-    props:['image','styleSet'],
+    props:['image','styleWidth','styleHeight'],
     data(){
       return {
         setStyle:{
@@ -29,17 +29,18 @@ export default {
       }
     },
     mounted(){
-      this.setStyle.width = this.styleSet.width;
-      this.setStyle.height = this.styleSet.height;
+      this.setStyle.width = this.styleWidth;
+      this.setStyle.height = this.styleHeight;
     },
     watch:{
       image(){
         this.initSwiper();
       },
-      styleSet(){
-        console.log(this.styleSet.width)
-        this.setStyle.width = this.styleSet.width;
-        this.setStyle.height = this.styleSet.height;
+      styleWidth(newVal){
+          this.setStyle.width = newVal;
+      },
+      styleHeight(newVal){
+          this.setStyle.height = newVal;
       }
     },
     methods:{

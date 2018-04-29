@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div style="width:100%;height:500px;" ref="terminalStatus"></div>
+        <div style="width:100%;height:390px;" ref="terminalStatus"></div>
     </Card>
 </template>
 <script>

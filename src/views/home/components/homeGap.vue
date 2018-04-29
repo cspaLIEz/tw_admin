@@ -57,8 +57,9 @@
     top: 0;
     z-index: 10;
     padding-top: 11.36%;
-    background: #fbfafa;
     overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: -16px;
     .wow {
         visibility: hidden;
     }
@@ -187,7 +188,7 @@
         font-weight: bold;
     }
     .pt1:hover img,.pt2:hover img,.pt3:hover img,.pt5:hover img,.pt6:hover img,.pt7:hover img{
-        transform: scale(1.2)
+        transform: scale(1.1)
     }
     
     .p2LineBox {

@@ -207,7 +207,7 @@
                     <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" @contextmenu.prevent="showContextMenu($event)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
-                            <mz-image v-if="item.ctype == 'image'" :style-set="item.styles" :image="item.attrs.srcs"></mz-image>
+                            <mz-image v-if="item.ctype == 'image'" :style-width="item.styles.width" :style-height="item.styles.height" :image="item.attrs.srcs"></mz-image>
                             <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
                             <mz-nowdate v-if="item.ctype == 'dateformat'" :pattern="item.attrs.pattern"></mz-nowdate>
                             <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way"></mz-timer>
