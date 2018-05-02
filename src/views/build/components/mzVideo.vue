@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video :id="videoId" class="video-js mz-video" controls width="200" height="100">
+        <video :id="videoId" class="video-js mz-video" width="200" height="100">
             <!-- <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' /> -->

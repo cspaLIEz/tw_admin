@@ -27,7 +27,7 @@
             <div class="build-header-right">
                 <a href="javascript:;" @click="saveProgram">保存</a>
                 <a href="javascript:;" @click="preview">预览</a>
-                <a href="javascript:;" @click="cancel">取消</a>
+                <a href="javascript:;" @click="cancel">返回</a>
             </div>
         </div>
         <div class="build-main">
@@ -368,7 +368,20 @@
                         </div>
                         <!-- 日期组件属性 -->
                         <div v-if="activeNode.ctype == 'dateformat'">
-                           <div class="setbox-item">
+                            <div class="setbox-item">
+                                <span>日期样式</span>
+                                <Select v-model="activeNode.attrs['pattern']" style="width:160px">
+                                    <Option value="yyyy-MM-dd hh:mm:ss">yyyy-MM-dd hh:mm:ss</Option>
+                                    <Option value="yyyy-MM-dd">yyyy-MM-dd</Option>
+                                    <Option value="hh:mm:ss">hh:mm:ss</Option>
+                                    <Option value="yyyy年MM月dd日 hh:mm:ss">yyyy年MM月dd日 hh:mm:ss</Option>
+                                    <Option value="yyyy年MM月dd日">yyyy年MM月dd日</Option>
+                                    <Option value="yyyy年MM月dd日 hh:mm:ss e">yyyy年MM月dd日 hh:mm:ss WEEK</Option>
+                                    <Option value="yyyy年MM月dd日 e">yyyy年MM月dd日 WEEK</Option>
+                                    <Option value="e">WEEK</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
                             </div>
                             <div class="setbox-item">
@@ -403,19 +416,6 @@
                             </div>
                             <div class="setbox-item">
                                 <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
-                            </div>
-                            <div class="setbox-item">
-                                <span>日期样式</span>
-                                <Select v-model="activeNode.attrs['pattern']" style="width:160px">
-                                    <Option value="yyyy-MM-dd hh:mm:ss">yyyy-MM-dd hh:mm:ss</Option>
-                                    <Option value="yyyy-MM-dd">yyyy-MM-dd</Option>
-                                    <Option value="hh:mm:ss">hh:mm:ss</Option>
-                                    <Option value="yyyy年MM月dd日 hh:mm:ss">yyyy年MM月dd日 hh:mm:ss</Option>
-                                    <Option value="yyyy年MM月dd日">yyyy年MM月dd日</Option>
-                                    <Option value="yyyy年MM月dd日 hh:mm:ss e">yyyy年MM月dd日 hh:mm:ss WEEK</Option>
-                                    <Option value="yyyy年MM月dd日 e">yyyy年MM月dd日 WEEK</Option>
-                                    <Option value="e">WEEK</Option>
-                                </Select>
                             </div>
                         </div>
                         <!-- 计时器组件属性 -->
@@ -621,7 +621,7 @@
                             </div>
                         </div>
 
-                        <!-- 直播组件属性 -->
+                        <!-- 文件组件属性 -->
                         <div v-if="activeNode.ctype == 'file'">
                             <div class="setbox-item">
                                 <span>文档选择</span>
@@ -644,6 +644,18 @@
                         </div>
                     </div>
                 </div>
+                <Modal v-model="choseSourceModal" width="360">
+                    <p slot="header" style="color:#f60;text-align:center">
+                        <span>选择资源</span>
+                    </p>
+                    <div style="text-align:center">
+                        
+                    </div>
+                    <div slot="footer" class="btn_center_wrap">			
+                        <Button type="primary">确认</Button>
+                        <Button type="default" @click="choseSourceModal=false">取消</Button>
+                    </div>
+                </Modal>
             </div>
         </div>
     </div>

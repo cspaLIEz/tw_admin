@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video id=example-video width=600 height=300 class="video-js vjs-default-skin" ref="mzliver" controls>
+        <video id=example-video width=600 height=300 class="video-js vjs-default-skin" ref="mzliver">
 		  <!-- <source
 		     src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
 		     type="application/x-mpegURL"> -->

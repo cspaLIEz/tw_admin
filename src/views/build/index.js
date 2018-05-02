@@ -1,6 +1,7 @@
 import allComponents from '../../config/components_config';
 import { SaveProgram } from '../../api/api';
 import { num_random } from '../../libs/helper';
+import Setting from './sites/setting.vue'
 
 //组件
 import MzText from './components/mzText'
@@ -16,7 +17,7 @@ import MzLive from './components/mzLive'
 import MzFile from './components/mzFile'
 
 export default {
-    components:{MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile},
+    components:{Setting,MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile},
     data(){
         return {
             leftCollapse:[1,2,3],
@@ -55,7 +56,8 @@ export default {
             attrList:[],
             activeNode:null,
             activeNodes:[],
-            ctrl_press:false
+            ctrl_press:false,
+            choseSourceModal:false
         }
     },
     watch:{
