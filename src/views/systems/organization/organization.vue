@@ -15,7 +15,7 @@
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
-                  <Select v-model="terminalType" style="width:80px">
+                  <Select v-model="terminalType" style="min-width:180px" filterable multiple>
                       <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
               </div>
@@ -30,7 +30,7 @@
     <Table border @on-selection-change="hangdleSelect" @on-select="onSelect" @on-select-cancel="selectCancel" @on-select-all="selectAll"  :columns="columns" :data="tableData"></Table>
     <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
-            <Page :total="100" :current="1" @on-change="changePage"></Page>
+            <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
         </div>
     </div>
     <!-- 添加机构 -->
@@ -73,13 +73,18 @@
   </Card>
 </template>
 <script>
+import {organizationList} from '@/api/api';
 export default {
   data() {
     return {
-	  terminalType: "all",
+	  terminalType: [],
 	  addOrgModal:false,
     organupdata:false,
-	  selectSearch:{},
+    selectSearch:{},
+    totalRecord:1,
+    totalPage:1,
+    pageSize:1,
+    currentPage:1,
 	  formInfo:{
 		  superiororganId:'',
 		  organName:'',
@@ -90,20 +95,24 @@ export default {
 	  },
       typeList: [
         {
-          value: "all",
-          label: "全部"
-        },
-        {
           value: "organName",
           label: "机构名称"
         },
         {
-          value: "status",
-          label: "机构ID"
+          value: "OrganDescr",
+          label: "机构描述"
         },
         {
-          value: "parent-org",
+          value: "SuperiororganId",
           label: "上属机构"
+        },
+        {
+          value: "OrganLeader",
+          label: "负责人"
+        },
+        {
+          value: "OrganTele",
+          label: "联系电话"
         }
       ],
       searchLikes: "",
@@ -144,58 +153,30 @@ export default {
           key:"organTele"
         }
       ],
-      tableData: [
-        {
-          index:1,
-          organId:1345,
-          organName: "John Brown",
-          superiorOrgan: 18,
-          organDescr:"张三",
-          organLeader: "New York No. 1 Lake Park",
-          organTele: 123456789123
-		},
-		{
-          index:1,
-          organId:1345,
-          organName: "John Brown",
-          superiorOrgan: 18,
-          organDescr:"张三",
-          organLeader: "New York No. 1 Lake Park",
-          organTele: 123456789123
-		},
-		{
-          index:1,
-          organId:1345,
-          organName: "John Brown",
-          superiorOrgan: 18,
-          organDescr:"张三",
-          organLeader: "New York No. 1 Lake Park",
-          organTele: 123456789123
-		},
-		{
-          index:1,
-          organId:1345,
-          organName: "John Brown",
-          superiorOrgan: 18,
-          organDescr:"张三",
-          organLeader: "New York No. 1 Lake Park",
-          organTele: 123456789123
-		},
-		{
-          index:1,
-          organId:1345,
-          organName: "John Brown",
-          superiorOrgan: 18,
-          organDescr:"张三",
-          organLeader: "New York No. 1 Lake Park",
-          organTele: 123456789123
-        },
-   
-      ]
+      tableData: []
     };
   },
+  mounted:function(){
+    this.getList()
+  },
   methods: {
-    register(index) {},
+    getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+      let data = {
+        pageSize,
+        currentPage,
+        ...searchInfo
+      }
+      organizationList(data).then((res)=>{
+        if(res.status==0){
+          this.tableData=res.data.pinfo;
+          this.pageSize=pageSize;
+          this.currentPage=currentPage;
+          this.totalPage=res.data.totalPage;
+          this.totalRecord=res.data.totalRecord;
+          this.selectSearch=searchInfo;
+        }
+      })
+    },
     onSelect(selection,row){
       console.log(selection)
       console.log(row)
@@ -219,12 +200,11 @@ export default {
       this.addOrgModal=true
     },
     handleSearch(){
-      this.selectSearch={
-        [this.terminalType]:this.searchLikes
-      }
-      console.log({
-        [this.terminalType]:this.searchLikes
+      let obj = {}
+      this.terminalType.map((item)=>{
+        obj[item]=this.searchLikes
       })
+      this.getList(1,this.pageSize,obj)
     },
     handleEditOrg(){
       let obj ={
@@ -251,8 +231,7 @@ export default {
       
     },
     changePage(current) {
-      console.log(current)
-      // this.tableData1 = this.mockTableData1();
+      this.getList(current)
     }
   }
 };
