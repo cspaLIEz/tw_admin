@@ -93,8 +93,7 @@
                 <Button type="" >确认</Button>
             </div>
         </Modal>
-        <Modal v-model="NewRelease" width="880">
-            <div slot="header" style="">第1步：节目选择</div>
+        <Modal v-model="NewRelease" width="880" title="第1步：节目选择">
             <Form :label-width="80">
                 <Row>
                 <Col span='18'>
@@ -104,6 +103,53 @@
                 </Col>
                 <Col span='6'>
                 <Button style="margin-left:20px">预览</Button>
+                </Col>
+                </Row>
+            </Form>    
+            <div slot="footer">
+                <Button type="" @click="detilModal=false">取消</Button>
+                <Button type="" >下一步</Button>
+            </div>
+        </Modal>
+        <Modal v-model="NewRelease2" width="880" title="第2步：节目选择">
+            <Form :label-width="80">
+                <Row>
+                <Col span='12'>
+                    <FormItem label="节目名称">
+                        <Input ></Input>
+                    </FormItem>
+                </Col>
+                <Col span='12'>
+                    <FormItem label="节目时长">
+                        <Input ></Input>
+                    </FormItem>
+                </Col>
+                </Row>
+                <Row>
+                <Col span='12'>
+                    <FormItem label="节目分辨率">
+                        <Input ></Input>
+                    </FormItem>
+                </Col>
+                <Col span='12'>
+                    <FormItem label="播放模式">
+                        <Input ></Input>
+                    </FormItem>
+                </Col>
+                </Row>
+                <Row>
+                <Col span='12'>
+                    <FormItem label="发布模式">
+                        <Select>
+                            <Option>立即发布</Option>
+                            <Option>定时发布</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+                <Col span='12'>
+                    <FormItem label="发布时间">
+                        <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" ></DatePicker>
+                    </FormItem>
                 </Col>
                 </Row>
             </Form>    

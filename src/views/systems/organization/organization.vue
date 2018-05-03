@@ -168,6 +168,7 @@ export default {
       }
       organizationList(data).then((res)=>{
         if(res.status==0){
+          console.log(res)
           this.tableData=res.data.pinfo;
           this.pageSize=pageSize;
           this.currentPage=currentPage;

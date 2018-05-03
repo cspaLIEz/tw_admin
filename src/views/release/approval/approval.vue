@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import {getprginfolist} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
@@ -303,6 +304,9 @@ export default {
     },
     created:function(){
         this.tableData=this.data.pinfo
+        getprginfolist().then(function(res){
+            console.log(res)
+        })
     }
 };
 </script>

@@ -59,6 +59,7 @@
 
 <script>
 import util from '../../../libs/util';
+import {getplayschedulestat} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
@@ -319,7 +320,13 @@ export default {
         
     },
     created:function(){
-        this.resetup(this.data)
+        // this.resetup(this.data)
+        getplayschedulestat({
+            loginer:"admin",
+                
+        }).then(function(res){
+            console.log(res)
+        })
     }
 };
 </script>
