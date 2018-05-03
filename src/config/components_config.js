@@ -105,7 +105,8 @@ config[2] = {
     },
     attrs: {
         content:"滚动文本",
-        direction:"left"
+        direction:"left",
+        speed: 50
     },
     contextmenu: {
         copy:true,
@@ -173,7 +174,8 @@ config[4] = {
     attrs: {
         way:'2',
         getTime:'',
-        endTime: ''
+        endTime: '',
+        showType: '4'
     },
     contextmenu: {
         copy:true,

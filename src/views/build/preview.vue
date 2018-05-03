@@ -20,7 +20,8 @@ export default {
             var marq_boxs = $(".marqueebox");
             for(var i=0;i<marq_boxs.size();i++){
                 marq_boxs.eq(i).liMarquee({
-                    direction: marq_boxs.eq(i).attr("direction")
+                    direction: marq_boxs.eq(i).attr("direction"),
+                    scrollamount: marq_boxs.eq(i).attr("speed") || 50
                 });
             }
             //日期

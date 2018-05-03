@@ -208,9 +208,9 @@
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" @contextmenu.prevent="showContextMenu($event)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-width="item.styles.width" :style-height="item.styles.height" :image="item.attrs.srcs"></mz-image>
-                            <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction"></mz-marquee>
+                            <mz-marquee v-if="item.ctype == 'marquee'" :content="item.attrs.content" :direction="item.attrs.direction" :speed="item.attrs.speed"></mz-marquee>
                             <mz-nowdate v-if="item.ctype == 'dateformat'" :pattern="item.attrs.pattern"></mz-nowdate>
-                            <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way"></mz-timer>
+                            <mz-timer v-if="item.ctype == 'timer'" :end-time="item.attrs.endTime" :way="item.attrs.way" :show-type="item.attrs.showType"></mz-timer>
                             <mz-video v-if="item.ctype == 'video'" :src="item.attrs.videosrc" :code="item.code" :style-width="item.styles.width" :style-height="item.styles.height"></mz-video>
                             <mz-iframe v-if="item.ctype == 'iframe'" :pageurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-iframe>
                             <mz-qrcode v-if="item.ctype == 'qrcode'" :content="item.attrs.qrContent" :logo-url="item.attrs.logo" :style-width="item.styles.width" :style-height="item.styles.height"></mz-qrcode>
@@ -325,7 +325,19 @@
                             <div class="setbox-item">
                                 <span>文本内容</span> 
                                 <textarea v-model="activeNode.attrs.content"></textarea>
-                            </div> 
+                            </div>
+                            <div class="setbox-item">
+                                <span>方向</span>
+                                <Select v-model="activeNode.attrs['direction']" style="width:160px">
+                                    <Option value="left">向左</Option>
+                                    <Option value="right">向右</Option>
+                                    <Option value="up">向上</Option>
+                                    <Option value="down">向下</Option>
+                                </Select>
+                            </div>
+                            <div class="setbox-item">
+                                <span>速度</span> <input type="text" v-model="activeNode.attrs.speed">
+                            </div>
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
                             </div>
@@ -356,15 +368,7 @@
                             <div class="setbox-item">
                                 <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
                             </div>
-                            <div class="setbox-item">
-                                <span>方向</span>
-                                <Select v-model="activeNode.attrs['direction']" style="width:160px">
-                                    <Option value="left">向左</Option>
-                                    <Option value="right">向右</Option>
-                                    <Option value="up">向上</Option>
-                                    <Option value="down">向下</Option>
-                                </Select>
-                            </div>
+                            
                         </div>
                         <!-- 日期组件属性 -->
                         <div v-if="activeNode.ctype == 'dateformat'">
@@ -423,7 +427,7 @@
                             <div class="setbox-item">
                                 <span>计时方式</span>
                                 <Select v-model="activeNode.attrs.way" style="width:160px">
-                                    <Option value="1">正计时</Option>
+                                    <!-- <Option value="1">正计时</Option> -->
                                     <Option value="2">倒计时</Option>
                                 </Select>
                             </div>
@@ -431,6 +435,15 @@
                                 <span>结束日期</span>
                                 <DatePicker type="datetime" v-model="activeNode.attrs.getTime" style="width: 160px;position:relative;color:#495060" @on-open-change="DatePickerOpenChange"></DatePicker>
                             </div> 
+                            <div class="setbox-item">
+                                <span>计时方式</span>
+                                <RadioGroup v-model="activeNode.attrs.showType">
+                                    <Radio label="1">天</Radio>
+                                    <Radio label="2">时</Radio>
+                                    <Radio label="3">分</Radio>
+                                    <Radio label="4">秒</Radio>
+                                </RadioGroup>
+                            </div>
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
                             </div>
