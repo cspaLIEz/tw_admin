@@ -1,20 +1,26 @@
 <template>
     <div class="mz-timer" ref="mzTimer" :startTime="startTime" :finishTime="finishTime" :way="way">
-        <span class="days">0</span>天
-        <span class="hours">0</span>小时
-        <span class="minutes">0</span>分
-        <span class="seconds">0</span>秒
+        <span class="days" v-show="showFormat.days">0</span><span v-show="showFormat.days">天</span>
+        <span class="hours" v-show="showFormat.hours">0</span><span v-show="showFormat.hours">小时</span>
+        <span class="minutes" v-show="showFormat.minutes">0</span><span v-show="showFormat.minutes">分</span>
+        <span class="seconds" v-show="showFormat.seconds">0</span><span v-show="showFormat.seconds">秒</span>
     </div>
 </template>
 <script>
 export default {
-    props:['endTime','way'],
+    props:['endTime','way','showType'],
     data(){
         return {
             startTime:'',
             finishTime:'',
             downTimer:null,
-            upTimer:null
+            upTimer:null,
+            showFormat:{
+                days:true,
+                hours:true,
+                minutes:true,
+                seconds:true
+            }
         }
     },
     created(){
@@ -42,6 +48,42 @@ export default {
         way(){
             if(this.endTime && this.endTime!=' '){
                 this.updateTime();
+            }
+        },
+        showType(newVal){
+            switch (newVal) {
+                case '1':
+                    this.showFormat = {
+                        days:true,
+                        hours:false,
+                        minutes:false,
+                        seconds:false
+                    }
+                    break;
+                case '2':
+                    this.showFormat = {
+                        days:true,
+                        hours:true,
+                        minutes:false,
+                        seconds:false
+                    }
+                    break;
+                case '3':
+                    this.showFormat = {
+                        days:true,
+                        hours:true,
+                        minutes:true,
+                        seconds:false
+                    }
+                    break;
+                case '4':
+                    this.showFormat = {
+                        days:true,
+                        hours:true,
+                        minutes:true,
+                        seconds:true
+                    }
+                    break;
             }
         }
     },

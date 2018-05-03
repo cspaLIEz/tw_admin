@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video :id="videoId" class="video-js mz-video" width="200" height="100">
+        <video :id="videoId" class="video-js mz-video" width="200" height="100" :poster="poster" :style="setStyle">
             <!-- <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' /> -->
@@ -11,6 +11,7 @@
     </div>
 </template>
 <script>
+import video_png from "../../../images/video.jpg";
 export default {
     props:['code','src','styleWidth','styleHeight'],
     data(){
@@ -21,6 +22,7 @@ export default {
                 height:'200'
             },
             myPlayer:null,
+            poster:video_png
         }
     },
     mounted(){
@@ -28,20 +30,20 @@ export default {
         this.setStyle.width = parseInt(this.styleWidth);
         this.setStyle.height = parseInt(this.styleHeight);
 
-        setTimeout(function(){
-            this.myPlayer = videojs(this.videoId,{
-                width:this.setStyle.width,
-                height:this.setStyle.height,
-                sources: [
-        　　　　　　{src: this.src,type: 'video/mp4'},
-        　　　　　　{src: this.src,type: 'video/webm'},
-        　　　　　　{src: this.src,type: 'video/ogg'}
-        　　　　]
-            },function(){
-                this.myPlayer.play();
-            }.bind(this));
-            window.myPlayer = this.myPlayer;
-        }.bind(this),100)
+        // setTimeout(function(){
+        //     this.myPlayer = videojs(this.videoId,{
+        //         width:this.setStyle.width,
+        //         height:this.setStyle.height,
+        //         sources: [
+        // 　　　　　　{src: this.src,type: 'video/mp4'},
+        // 　　　　　　{src: this.src,type: 'video/webm'},
+        // 　　　　　　{src: this.src,type: 'video/ogg'}
+        // 　　　　]
+        //     },function(){
+        //         this.myPlayer.play();
+        //     }.bind(this));
+        //     window.myPlayer = this.myPlayer;
+        // }.bind(this),100)
     },
     watch:{
         src(){
@@ -49,17 +51,17 @@ export default {
         },
         styleWidth(newVal){
             this.setStyle.width = parseInt(newVal);
-            this.myPlayer.width(this.setStyle.width);
+            // this.myPlayer.width(this.setStyle.width);
         },
         styleHeight(newVal){
             this.setStyle.height = parseInt(newVal);
-            this.myPlayer.height(this.setStyle.height);
+            // this.myPlayer.height(this.setStyle.height);
         }
     },
     methods:{
         initVideo(){
             var self = this;
-            this.myPlayer.src(self.src);
+            // this.myPlayer.src(self.src);
         }
     }
 }

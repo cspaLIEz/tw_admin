@@ -67,7 +67,7 @@ export default {
                     }
                     
                     // Login(data).then(function(res){
-                    //     if(res.status===0){
+                        // if(res.status===0){
                             this.$Message.success("登录成功");
                              Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
