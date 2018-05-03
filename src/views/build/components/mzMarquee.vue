@@ -1,11 +1,11 @@
 <template>
-  <div class="marqueebox" style="width:100%;min-height:100%;" :direction="direction" ref="marqueebox">
+  <div class="marqueebox" style="width:100%;min-height:100%;" :direction="direction" ref="marqueebox" :speed="speed">
       {{content}}
   </div>
 </template>
 <script>
 export default {
-    props:['content','direction'],
+    props:['content','direction','speed'],
     data(){
         return {
             dowebok: null
