@@ -10,7 +10,7 @@
                 <Col span="12" class="handle-top-left">
                     <Button type="info" @click="NewRelease=true">新建发布</Button>
                     <Button type="success">素材发布</Button>
-                    <Button type="warning">一键发布</Button>
+                    <Button type="warning" @click="getlist">一键发布</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import {getrellist} from '@/api/api';
+import {Getrellist} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
