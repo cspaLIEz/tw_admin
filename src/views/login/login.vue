@@ -5,34 +5,39 @@
 <template>
     <div class="login" @keydown.enter="handleSubmit">
         <div class="login-con">
-            <Card :bordered="false">
-                <p slot="title">
-                    <Icon type="log-in"></Icon>
-                    欢迎登录
-                </p>
+            <div class="login-con-box">
+                <div class="login-banner">
+                    <swiper :options="swiperOption" style="width:100%;height:340px">
+                        <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
+                            <img :src="slide"></img>
+                        </swiper-slide>
+                    </swiper>
+                    <div class="banner-bottom">
+                        <div class="banner-pagination">
+                            <a href="javascript:;" v-for="(slide, index) in swiperSlides"></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-con">
+                    <div class="form-con-header">
+                        <img src="../../images/login/logo_text.png" alt="">
+                    </div>
                     <Form ref="loginForm" :model="form" :rules="rules">
-                        <FormItem prop="userName">
+                        <!-- <FormItem prop="userName">
                             <Input v-model="form.userName" placeholder="请输入用户名">
                                 <span slot="prepend">
                                     <Icon :size="16" type="person"></Icon>
                                 </span>
                             </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                                <span slot="prepend">
-                                    <Icon :size="14" type="locked"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem>
+                        </FormItem> -->
+                        <input type="text" class="user-name" v-model="form.userName" placeholder="用户名">
+                        <input type="text" class="user-password" v-model="form.password" placeholder="用户密码">
                         <FormItem>
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">输入任意用户名和密码即可</p>
                 </div>
-            </Card>
+            </div>
         </div>
     </div>
 </template>
@@ -40,11 +45,20 @@
 <script>
 import Cookies from 'js-cookie';
 import {Login} from '@/api/api';
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import ban_1_png from '../../images/login/1.png'
+import ban_2_png from '../../images/login/2.png'
+import ban_3_png from '../../images/login/3.png'
+
 export default {
+    components: {
+        swiper,
+        swiperSlide
+    },
     data () {
         return {
             form: {
-                userName: 'iview_admin',
+                userName: '',
                 password: ''
             },
             rules: {
@@ -54,8 +68,28 @@ export default {
                 password: [
                     { required: true, message: '密码不能为空', trigger: 'blur' }
                 ]
-            }
+            },
+            swiperOption: {
+                loop:true,
+                autoplay:{
+                    delay:3000,
+                    disableOnInteraction: false
+                }
+            },
+            swiperSlides: [ban_1_png, ban_2_png, ban_3_png]
         };
+    },
+    computed: {
+      swiper() {
+        return this.$refs.mySwiper.swiper
+      }
+    },
+    mounted(){
+        setInterval(() => {
+            if (this.swiperSlides.length < 3) {
+                this.swiperSlides.push(this.swiperSlides.length + 1)
+            }
+        }, 3000)
     },
     methods: {
         handleSubmit () {
