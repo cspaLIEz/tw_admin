@@ -7,14 +7,18 @@
         <div class="login-con">
             <div class="login-con-box">
                 <div class="login-banner">
-                    <swiper :options="swiperOption" style="width:100%;height:340px">
+                    <swiper :options="swiperOption" ref="mySwiper" style="width:100%;height:340px">
                         <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
                             <img :src="slide"></img>
                         </swiper-slide>
                     </swiper>
                     <div class="banner-bottom">
                         <div class="banner-pagination">
-                            <a href="javascript:;" v-for="(slide, index) in swiperSlides"></a>
+                            <a href="javascript:;" v-for="(slide, index) in swiperSlides" @click="changeSlideTo(index)" :class="{'active':index==activeIndex}"></a>
+                        </div>
+                        <div class="line-26"></div>
+                        <div class="banner-num">
+                            {{activeIndex+1 + '/' + swiperSlides.length}}
                         </div>
                     </div>
                 </div>
@@ -23,17 +27,14 @@
                         <img src="../../images/login/logo_text.png" alt="">
                     </div>
                     <Form ref="loginForm" :model="form" :rules="rules">
-                        <!-- <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
-                                <span slot="prepend">
-                                    <Icon :size="16" type="person"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem> -->
-                        <input type="text" class="user-name" v-model="form.userName" placeholder="用户名">
-                        <input type="text" class="user-password" v-model="form.password" placeholder="用户密码">
-                        <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>登录</Button>
+                        <FormItem prop="userName">
+                            <input type="text" class="user-name" v-model="form.userName" placeholder="用户名">
+                        </FormItem>
+                        <FormItem prop="password">
+                            <input type="text" class="user-password" v-model="form.password" placeholder="用户密码">
+                        </FormItem>
+                        <FormItem style="text-align:center">
+                            <Button @click="handleSubmit" type="primary" size="large" class="sub-btn">登录</Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -74,9 +75,11 @@ export default {
                 autoplay:{
                     delay:3000,
                     disableOnInteraction: false
-                }
+                },
+                effect : 'cube'
             },
-            swiperSlides: [ban_1_png, ban_2_png, ban_3_png]
+            swiperSlides: [ban_1_png, ban_2_png, ban_3_png],
+            activeIndex:0
         };
     },
     computed: {
@@ -85,13 +88,21 @@ export default {
       }
     },
     mounted(){
-        setInterval(() => {
-            if (this.swiperSlides.length < 3) {
-                this.swiperSlides.push(this.swiperSlides.length + 1)
-            }
-        }, 3000)
+        // setInterval(() => {
+        //     if (this.swiperSlides.length < 3) {
+        //         this.swiperSlides.push(this.swiperSlides.length + 1)
+        //     }
+        // }, 3000)
+        var self = this;
+        this.swiper.on('slideChange', function () {
+            console.log(this.realIndex);
+            self.activeIndex = this.realIndex;
+        });
     },
     methods: {
+        changeSlideTo(index){
+           this.swiper.slideToLoop(index, 400, false);
+        },
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
@@ -100,8 +111,8 @@ export default {
                         password:this.form.password
                     }
                     
-                    // Login(data).then(function(res){
-                        // if(res.status===0){
+                    Login(data).then(function(res){
+                        if(res.status===0){
                             this.$Message.success("登录成功");
                              Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
@@ -114,10 +125,10 @@ export default {
                             this.$router.push({
                                 name: 'home_index'
                             });
-                    //     } else {
-                    //         this.$Message.error("登录失败");
-                    //     }
-                    // }.bind(this));
+                        } else {
+                            this.$Message.error("登录失败");
+                        }
+                    }.bind(this));
                 }
             });
         }
