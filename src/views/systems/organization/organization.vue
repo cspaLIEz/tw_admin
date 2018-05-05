@@ -7,9 +7,9 @@
     <div class="view-top margin-bottom-10">
       <Row type="flex">
           <Col span="12" class="handle-top-left">
-              <Button type="primary" @click="addOrgModal=true">添加机构</Button>
-              <Button type="primary">删除机构</Button>
-              <Button type="primary" @click="handleEditOrg">编辑机构</Button>
+              <Button type="primary" @click="handleEditRole(false)">添加机构</Button>
+              <Button type="primary" @click="handleDel()">删除机构</Button>
+              <Button type="primary" @click="handleEditRole(true)">编辑机构</Button>
               <Button type="primary" @click="organupdata=true">机构导入</Button>
               <Button type="primary">机构导出</Button>
           </Col>
@@ -27,7 +27,7 @@
           </Col>
       </Row>
     </div>
-    <Table border @on-selection-change="hangdleSelect" @on-select="onSelect" @on-select-cancel="selectCancel" @on-select-all="selectAll"  :columns="columns" :data="tableData"></Table>
+    <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData"></Table>
     <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
             <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
@@ -36,7 +36,7 @@
     <!-- 添加机构 -->
 	<Modal v-model="addOrgModal" width="360" @on-visible-change="orgModalCancel">
 		<p slot="header" style="color:#f60;text-align:center">
-			<span>{{formInfo.organName==""?"新建机构":"编辑机构"}}</span>
+			<span>{{isEdit?"编辑机构":"新建机构"}}</span>
 		</p>
 		<div style="text-align:center">
 			<Form :model="formInfo" :label-width="80">
@@ -45,8 +45,7 @@
 				</FormItem>
 				<FormItem label="上级机构">
 					<Select v-model="formInfo.superiororganId">
-						<Option value="beijing">总部</Option>
-						<Option value="shanghai">湖北公司</Option>
+						<Option v-for="item in orgSelection" :value="item.organId" :key="item.organId">{{item.organValue}}</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="机构描述">
@@ -73,7 +72,7 @@
   </Card>
 </template>
 <script>
-import {organizationList} from '@/api/api';
+import {organizationList,editorgan,addorgan,delorgan} from '@/api/api';
 export default {
   data() {
     return {
@@ -83,8 +82,11 @@ export default {
     selectSearch:{},
     totalRecord:1,
     totalPage:1,
-    pageSize:1,
+    pageSize:20,
     currentPage:1,
+    isEdit:false,
+    checkSelection:[],
+    orgSelection:[],
 	  formInfo:{
 		  superiororganId:'',
 		  organName:'',
@@ -168,37 +170,89 @@ export default {
       }
       organizationList(data).then((res)=>{
         if(res.status==0){
-          console.log(res)
           this.tableData=res.data.pinfo;
           this.pageSize=pageSize;
           this.currentPage=currentPage;
           this.totalPage=res.data.totalPage;
           this.totalRecord=res.data.totalRecord;
           this.selectSearch=searchInfo;
+          this.orgSelection=[
+            {
+              organId:"JG0001",
+              organValue:"机构一"
+            },
+            {
+              organId:"JG0002",
+              organValue:"机构二"
+            },
+          ];
+        }else{
+          this.$Message.error(res.message);
         }
       })
     },
-    onSelect(selection,row){
-      console.log(selection)
-      console.log(row)
-    },
-    selectCancel(selection,row){
-      console.log(selection)
-      console.log(row)
-    },
-    selectAll(selection){
-      console.log(selection)
-    },
     hangdleSelect(selection){
-      console.log(111)
-      console.log(selection)
-      console.log(111)
+      this.checkSelection=selection;
     },
-    remove(index) {
-      this.tableData.splice(index, 1);
+    handleDel(){
+      let organIdStr=""
+      if(this.checkSelection.length>0){
+        this.checkSelection.map((item,index)=>{
+          if(index==this.checkSelection.length-1){
+            organIdStr+=item.organId
+          }else{
+            organIdStr += item.organId + ",";
+          }
+        })
+        delorgan({organId:organIdStr}).then((res)=>{
+          if(res.status==0){
+            this.$Message.success("删除成功");
+            this.getList();
+          }else{
+            this.$Message.error(res.message)
+          }
+        })
+      }else{
+        this.$Message.error("至少选中一项")
+      }
+      
     },
     handleAddOrg(){
-      this.addOrgModal=true
+      let obj = this.formInfo;
+      if(this.isEdit){
+        editorgan(obj).then((res)=>{
+          if(res.status==0){
+            this.$Message.success("编辑成功");
+            this.getList();
+            this.addOrgModal=false;
+          }else{
+            this.$Message.error(res.message);
+          }
+        })
+      }else{
+         addorgan(obj).then((res)=>{
+          if(res.status==0){
+            this.$Message.success("添加成功");
+            this.getList();
+            this.addOrgModal=false;
+          }else{
+            this.$Message.error(res.message);
+          }
+        })
+      }
+    },
+    handleEditRole(isEdit){
+      let obj = {}
+      if(isEdit){
+        if(this.checkSelection.length>1 || this.checkSelection.length<1){
+          this.$Message.error("只能选中一项进行编辑");
+          return;
+        }
+        obj =this.checkSelection[0]
+      }
+      this.formInfo=obj;
+      this.isEdit=isEdit;
+      this.addOrgModal=true;
     },
     handleSearch(){
       let obj = {}
@@ -206,17 +260,6 @@ export default {
         obj[item]=this.searchLikes
       })
       this.getList(1,this.pageSize,obj)
-    },
-    handleEditOrg(){
-      let obj ={
-        superiororganId:'shanghai',
-        organName:'111',
-        organDescr:'222',
-        organLeader:'33',
-        organTele:'131564564654'
-      }
-      this.formInfo=obj;
-      this.addOrgModal=true;
     },
     orgModalCancel(e){
       if(!e){
