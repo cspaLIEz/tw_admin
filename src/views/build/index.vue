@@ -6,9 +6,9 @@
 <template>
     <div class="build-container">
         <v-contextmenu ref="contextmenu">
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
+            <!-- <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.cut">剪切</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item> -->
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete" @click="deleteNode">删除</v-contextmenu-item>
