@@ -9,6 +9,9 @@ export const SaveProgram = data => axios.post('/program/saveprogram', data);
 export const Getrellist = data => axios.post('/release/getrellist', data);
 
 export const organizationList = data => axios.post('/organ/getorganinfolist', data);
+export const editorgan = data => axios.post('/organ/editorgan', data);
+export const addorgan = data => axios.post('/organ/addorgan', data);
+export const delorgan = data => axios.post('/organ/delorgan', data);
 
 export const getplayschedulestat = data => axios.post('/release/getplayschedulestat', data);
 
