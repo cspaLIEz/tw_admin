@@ -12,10 +12,13 @@ import contentmenu from 'v-contextmenu'
 import 'v-contextmenu/dist/index.css'
 import 'v-contextmenu/dist/index.css'
 import 'animate.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 
 Vue.use(VueI18n);
 Vue.use(iView);
-Vue.use(contentmenu)
+Vue.use(contentmenu);
+Vue.use(VueAwesomeSwiper)
 
 new Vue({
     el: '#app',

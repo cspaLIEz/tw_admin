@@ -108,7 +108,7 @@
             </Form>    
             <div slot="footer">
                 <Button type="" @click="detilModal=false">取消</Button>
-                <Button type="" >下一步</Button>
+                <Button type="" @click="sNewRelease1">下一步</Button>
             </div>
         </Modal>
         <Modal v-model="NewRelease2" width="880" title="第2步：节目选择">
@@ -151,11 +151,64 @@
                         <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" ></DatePicker>
                     </FormItem>
                 </Col>
+                <Col span='12'>
+                    <FormItem label="起止时间">
+                        <DatePicker type="daterange" show-week-numbers placement="bottom-end"></DatePicker>
+                    </FormItem>
+                </Col>
                 </Row>
             </Form>    
             <div slot="footer">
                 <Button type="" @click="detilModal=false">取消</Button>
-                <Button type="" >下一步</Button>
+                <Button type=""  @click="sNewRelease2">下一步</Button>
+            </div>
+        </Modal>
+        <Modal v-model="NewRelease3" width="1280" title="第3步：播放终端设置">
+            <div  class="handle-top-right margin-bottom-10">
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:80px">
+                            <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                    <div class="search-item">
+                        <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
+                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                    </div>
+                </div>
+            <Row>
+                <Col span="3">
+                    <Card>
+                        <p slot="title">终端列表</p>
+                        <Tree :data="treeData"></Tree>
+                    </Card>
+                </Col>
+                <Col span="21">
+                    <Table class="margin-left-10" border  :columns="columns" :data="tableData"></Table>
+                </Col>
+            </Row>
+
+            <div slot="footer">
+                <Button type="" @click="detilModal=false">取消</Button>
+                <Button type=""  @click="sNewRelease3">下一步</Button>
+            </div>
+        </Modal>
+        <Modal v-model="NewRelease4" width="1280" title="第4步：播放日程设置">
+            <div style="margin: 10px;overflow: hidden">
+                <div style="float: right;">
+                    <Button type="info">上一周</Button>
+                    <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    <Button type="info" @click="one()">下一周</Button>
+                    <span>&nbsp;&nbsp;</span>
+                    <Input v-model="value2" style="width: 30px"></Input>
+                    <Button type="info">跳转</Button>
+                </div>
+            </div>
+                    <Table class="margin-left-10" border  :columns="columns" :data="tableData"></Table>
+            
+
+            <div slot="footer">
+                <Button type="" @click="detilModal=false">取消</Button>
+                <Button type="" @click="sNewRelease4">下一步</Button>
             </div>
         </Modal>
     </Card>
@@ -167,6 +220,9 @@ export default {
     name: 'releaseschedule',
     data(){
         return {
+            NewRelease2:false,
+            NewRelease3:false,
+            NewRelease4:false,
             terminalType:'aaa',
             detilModal:false,
             deleteModal:false,
@@ -228,6 +284,57 @@ export default {
                 }
             ],
             searchLikes:"",
+            treeData:[
+                {
+                    title: '未注册',
+                    expand: true,
+                    children: [
+                        {
+                            title: '终端1'
+                        }
+                    ]
+                },
+                {
+                    title: '机构1',
+                    expand: true,
+                    children: [
+                        {
+                            title: '管理员1',
+                            expand: true,
+                            children: [{
+                                title: '分组1',
+                                expand: true,
+                                children: [{
+                                    title:'终端1'
+                                }]
+                            },{
+                                title: '分组2'
+                            }]
+                        },
+                        {
+                            title: '管理员2',
+                            expand: true,
+                            children: [{
+                                title: '分组1'
+                            },{
+                                title: '分组2'
+                            }]
+                        }
+                    ]
+                },
+                {
+                    title: '机构2',
+                    expand: true,
+                    children: [
+                        {
+                            title: '管理员1'
+                        },
+                        {
+                            title: '管理员2'
+                        }
+                    ]
+                }
+            ],
             columns: [
                 {
                     type: 'selection',
@@ -396,6 +503,21 @@ export default {
             }).then(function(res){
                 console.log(res)
             })
+        },
+        sNewRelease1(){
+            this.NewRelease=false
+            this.NewRelease2=true
+        },
+        sNewRelease2(){
+            this.NewRelease2=false
+            this.NewRelease3=true
+        },
+        sNewRelease3(){
+            this.NewRelease3=false
+            this.NewRelease4=true
+        },
+        sNewRelease4(){
+            this.NewRelease4=false
         }
     },
     created:function(){
