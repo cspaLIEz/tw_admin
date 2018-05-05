@@ -7,9 +7,11 @@
         <div class="login-con">
             <div class="login-con-box">
                 <div class="login-banner">
-                    <swiper :options="swiperOption" ref="mySwiper" style="width:100%;height:340px">
+                    <swiper :options="swiperOption" ref="mySwiper" style="width:100%;height:235px">
                         <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-                            <img :src="slide"></img>
+                            <div class="banner-slide">
+                                <img :src="slide"></img>
+                            </div>
                         </swiper-slide>
                     </swiper>
                     <div class="banner-bottom">
