@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video :id="videoId" class="video-js mz-video" width="200" height="100" :poster="poster" :style="setStyle">
+        <video class="video-js mz-video" ref="mzVideo" :poster="poster" :style="setStyle" :videoSrc="videoSrc">
             <!-- <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/mp4' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/webm' />
             <source src="http://jq22com.qiniudn.com/jq22-sp.mp4" type='video/ogg' /> -->
@@ -19,21 +19,21 @@ export default {
             videoId:null,
             setStyle:{
                 width:'200',
-                height:'200'
+                height:'100'
             },
             myPlayer:null,
-            poster:video_png
+            poster:video_png,
+            videoSrc:''
         }
     },
     mounted(){
-        this.videoId = "video"+this.code;
-        this.setStyle.width = parseInt(this.styleWidth);
-        this.setStyle.height = parseInt(this.styleHeight);
-
+        // this.videoId = "video"+this.code;
+        this.setStyle.width = this.styleWidth;
+        this.setStyle.height = this.styleHeight;
+        this.videoSrc = this.src;
+        
         // setTimeout(function(){
-        //     this.myPlayer = videojs(this.videoId,{
-        //         width:this.setStyle.width,
-        //         height:this.setStyle.height,
+        //     this.myPlayer = videojs(this.$refs.mzVideo,{
         //         sources: [
         // 　　　　　　{src: this.src,type: 'video/mp4'},
         // 　　　　　　{src: this.src,type: 'video/webm'},
@@ -46,15 +46,16 @@ export default {
         // }.bind(this),100)
     },
     watch:{
-        src(){
-            this.initVideo();
+        src(newVal){
+            // this.initVideo();
+            this.videoSrc = newVal;
         },
         styleWidth(newVal){
-            this.setStyle.width = parseInt(newVal);
+            this.setStyle.width = newVal;
             // this.myPlayer.width(this.setStyle.width);
         },
         styleHeight(newVal){
-            this.setStyle.height = parseInt(newVal);
+            this.setStyle.height = newVal;
             // this.myPlayer.height(this.setStyle.height);
         }
     },

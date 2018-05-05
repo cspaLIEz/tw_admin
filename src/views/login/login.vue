@@ -18,7 +18,7 @@
                         </div>
                         <div class="line-26"></div>
                         <div class="banner-num">
-                            {{activeIndex+1 + '/' + swiperSlides.length}}
+                            {{curIndex + '/' + totolLength}}
                         </div>
                     </div>
                 </div>
@@ -46,6 +46,7 @@
 <script>
 import Cookies from 'js-cookie';
 import {Login} from '@/api/api';
+import { zeroize } from '@/libs/helper';
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ban_1_png from '../../images/login/1.png'
 import ban_2_png from '../../images/login/2.png'
@@ -85,6 +86,12 @@ export default {
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
+      },
+      curIndex(){
+          return zeroize(this.activeIndex+1,2);
+      },
+      totolLength(){
+          return zeroize(this.swiperSlides.length,2);
       }
     },
     mounted(){
@@ -93,6 +100,7 @@ export default {
         //         this.swiperSlides.push(this.swiperSlides.length + 1)
         //     }
         // }, 3000)
+        
         var self = this;
         this.swiper.on('slideChange', function () {
             console.log(this.realIndex);
