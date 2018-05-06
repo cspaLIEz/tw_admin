@@ -60,6 +60,17 @@ export default {
             choseSourceModal:false
         }
     },
+    computed:{
+        buildPageStyle(){
+            let style = this.programTreeData[0].fbl.split('*');
+            console.log(style)
+            return {
+                width:style[0]+'px',
+                height:style[1]+'px',
+                'background-color':this.programTreeData[0].bgColor
+            }
+        }
+    },
     watch:{
         allComponents(){
             this.onComponentsReload();
@@ -340,15 +351,16 @@ export default {
         scaleAction(action){
             if(action=="biger"){
                 $(".build-page").css({ scale: '+=0.1' });
-                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
-                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                console.log($(".build-page").width()*$(".build-page").css("scale"),$(".build-page").width())
+                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").width()){
+                    $(".build-page").css("left",0)
                     $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
                     
                 } else {
                     $(".build-page").css("left",0)
                 }
                 if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
-                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page").css("top",0)
                     $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
                     
                 } else {
@@ -357,13 +369,13 @@ export default {
             } else if(action=="smaller") {
                 $(".build-page").css({ scale: '-=0.1' });
                 if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
-                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                    $(".build-page").css("left",0)
                     $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
                 } else {
                     $(".build-page").css("left",0)
                 }
                 if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
-                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page").css("top",0)
                     $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
                     
                 } else {
