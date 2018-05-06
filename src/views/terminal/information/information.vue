@@ -32,7 +32,7 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData"></Table>
+        <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -110,6 +110,7 @@
   </Card>
 </template>
 <script>
+import {Getdeviceinfolist} from '@/api/api';
 export default {
     data(){
         return {
@@ -208,35 +209,35 @@ export default {
                 },
                 {
                     title: '终端名称',
-                    key: 'name'
+                    key: 'devName'
                 },
                 {
                     title: '设备ID',
-                    key: 'deviceId'
+                    key: 'devId'
                 },
                 {
                     title: '终端状态',
-                    key: 'status'
+                    key: 'devTypeName'
                 },
                 {
                     title: '分辨率',
-                    key: 'fbl'
+                    key: 'resolutionValue'
                 },
                 {
                     title: '终端类型',
-                    key: 'type'
+                    key: 'devTypeValue'
                 },
                 {
                     title: 'IP地址',
-                    key: 'ipAddress'
+                    key: 'devIpAddr'
                 },
                 {
                     title: '所属机构',
-                    key: 'org'
+                    key: 'organName'
                 },
                 {
                     title: '管理员',
-                    key: 'admin'
+                    key: 'userName'
                 },
                 {
                     title: '位置信息',
@@ -279,30 +280,7 @@ export default {
                     }
                 }
             ],
-            tableData: [
-                {
-                    name: 'test1',
-                    deviceId: 1,
-                    status: '在线',
-                    fbl: '1900*1200',
-                    type: 'windows',
-                    ipAddress: '192.168.1.100',
-                    org: '酒店大堂',
-                    admin: '张三',
-                    address: '武汉东西湖区'
-                },
-                {
-                    name: 'test2',
-                    deviceId: 2,
-                    status: '离线',
-                    fbl: '800*600',
-                    type: 'windows',
-                    ipAddress: '192.168.1.100',
-                    org: '酒店大堂',
-                    admin: '张三',
-                    address: '武汉东西湖区'
-                }
-            ]
+            tableData: []
         }
     },
     methods:{
@@ -316,6 +294,15 @@ export default {
         changePage (){
             // this.tableData1 = this.mockTableData1();
         }
+    },
+    created:function(){
+        // this.tableData=this.data.pinfo
+        Getdeviceinfolist({
+            loginer:"admin"
+        }).then((res)=>{
+            this.tableData=res
+        })
+        
     }
 }
 </script>

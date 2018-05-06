@@ -87,7 +87,7 @@
             </div>
         </Modal>
         <Modal v-model="detilModal" title="发布进度详情" width="880">
-            <Table border  :columns="columns" :data="tableData"></Table>
+            <Table border  :columns="ProgressTitle" :data="tableData"></Table>
             <div slot="footer">
                 <Button type="" @click="detilModal=false">取消</Button>
                 <Button type="" >确认</Button>
@@ -366,7 +366,7 @@ export default {
                     key: 'progSize'
                 },{
                     title: '创建人',
-                    key: 'progSourceName'
+                    key: 'userName'
                 },{
                     title: '更新时间',
                     key: 'updateTime'
@@ -417,33 +417,7 @@ export default {
                     }
                 }
             ],
-            tableData: [
-                {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
-                
-            ],
+            tableData: [],
             data: {
                 pinfo: [{
                     progId:"(节目ID)",
@@ -482,7 +456,72 @@ export default {
                 pageSize: 20,
                 currentPage: 1,
                 totalRecord: 3
-            }
+            },
+            ProgressData:{
+                pinfo:[{
+                    id:"",//(记录顺序号)
+                    releaseId:"",//(发布编号)
+                    progId:"",//(节目代码)
+                    progName:"",//(节目名称)
+                    devId:"",//(终端代码)
+                    devName:"",//(终端名称)
+                    devLocation:"",//(终端地点)
+                    releaseStartTime:"",//(发布开始时间)
+                    resultCode:"",//(发布结果代码)
+                    resultName:"",//(发布结果)
+                }]
+            },
+            ProgressTitle:[{
+                title:'节目名称',
+                key:'progId'
+            },{
+                title:'终端名称',
+                key:'devName'
+            },{
+                title:'终端地点',
+                key:'devLocation'
+            },{
+                title:'发布开始时间',
+                key:'releaseStartTime'
+            },{
+                title:'发布进度',
+                key:'resultName'
+            },{
+                title:' ',
+                key:'resultName',
+                render: (h, params) => {
+                    return h('div', [
+                        h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.deleteModal=true
+                                }
+                            }
+                        }, '详情'),
+                        h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.detilModal=true
+                                }
+                            }
+                        }, '进度详情')
+                    ]);
+                    }
+            }]
         }
     },
     methods:{
@@ -501,8 +540,8 @@ export default {
                 currentPage:"1",
                 pageSize:"10"
             }).then(function(res){
-                console.log(res)
-            })
+                this.tableData=res.data.pinfo
+            }.bind(this))
         },
         sNewRelease1(){
             this.NewRelease=false
@@ -521,7 +560,8 @@ export default {
         }
     },
     created:function(){
-        this.tableData=this.data.pinfo
+        // this.tableData=this.data.pinfo
+        this.getlist()
         
     }
 };
