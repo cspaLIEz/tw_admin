@@ -203,8 +203,8 @@
                         <p>清空</p>
                     </a>
                 </div>
-                <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer" @contextmenu.prevent>
-                    <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
+                <div class="build-page-container" :style="{'background-color':programTreeData[0].bgColor}" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer" @contextmenu.prevent>
+                    <div class="build-page" :style="buildPageStyle" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" @contextmenu.prevent="showContextMenu($event)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-width="item.styles.width" :style-height="item.styles.height" :image="item.attrs.srcs"></mz-image>
@@ -235,7 +235,11 @@
                             <span>节目时长</span> <input type="text" v-model="programTreeData[0].duration">
                         </div>
                         <div class="setbox-item">
-                            <span>节目分辨率</span> <input type="text" v-model="programTreeData[0].fbl">
+                            <span>节目分辨率</span> 
+                            <Select v-model="programTreeData[0].fbl" style="width:160px">
+                                <Option value="1920*1080">1920*1080</Option>
+                                <Option value="1360*768">1360*768</Option>
+                            </Select>
                         </div>
                         <div class="setbox-item">
                             <span>节目类型</span> <input type="text" v-model="programTreeData[0].type">

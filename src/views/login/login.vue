@@ -78,8 +78,7 @@ export default {
                 autoplay:{
                     delay:3000,
                     disableOnInteraction: false
-                },
-                effect : 'cube'
+                }
             },
             swiperSlides: [ban_1_png, ban_2_png, ban_3_png],
             activeIndex:0
@@ -105,7 +104,6 @@ export default {
         
         var self = this;
         this.swiper.on('slideChange', function () {
-            console.log(this.realIndex);
             self.activeIndex = this.realIndex;
         });
     },
