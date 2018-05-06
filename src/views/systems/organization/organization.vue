@@ -66,9 +66,18 @@
 	</Modal>
   <Modal v-model="organupdata" width="360" title='机构导入'>
       <Upload action="http://47.95.201.45:8080/mzfb/upload">
-          <Button type="ghost" icon="ios-cloud-upload-outline">点击选择文件</Button>
+        <Button type="ghost" icon="ios-cloud-upload-outline">点击选择文件</Button>
       </Upload>
-  </Modal>  
+  </Modal>
+  <Modal v-model="delModelConfig" width="360" title='删除机构'>
+      <div>
+        本操作将删除指定机构！所有被指定在该 机构下的用户在指定新机构前无法登录使用。请确认！
+      </div>
+      <div slot="footer" class="btn_center_wrap">			
+        <Button type="primary" @click="handleDelOk">确认</Button>
+        <Button type="default" @click="delModelConfig=false">取消</Button>
+      </div>
+  </Modal>
   </Card>
 </template>
 <script>
@@ -78,6 +87,7 @@ export default {
     return {
 	  terminalType: [],
 	  addOrgModal:false,
+    delModelConfig: false,
     organupdata:false,
     selectSearch:{},
     totalRecord:1,
@@ -177,16 +187,7 @@ export default {
           this.totalPage=res.data.totalPage;
           this.totalRecord=res.data.totalRecord;
           this.selectSearch=searchInfo;
-          this.orgSelection=[
-            {
-              organId:"JG0001",
-              organValue:"机构一"
-            },
-            {
-              organId:"JG0002",
-              organValue:"机构二"
-            },
-          ];
+          this.orgSelection=res.data.tree;
         }else{
           this.$Message.error(res.message);
         }
@@ -196,26 +197,30 @@ export default {
       this.checkSelection=selection;
     },
     handleDel(){
-      let organIdStr=""
       if(this.checkSelection.length>0){
-        this.checkSelection.map((item,index)=>{
-          if(index==this.checkSelection.length-1){
-            organIdStr+=item.organId
-          }else{
-            organIdStr += item.organId + ",";
-          }
-        })
-        delorgan({organId:organIdStr}).then((res)=>{
-          if(res.status==0){
-            this.$Message.success("删除成功");
-            this.getList();
-          }else{
-            this.$Message.error(res.message)
-          }
-        })
+        this.delModelConfig=true
       }else{
         this.$Message.error("至少选中一项")
       }
+    },
+    handleDelOk(){
+      let organIdStr=""
+      this.checkSelection.map((item,index)=>{
+        if(index==this.checkSelection.length-1){
+          organIdStr+=item.organId
+        }else{
+          organIdStr += item.organId + ",";
+        }
+      })
+      delorgan({organId:organIdStr}).then((res)=>{
+        if(res.status==0){
+          this.$Message.success("删除成功");
+          this.delModelConfig=false;
+          this.getList();
+        }else{
+          this.$Message.error(res.message)
+        }
+      })
       
     },
     handleAddOrg(){
@@ -245,12 +250,13 @@ export default {
     handleEditRole(isEdit){
       let obj = {}
       if(isEdit){
-        if(this.checkSelection.length>1 || this.checkSelection.length<1){
+        if(this.checkSelection.length!=1){
           this.$Message.error("只能选中一项进行编辑");
           return;
         }
         obj =this.checkSelection[0]
       }
+      console.log(obj)
       this.formInfo=obj;
       this.isEdit=isEdit;
       this.addOrgModal=true;

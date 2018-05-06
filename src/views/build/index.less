@@ -308,6 +308,7 @@
                 box-sizing: border-box;
                 margin: 15px 30px 0px;
                 overflow: auto;
+                position: relative;
                 &:focus{
                     border: none;
                     outline:none;
@@ -317,7 +318,9 @@
                     height: 100%;
                     overflow: hidden;
                     transform-origin: center center;
-                    position: relative;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
                     /*border: 1px solid red;*/
                     background: url("../../images/build/grid.png");
                     word-wrap: break-word;

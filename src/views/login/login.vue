@@ -78,8 +78,7 @@ export default {
                 autoplay:{
                     delay:3000,
                     disableOnInteraction: false
-                },
-                effect : 'cube'
+                }
             },
             swiperSlides: [ban_1_png, ban_2_png, ban_3_png],
             activeIndex:0
@@ -105,7 +104,6 @@ export default {
         
         var self = this;
         this.swiper.on('slideChange', function () {
-            console.log(this.realIndex);
             self.activeIndex = this.realIndex;
         });
     },
@@ -121,8 +119,8 @@ export default {
                         password:this.form.password
                     }
                     
-                    Login(data).then(function(res){
-                        if(res.status===0){
+                    // Login(data).then(function(res){
+                        // if(res.status===0){
                             this.$Message.success("登录成功");
                              Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
@@ -135,10 +133,10 @@ export default {
                             this.$router.push({
                                 name: 'home_index'
                             });
-                        } else {
-                            this.$Message.error("登录失败");
-                        }
-                    }.bind(this));
+                    //     } else {
+                    //         this.$Message.error("登录失败");
+                    //     }
+                    // }.bind(this));
                 }
             });
         }
