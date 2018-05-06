@@ -169,6 +169,7 @@ export default {
         ...searchInfo
       }
       organizationList(data).then((res)=>{
+        console.log(res)
         if(res.status==0){
           this.tableData=res.data.pinfo;
           this.pageSize=pageSize;
