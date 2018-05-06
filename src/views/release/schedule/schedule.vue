@@ -32,7 +32,7 @@
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Button type="info">上一周</Button>
-                <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                <DatePicker type="date" placeholder="Select date" style="width: 200px" @on-change="ChangeDate"></DatePicker>
                 <Button type="info" @click="one()">下一周</Button>
                 <span>&nbsp;&nbsp;</span>
                 <Input v-model="value2" style="width: 30px"></Input>
@@ -40,16 +40,11 @@
             </div>
         </div>
     </div>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header">
-            <span>1111</span>
-        </p>
-        <div style="text-align:center">
-            <p>111</p>
-        </div>
+    <Modal v-model="deleteModal" title="时段节目信息" width="1280">
+        
+        <Table border  :columns="columns2" :data="data3.data.pinfo"  disabled-hover></Table>
         <div slot="footer">
-            <Button type="error" @click="deleteModal=false">取消</Button>
-            <Button type="error" >确认</Button>
+            <Button @click="deleteModal=false" >关闭</Button>
         </div>
     </Modal>
   </Card>
@@ -135,6 +130,7 @@ export default {
                                 },
                                 on:{
                                     click: ()=>{
+                                        // console.log(params.row.timesect)
                                         this.show(params.row.Monday)
                                     }
                                 }
@@ -254,10 +250,10 @@ export default {
             tableData: [
                
             ],
-            startstop:'2014/8/8',
+            startstop:'2014/8/8至2015/6/6',
             
             data: {
-                        date:['3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一'],
+                        date:['1月15日星期一','2月25日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一','3月5日星期一'],
                         playsum:[
                             {
                             timesect:'8:00-9:00',
@@ -289,7 +285,115 @@ export default {
                             }
                             
                         ]
-            }
+            },
+            data2:{
+                "pinfo": [{
+                date:"(日期)",
+                week:'(星期)',
+                playsum:[
+                {
+                timesect:'(时段)',
+                shiduan:{
+                sum:'(节目数)',
+                pslist:'(当时段播放日程列表)'
+                }
+                }
+                ],//(分时段节目数) 
+                        }]
+
+
+
+            },
+            data3:{
+                data: {
+                    pinfo: [{
+                        id:"(记录顺序号)",
+                        playPlanid:'(播放计划序号)',
+                        releaseId:"(发布节目ID)",
+                        progName:"(节目名)",
+                        progCode:"(节目源码)",
+                        progTime:"(节目时长)",
+                        progSize:"(节目大小)",
+                        prgPlayMode:"(播放模式)",
+                        deployuserId:"(发布人)",
+                        deployUserName:'(发布人名)',
+                        deployTime:"(发布时间)",
+                    },{
+                        id:"11(记录顺序号)",
+                        playPlanid:'22(播放计划序号)',
+                        releaseId:"33(发布节目ID)",
+                        progName:"44(节目名)",
+                        progCode:"55(节目源码)",
+                        progTime:"66(节目时长)",
+                        progSize:"77(节目大小)",
+                        prgPlayMode:"88(播放模式)",
+                        deployuserId:"99(发布人)",
+                        deployUserName:'10(发布人名)',
+                        deployTime:"11(发布时间)",
+                    }
+                    ]
+                }
+
+            },
+            columns2:[
+                {
+                    type:'index',
+                    title:'序号'
+                },{
+                    title:'节目编号',
+                    key:'releaseId'
+                },{
+                    title:'节目名称',
+                    key:'progName'
+                },{
+                    title:'预览',
+                    key:'progName'
+                },{
+                    title:'时长',
+                    key:'progTime'
+                },{
+                    title:'大小（MB）',
+                    key:'progSize'
+                },{
+                    title:'发布人',
+                    key:'deployuserId'
+                },{
+                    title:'发布时间',
+                    key:'deployTime'
+                },{
+                    title:'节目状态',
+                    key:'deployTime'
+                },{
+                    title:' ',
+                    width:'230',
+                    render: (h, params) => {
+                        return h('div',[
+                            h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                },
+                                on:{
+                                    click: ()=>{
+                                        console.log(params.row.releaseId)
+                                    }
+                                }
+                            }, '删除'),
+                            h('Button', {
+                                style:{
+                                    cursor:'pointer',
+                                    marginLeft:'20px'
+                                },
+                                on:{
+                                    click: ()=>{
+                                        console.log(params.row.releaseId)
+                                    }
+                                }
+                            }, '播放or暂停')
+                        ])
+                            
+                        }
+                }
+            ]
 
         }
     },
@@ -316,17 +420,22 @@ export default {
         },
         show(index){
             this.deleteModal=true
+        },
+        ChangeDate(a,b){
+            alert(a)
         }
         
     },
     created:function(){
-        // this.resetup(this.data)
-        getplayschedulestat({
+        this.resetup(this.data)
+        this.tableData=this.data.playsum
+        //请求列表数据
+        /*getplayschedulestat({
             loginer:"admin",
                 
         }).then(function(res){
             console.log(res)
-        })
+        })*/
     }
 };
 </script>
