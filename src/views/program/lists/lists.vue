@@ -15,7 +15,7 @@
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px">
+                        <Select v-model="terminalType" style="width:80px" filterable multiple>
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
@@ -29,7 +29,7 @@
         <Table border ref="selection" :columns="columns" :data="tableData" @on-selection-change="onSelectionChange"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
+                <Page :total="totalRecord" :current="currentPage" :page-size="pageSize" show-elevator show-total @on-change="changePage"></Page>
             </div>
         </div>
         <Modal
@@ -68,15 +68,11 @@ export default {
             terminalType:[],
             typeList:[
                 {
-                    value: 'all',
-                    label: '全部'
-                },
-                {
-                    value: 'name',
+                    value: 'progName',
                     label: '节目名称'
                 },
                 {
-                    value: 'status',
+                    value: 'updateTime',
                     label: '更新时间'
                 }
             ],
@@ -233,6 +229,7 @@ export default {
             this.terminalType.map((item)=>{
                 obj[item]=this.searchLikes
             })
+            console.log(obj)
             this.getList(1,this.pageSize,obj)
         },
         detail(index){
