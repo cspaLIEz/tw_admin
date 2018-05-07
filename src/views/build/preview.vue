@@ -59,6 +59,35 @@ export default {
                 
             }
 
+            //视频
+            for(var j=0;j<$(".mz-video").size();j++){
+                var src = $(".mz-video").eq(j).attr("videoSrc");
+                videojs($(".mz-video")[j],{
+                    sources: [
+            　　　　　　{src: src,type: 'video/mp4'},
+            　　　　　　{src: src,type: 'video/webm'},
+            　　　　　　{src: src,type: 'video/ogg'}
+            　　　　]
+                }).ready(function(){
+                    var myPlayer = this;
+                    myPlayer.play();
+                });
+            }
+
+            //直播
+            for(var j=0;j<$(".mz-live").size();j++){
+                var src = $(".mz-live").eq(j).attr("liveSrc");
+                console.log(src);
+                videojs($(".mz-live")[j],{
+                    sources: [
+            　　　　　　{src: src,type: 'application/x-mpegURL'},
+            　　　　]
+                }).ready(function(){
+                    var myPlayer = this;
+                    myPlayer.play();
+                });
+            }
+
             function createIframe (options) {
                 var iframe = document.createElement('iframe');
                 iframe.src = options.url;
@@ -98,6 +127,14 @@ export default {
         }
         .build-page-node.normal-component{
             display: flex;
+        }
+    }
+    .swiper-container{
+        max-width: 100%;
+        max-height: 100%;
+        img{
+            width: 100%;
+            height: 100%;
         }
     }
 }

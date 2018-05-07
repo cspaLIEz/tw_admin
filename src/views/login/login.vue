@@ -7,9 +7,11 @@
         <div class="login-con">
             <div class="login-con-box">
                 <div class="login-banner">
-                    <swiper :options="swiperOption" ref="mySwiper" style="width:100%;height:340px">
+                    <swiper :options="swiperOption" ref="mySwiper" style="width:100%;height:235px">
                         <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-                            <img :src="slide"></img>
+                            <div class="banner-slide">
+                                <img :src="slide"></img>
+                            </div>
                         </swiper-slide>
                     </swiper>
                     <div class="banner-bottom">
@@ -18,7 +20,7 @@
                         </div>
                         <div class="line-26"></div>
                         <div class="banner-num">
-                            {{activeIndex+1 + '/' + swiperSlides.length}}
+                            {{curIndex + '/' + totolLength}}
                         </div>
                     </div>
                 </div>
@@ -46,6 +48,7 @@
 <script>
 import Cookies from 'js-cookie';
 import {Login} from '@/api/api';
+import { zeroize } from '@/libs/helper';
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ban_1_png from '../../images/login/1.png'
 import ban_2_png from '../../images/login/2.png'
@@ -75,8 +78,7 @@ export default {
                 autoplay:{
                     delay:3000,
                     disableOnInteraction: false
-                },
-                effect : 'cube'
+                }
             },
             swiperSlides: [ban_1_png, ban_2_png, ban_3_png],
             activeIndex:0
@@ -85,6 +87,12 @@ export default {
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
+      },
+      curIndex(){
+          return zeroize(this.activeIndex+1,2);
+      },
+      totolLength(){
+          return zeroize(this.swiperSlides.length,2);
       }
     },
     mounted(){
@@ -93,9 +101,9 @@ export default {
         //         this.swiperSlides.push(this.swiperSlides.length + 1)
         //     }
         // }, 3000)
+        
         var self = this;
         this.swiper.on('slideChange', function () {
-            console.log(this.realIndex);
             self.activeIndex = this.realIndex;
         });
     },
@@ -111,8 +119,8 @@ export default {
                         password:this.form.password
                     }
                     
-                    Login(data).then(function(res){
-                        if(res.status===0){
+                    // Login(data).then(function(res){
+                        // if(res.status===0){
                             this.$Message.success("登录成功");
                              Cookies.set('user', this.form.userName);
                             Cookies.set('password', this.form.password);
@@ -125,10 +133,10 @@ export default {
                             this.$router.push({
                                 name: 'home_index'
                             });
-                        } else {
-                            this.$Message.error("登录失败");
-                        }
-                    }.bind(this));
+                    //     } else {
+                    //         this.$Message.error("登录失败");
+                    //     }
+                    // }.bind(this));
                 }
             });
         }

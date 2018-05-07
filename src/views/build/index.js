@@ -20,7 +20,7 @@ export default {
     components:{Setting,MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile},
     data(){
         return {
-            leftCollapse:[1,2,3],
+            leftCollapse:[2],
             componentCollapse:[],
             imageList:[{
                 value:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523814444032&di=a3052f88ca9a398c0947f7af05d483de&imgtype=0&src=http%3A%2F%2Fimg1.2345.com%2Fduoteimg%2FzixunImg%2Flocal%2F2017%2F02%2F24%2F14878982262042.jpg",
@@ -58,6 +58,17 @@ export default {
             activeNodes:[],
             ctrl_press:false,
             choseSourceModal:false
+        }
+    },
+    computed:{
+        buildPageStyle(){
+            let style = this.programTreeData[0].fbl.split('*');
+            console.log(style)
+            return {
+                width:style[0]+'px',
+                height:style[1]+'px',
+                'background-color':this.programTreeData[0].bgColor
+            }
         }
     },
     watch:{
@@ -340,15 +351,16 @@ export default {
         scaleAction(action){
             if(action=="biger"){
                 $(".build-page").css({ scale: '+=0.1' });
-                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
-                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                console.log($(".build-page").width()*$(".build-page").css("scale"),$(".build-page").width())
+                if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").width()){
+                    $(".build-page").css("left",0)
                     $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
                     
                 } else {
                     $(".build-page").css("left",0)
                 }
                 if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
-                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page").css("top",0)
                     $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
                     
                 } else {
@@ -357,13 +369,13 @@ export default {
             } else if(action=="smaller") {
                 $(".build-page").css({ scale: '-=0.1' });
                 if($(".build-page").width()*$(".build-page").css("scale")>$(".build-page").parent().width()){
-                    $(".build-page").css("left",($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10)
+                    $(".build-page").css("left",0)
                     $(".build-page-container").scrollLeft(($(".build-page").width()*$(".build-page").css("scale")-$(".build-page").parent().width())/2+10);
                 } else {
                     $(".build-page").css("left",0)
                 }
                 if($(".build-page").height()*$(".build-page").css("scale")>$(".build-page").parent().height()){
-                    $(".build-page").css("top",($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10)
+                    $(".build-page").css("top",0)
                     $(".build-page-container").scrollTop(($(".build-page").height()*$(".build-page").css("scale")-$(".build-page").parent().height())/2+10);
                     
                 } else {

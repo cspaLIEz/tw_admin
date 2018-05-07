@@ -98,6 +98,10 @@
                     top: 9px;
                 }
             }
+            .bml-content{
+                height: calc(~"(100vh - 100px)");
+                overflow-y: auto;
+            }
             .ivu-collapse{
                 background-color: inherit;
                 border-radius: none;
@@ -117,7 +121,7 @@
                     background: inherit;
                     color: inherit;
                     padding: 0;
-                    max-height: calc(~"(100vh - 214px) / 3");
+                    // max-height: calc(~"(100vh - 214px) / 3");
                     overflow-y: auto;
                     .ivu-collapse-content-box{
                         padding: 0;
@@ -304,6 +308,7 @@
                 box-sizing: border-box;
                 margin: 15px 30px 0px;
                 overflow: auto;
+                position: relative;
                 &:focus{
                     border: none;
                     outline:none;
@@ -313,7 +318,9 @@
                     height: 100%;
                     overflow: hidden;
                     transform-origin: center center;
-                    position: relative;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
                     /*border: 1px solid red;*/
                     background: url("../../images/build/grid.png");
                     word-wrap: break-word;

@@ -34,7 +34,7 @@ export default {
     },
     watch:{
       image(){
-        this.initSwiper();
+        // this.initSwiper();
       },
       styleWidth(newVal){
           this.setStyle.width = newVal;
@@ -45,12 +45,12 @@ export default {
     },
     methods:{
       initSwiper(){
-        setTimeout(function(){
-          var mySwiper = new Swiper ('.swiper-container', {
-            autoplay: true,
-            loop: true
-          })
-        },1000)
+        // setTimeout(function(){
+        //   var mySwiper = new Swiper ('.swiper-container', {
+        //     autoplay: true,
+        //     loop: true
+        //   })
+        // },1000)
       }
     }
 }
@@ -60,8 +60,8 @@ export default {
   max-width: 100%;
   max-height: 100%;
   img{
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

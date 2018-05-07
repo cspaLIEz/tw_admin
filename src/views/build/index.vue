@@ -6,9 +6,9 @@
 <template>
     <div class="build-container">
         <v-contextmenu ref="contextmenu">
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
+            <!-- <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.cut">剪切</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item> -->
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete" @click="deleteNode">删除</v-contextmenu-item>
@@ -36,7 +36,7 @@
                     <p></p>
                     <img src="../../images/build/close_left.png" alt="">
                 </div>
-                <Collapse v-model="leftCollapse">
+                <Collapse v-model="leftCollapse" class="bml-content">
                     <Panel name="1" class="program-tree bml-group">
                         <div class="group-header">
                             页面
@@ -203,8 +203,8 @@
                         <p>清空</p>
                     </a>
                 </div>
-                <div class="build-page-container" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer" @contextmenu.prevent>
-                    <div class="build-page" :style="{'background-color':programTreeData[0].bgColor}" @click="clearNodeActive">
+                <div class="build-page-container" :style="{'background-color':programTreeData[0].bgColor}" tabindex="0" @focus="containerFocus($event)" ref="buildPageContainer" @contextmenu.prevent>
+                    <div class="build-page" :style="buildPageStyle" @click="clearNodeActive">
                         <div class="build-page-node ui-widget-content" v-for="(item,index) in htmlNodes" :style="item.styles" :class="{'active':item.isActive}" :ref="'compontent'+item.code" @click.stop="checkNode(item,index)" @contextmenu.prevent="showContextMenu($event)">
                             <mz-text v-if="item.ctype == 'text'" :text="item.attrs.innerHtml"></mz-text>
                             <mz-image v-if="item.ctype == 'image'" :style-width="item.styles.width" :style-height="item.styles.height" :image="item.attrs.srcs"></mz-image>
@@ -235,7 +235,11 @@
                             <span>节目时长</span> <input type="text" v-model="programTreeData[0].duration">
                         </div>
                         <div class="setbox-item">
-                            <span>节目分辨率</span> <input type="text" v-model="programTreeData[0].fbl">
+                            <span>节目分辨率</span> 
+                            <Select v-model="programTreeData[0].fbl" style="width:160px">
+                                <Option value="1920*1080">1920*1080</Option>
+                                <Option value="1360*768">1360*768</Option>
+                            </Select>
                         </div>
                         <div class="setbox-item">
                             <span>节目类型</span> <input type="text" v-model="programTreeData[0].type">
@@ -493,7 +497,7 @@
                                 <span>视频地址</span>
                                 <Select v-model="activeNode.attrs.videosrc" style="width:160px">
                                     <Option value="http://jq22com.qiniudn.com/jq22-sp.mp4">视频一</Option>
-                                    <Option value="http://183.6.222.82/6973FDD846944737D0B444A30/0300080100588B2FCADDE9000000018D2FFC24-6C71-F693-55B7-3CE83844770F.mp4?ccode=050F&duration=536&expire=18000&psid=f49b8fa19c5fb470d6ef67c7662270ee&sp=&ups_client_netip=1b10dd74&ups_ts=1524241207&ups_userid=&utid=UgZpEiiSXxMCAWVRz0Tll%2F1Y&vid=XMjA2NjM4NDk0NA%3D%3D&vkey=Be2e8bd5518d0a06455141fe86e734a36">视频二</Option>
+                                    <Option value="http://pgccdn.v.baidu.com/1433338647_3201895533_20170601063418.mp4?authorization=bce-auth-v1%2Fc308a72e7b874edd9115e4614e1d62f6%2F2017-05-31T22%3A34%3A23Z%2F-1%2F%2F02736a11697d263da0886271f479d44dc9c2ed5c6d76d230f135f2e915ac1134&responseCacheControl=max-age%3D8640000&responseExpires=Sat%2C+09+Sep+2017+06%3A34%3A23+GMT&xcode=80941115c7ad74a47a2afb8807ae7275d262a7c4b51fdd36&time=1525589652&_=1525505907379">视频二</Option>
                                 </Select>
                             </div>
                             <div class="setbox-item">
