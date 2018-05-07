@@ -21,7 +21,7 @@
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
@@ -29,7 +29,7 @@
         <Table border ref="selection" :columns="columns" :data="tableData" @on-selection-change="onSelectionChange"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
             </div>
         </div>
         <Modal
@@ -49,16 +49,23 @@
 </template>
 
 <script>
+import { Getprginfolist } from '@/api/api';
+
 export default {
     name: 'releaseschedule',
     data(){
         return {
+            selectSearch:{},
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
             copyModel:false,
             copyForm:{
                 copyName:"",
                 newName:""
             },
-            terminalType:"all",
+            terminalType:[],
             typeList:[
                 {
                     value: 'all',
@@ -88,15 +95,15 @@ export default {
                 },
                 {
                     title: '节目编号',
-                    key: 'code'
+                    key: 'progId'
                 },
                 {
                     title: '节目名称',
-                    key: 'name'
+                    key: 'progName'
                 },
                 {
                     title: '分辨率',
-                    key: 'fbl'
+                    key: 'resolutionValue'
                 },
                 {
                     title: '预览',
@@ -104,15 +111,15 @@ export default {
                 },
                 {
                     title: '时长',
-                    key: 'time'
+                    key: 'progTime'
                 },
                 {
                     title: '大小（MB）',
-                    key: 'size'
+                    key: 'progSize'
                 },
                 {
                     title: '创建人',
-                    key: 'author'
+                    key: 'userName'
                 },
                 {
                     title: '更新时间',
@@ -120,11 +127,11 @@ export default {
                 },
                 {
                     title: '节目来源',
-                    key: 'from'
+                    key: 'progSourceValue'
                 },
                 {
                     title: '审批状态',
-                    key: 'approve'
+                    key: 'progStatusValue'
                 },
                 {
                     title: 'Action',
@@ -168,43 +175,74 @@ export default {
                 }
             ],
             tableData: [
-                {
-                    "code": "PM2018030821360001",
-                    "name": "节目1",
-                    "fbl": "1900*1200",
-                    "view": "使用节目缩略图，点击后预览",
-                    "time": "2016-10-03",
-                    "size": "",
-                    "author": "admin",
-                    "updateTime": "2016-10-03",
-                    "from": "新建",
-                    "approve": "通过"
-                },
-                {
-                    "code": "PM2018030821360002",
-                    "name": "节目2",
-                    "fbl": "1900*1200",
-                    "view": "使用节目缩略图，点击后预览",
-                    "time": "2016-10-03",
-                    "size": "",
-                    "author": "admin",
-                    "updateTime": "2016-10-03",
-                    "from": "新建",
-                    "approve": "通过"
-                }
+                // {
+                //     "code": "PM2018030821360001",
+                //     "name": "节目1",
+                //     "fbl": "1900*1200",
+                //     "view": "使用节目缩略图，点击后预览",
+                //     "time": "2016-10-03",
+                //     "size": "",
+                //     "author": "admin",
+                //     "updateTime": "2016-10-03",
+                //     "from": "新建",
+                //     "approve": "通过"
+                // },
+                // {
+                //     "code": "PM2018030821360002",
+                //     "name": "节目2",
+                //     "fbl": "1900*1200",
+                //     "view": "使用节目缩略图，点击后预览",
+                //     "time": "2016-10-03",
+                //     "size": "",
+                //     "author": "admin",
+                //     "updateTime": "2016-10-03",
+                //     "from": "新建",
+                //     "approve": "通过"
+                // }
             ],
             checkedDatas:[]
         }
     },
+    created(){
+        this.getList();
+    },
     methods:{
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+            let data = {
+                loginer:this.$store.state.user.user,
+                loginId:this.$store.state.user.userId,
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+            Getprginfolist(data).then((res)=>{
+                if(res.status==0){
+                    this.tableData = res.data.pinfo;
+                    this.pageSize = pageSize;
+                    this.currentPage = currentPage;
+                    this.totalPage = res.data.totalPage;
+                    this.totalRecord = res.data.totalRecord;
+                    this.selectSearch = searchInfo;
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
+        },
+        handleSearch(){
+            let obj = {}
+            this.terminalType.map((item)=>{
+                obj[item]=this.searchLikes
+            })
+            this.getList(1,this.pageSize,obj)
+        },
         detail(index){
 
         },
         approve (index) {
             
         },
-        changePage (){
-            // this.tableData1 = this.mockTableData1();
+        changePage(current) {
+            this.getList(current)
         },
         onSelectionChange(selection){
             console.log(selection)
