@@ -119,13 +119,17 @@ export default {
                         password:this.form.password
                     }
                     
-                    // Login(data).then(function(res){
-                        // if(res.status===0){
+                    Login(data).then(function(res){
+                        if(res.status===0){
                             this.$Message.success("登录成功");
-                             Cookies.set('user', this.form.userName);
-                            Cookies.set('password', this.form.password);
+                            this.$store.commit('user/login', {
+                                user:this.form.userName,
+                                userId:res.data.userId
+                            });
+                            // Cookies.set('user', this.form.userName);
+                            // Cookies.set('password', this.form.password);
                             this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                            if (this.form.userName === 'iview_admin') {
+                            if (this.form.userName === 'admin') {
                                 Cookies.set('access', 0);
                             } else {
                                 Cookies.set('access', 1);
@@ -133,10 +137,10 @@ export default {
                             this.$router.push({
                                 name: 'home_index'
                             });
-                    //     } else {
-                    //         this.$Message.error("登录失败");
-                    //     }
-                    // }.bind(this));
+                        } else {
+                            this.$Message.error("登录失败");
+                        }
+                    }.bind(this));
                 }
             });
         }

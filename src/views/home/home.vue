@@ -78,7 +78,7 @@
                                             <img src="../../images/index/copy.png" alt="">
                                             <div class="item-text">
                                                 <span class="item-text-num">1503</span> <br/>
-                                                <span class="item-text-intro">节目总数</span>
+                                                <span class="item-text-intro">素材总数</span>
                                             </div>
                                         </Row>
                                     </Col>
@@ -87,7 +87,7 @@
                                             <img src="../../images/index/copy.png" alt="">
                                             <div class="item-text">
                                                 <span class="item-text-num">1503</span> <br/>
-                                                <span class="item-text-intro">节目总数</span>
+                                                <span class="item-text-intro">新增节目总数</span>
                                             </div>
                                         </Row>
                                     </Col>
@@ -96,7 +96,7 @@
                                             <img src="../../images/index/copy.png" alt="">
                                             <div class="item-text">
                                                 <span class="item-text-num">1503</span> <br/>
-                                                <span class="item-text-intro">节目总数</span>
+                                                <span class="item-text-intro">节目发布总数</span>
                                             </div>
                                         </Row>
                                     </Col>

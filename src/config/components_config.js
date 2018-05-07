@@ -10,6 +10,7 @@ import button_png from '../images/build/button.png';
 import qrcode_png from '../images/build/qrcode.png';
 import doc_png from '../images/build/doc.png';
 import live_png from '../images/build/live.png';
+import weather_png from '../images/build/weather.png';
 //text
 
 const attrconfig = {};
@@ -31,6 +32,7 @@ config[0] = {
     ctype: 'text',
     img: input_png,
     nodeName:"text",
+    belongTo:'normal',
     className: 'normal-component',
     styles: {
         "font-family":attrconfig.fontFamily,
@@ -65,6 +67,7 @@ config[1] = {
     title: '图片',
     ctype: 'image',
     img: img_png,
+    belongTo:'normal',
     nodeName:"img",
     styles: {
         "border-color":attrconfig.borderColor,
@@ -91,6 +94,7 @@ config[2] = {
     code: '0003',
     title: '滚动文本',
     ctype: 'marquee',
+    belongTo:'normal',
     img: text_png,
     styles: {
         "font-family":attrconfig.fontFamily,
@@ -125,6 +129,7 @@ config[3] = {
     title: '时间和日期',
     ctype: 'dateformat',
     img: date_png,
+    belongTo:'normal',
     styles: {
         "font-family":attrconfig.fontFamily,
         "font-size":attrconfig.fontSize,
@@ -158,6 +163,7 @@ config[4] = {
     title: '计时器',
     ctype: 'timer',
     img: timer_png,
+    belongTo:'normal',
     styles: {
         "font-family":attrconfig.fontFamily,
         "font-size":attrconfig.fontSize,
@@ -194,6 +200,7 @@ config[5] = {
     title: '视频',
     ctype: 'video',
     img: video_png,
+    belongTo:'normal',
     styles: {
         "background-color":attrconfig.bgColor,
         "align-items": attrconfig.verticalAlign,
@@ -221,6 +228,7 @@ config[6] = {
     title: '网页',
     ctype: 'iframe',
     img: webpage_png,
+    belongTo:'normal',
     styles: {
         "width":"100%",
         "height":"100%"
@@ -244,6 +252,7 @@ config[7] = {
     title: '二维码',
     ctype: 'qrcode',
     img: qrcode_png,
+    belongTo:'normal',
     styles: {
         "width":"200px",
         "height":"200px"
@@ -267,6 +276,7 @@ config[8] = {
     title: '按钮',
     ctype: 'button',
     img: button_png,
+    belongTo:'normal',
     styles: {
         "font-family":attrconfig.fontFamily,
         "font-size":attrconfig.fontSize,
@@ -296,29 +306,9 @@ config[8] = {
 config[9] = {
     code: '0010',
     title: '直播',
-    ctype: 'livebroadcast',
-    img: button_png,
-    styles: {
-        "width":"100px",
-        "height":"25px"
-    },
-    attrs: {
-        url:'',
-    },
-    contextmenu: {
-        lock:true,
-        unlock:true,
-        delete:true,
-        moveUp:true,
-        moveDown:true
-    }
-};
-
-config[9] = {
-    code: '0010',
-    title: '直播',
     ctype: 'live',
     img: live_png,
+    belongTo:'normal',
     styles: {
         "width":"200px",
         "height":"100px"
@@ -340,6 +330,7 @@ config[10] = {
     title: '文档',
     ctype: 'file',
     img: doc_png,
+    belongTo:'normal',
     styles: {
         "width":"200px",
         "height":"100px"
@@ -355,4 +346,64 @@ config[10] = {
         moveDown:true
     }
 };
+
+config[11] = {
+    code: '0012',
+    title: '动态文本框',
+    ctype: 'dytext',
+    img: input_png,
+    nodeName:"text",
+    belongTo:'dynamic',
+    className: 'normal-component',
+    styles: {
+        "font-family":attrconfig.fontFamily,
+        "font-size":attrconfig.fontSize,
+        "color":attrconfig.color,
+        "border-color":attrconfig.borderColor,
+        "background-color":attrconfig.bgColor,
+        "align-items": attrconfig.verticalAlign,
+        "font-weight":attrconfig.fontWeight,
+        "font-style":attrconfig.fontStyle,
+        "justify-content": attrconfig.align,
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        innerHtml:"文本内容"
+    },
+    contextmenu: {
+        copy:true,
+        cut:true,
+        stick:true,
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
+config[12] = {
+    code: '0013',
+    title: '天气组件',
+    ctype: 'dyWeather',
+    img: weather_png,
+    nodeName:"",
+    belongTo:'dynamic',
+    styles: {
+        "width":"200px",
+        "height":"100px"
+    },
+    attrs: {
+        fromUrl:'//tianqi.2345.com/plugin/widget/index.htm?s=2&z=3&t=0&v=0&d=3&bd=0&k=&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=385&h=96&align=center'
+    },
+    contextmenu: {
+        lock:true,
+        unlock:true,
+        delete:true,
+        moveUp:true,
+        moveDown:true
+    }
+};
+
 export default config;

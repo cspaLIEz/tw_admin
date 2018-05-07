@@ -1,10 +1,15 @@
 import Cookies from 'js-cookie';
 
 const user = {
-    state: {},
+    namespaced: true,
+    state: {
+        user:'',
+        userId:''
+    },
     mutations: {
         logout (state, vm) {
             Cookies.remove('user');
+            Cookies.remove('userId');
             Cookies.remove('password');
             Cookies.remove('access');
             // 恢复默认样式
@@ -19,6 +24,12 @@ const user = {
             if (theme) {
                 localStorage.theme = theme;
             }
+        },
+        login (state, data) {
+            state.user = data.user;
+            state.userId = data.userId;
+            Cookies.set('user', data.user);
+            Cookies.set('userId', data.userId);
         }
     }
 };
