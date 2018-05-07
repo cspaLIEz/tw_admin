@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import {Gettempinfolist} from "@/api/api"
 export default {
     name: 'releaseschedule',
     data(){
@@ -299,6 +300,11 @@ export default {
         hrefs(){
              this.$router.push('../build')
         }
+    },
+    created:function(){
+        Gettempinfolist({loginer:"admin"}).then((res)=>{
+            console.log(res)
+        })
     }
 };
 </script>

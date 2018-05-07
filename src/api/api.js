@@ -33,8 +33,9 @@ export const Getdevstatusinfolist = data => axios.post('/device/getdevstatusinfo
 
 export const Getdevplayinfolist = data => axios.post('/device/getdevplayinfolist', data);
 
+export const Getmateriallist = data => axios.post('/material/getmateriallist', data);
 
-
+export const Gettempinfolist = data => axios.post('/template/gettempinfolist', data);
 
 
 //登录

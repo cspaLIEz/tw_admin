@@ -33,7 +33,7 @@
             </Card>
           </div>
           <div class="view-main-right">
-            <Table border  :columns="columns" :data="tableData"></Table>
+            <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import {Getmateriallist} from "@/api/api";
 export default {
     name: 'releaseschedule',
     data(){
@@ -219,35 +220,35 @@ export default {
                 },
                 {
                     title: '素材名称',
-                    key: 'name'
+                    key: 'matName'
                 },
                 {
                     title: '预览',
-                    key: 'age'
+                    key: 'matTypeValue'
                 },
                 {
                     title: '分辨率',
-                    key: 'address'
+                    key: 'matResolution'
                 },
                 {
                     title: '大小',
-                    key: 'address'
+                    key: 'matSize'
                 },
                 {
                     title: '上传人',
-                    key: 'address'
+                    key: 'userId'
                 },
                 {
                     title: '审核人',
-                    key: 'address'
+                    key: 'approveUserId'
                 },
                 {
                     title: '审核时间',
-                    key: 'address'
+                    key: 'updateTime'
                 },
                 {
                     title: '审核状态',
-                    key: 'address'
+                    key: 'approvalResultValue'
                 },
                 {
                     title: '操作',
@@ -286,32 +287,7 @@ export default {
                     }
                 }
             ],
-            tableData: [
-                {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    date: '2016-10-03'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    date: '2016-10-01'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    date: '2016-10-02'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    date: '2016-10-04'
-                }
-            ]
+            tableData: []
         }
     },
     methods:{
@@ -324,6 +300,11 @@ export default {
         changePage (){
             // this.tableData1 = this.mockTableData1();
         }
+    },
+    created:function(){
+        Getmateriallist({loginer:'admin'}).then((res)=>{
+            this.tableData=res
+        })
     }
 };
 </script>
