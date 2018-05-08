@@ -32,7 +32,7 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData"></Table>
+        <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -98,6 +98,8 @@
   </Card>
 </template>
 <script>
+
+import {Getdevstatusinfolist} from '@/api/api';
 export default {
   data() {
     return {
@@ -177,45 +179,43 @@ export default {
             width: 70,
             title: '序号',
             align: 'center'
-        },
-        {
+        },{
+            title:'终端代码',
+            key:'devId'
+            },{
             title: '终端名称',
-            key: 'name'
+            key: 'devName'
         },
         {
-            title: '终端ID',
-            key: 'id'
+            title:'终端地点',
+            key:'devLocation'
         },
         {
-            title: '终端状态',
-            key: 'status'
-        },
-        {
-            title: '在线时长',
-            key: 'times'
+            title:'组',
+            key:'groupValue'
         },
         {
             title: '终端类型',
-            key: 'type'
+            key: 'devTypeValue'
+        },
+        {
+            title: '终端状态',
+            key: 'onlineStatusCode'
+        },
+        {
+            title: '在线时长',
+            key: 'onlineTime'
         },
         {
             title: '磁盘空间（GB）',
-            key: 'diskSize'
-        },
-        {
-            title: '地点',
-            key: 'address'
-        },
-        {
-            title: '所属机构',
-            key: 'org'
+            key: 'diskSpace'
         },
         {
             title: '更新时间',
             key: 'updateTime'
         },
         {
-          title: "Action",
+          title: " ",
           key: "action",
           render: (h, params) => {
             return h("div", [
@@ -241,30 +241,7 @@ export default {
           }
         }
       ],
-      tableData: [
-        {
-            name: 'test1',
-            id: 1,
-            status: '在线',
-            times: '1900*1200',
-            type: 'windows',
-            diskSize: '192.168.1.100',
-            address: '武汉东西湖区',
-            org: '酒店大堂',
-            updateTime: '2018-3-22'
-        },
-        {
-            name: 'test2',
-            id: 2,
-            status: '离线',
-            times: '800*600',
-            type: 'windows',
-            diskSize: '192.168.1.100',
-            address: '武汉东西湖区',
-            org: '酒店大堂',
-            updateTime: '2018-3-22'
-        }
-      ],
+      tableData: [],
       detailForm: {
         input: '',
         select: '',
@@ -284,7 +261,17 @@ export default {
     },
     changePage (){
         // this.tableData1 = this.mockTableData1();
+        
     }
+  },
+  created:function(){
+      Getdevstatusinfolist({
+            loginer:"admin",
+            currentPage:"1",
+            pageSize:"10"
+        }).then((res)=>{
+            this.tableData=res
+        })
   }
 };
 </script>

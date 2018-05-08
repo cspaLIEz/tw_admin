@@ -65,7 +65,7 @@
                                 </div>
                                 <div slot="content" class="component-group-box">
                                     <Row>
-                                        <Col span="8" class="component-group-item" v-for="item in allComponents">
+                                        <Col span="8" class="component-group-item" v-for="item in allComponents" v-if="item.belongTo=='normal'">
                                             <div class="component-img-box">
                                                 <img :src=item.img alt="" :componentCode=item.code />
                                             </div>
@@ -81,8 +81,15 @@
                                         <Icon type="arrow-down-b"></Icon>
                                     </span>
                                 </div>
-                                <div slot="content">
-                                    
+                                <div slot="content" class="component-group-box">
+                                    <Row>
+                                        <Col span="8" class="component-group-item" v-for="item in allComponents" v-if="item.belongTo=='dynamic'">
+                                            <div class="component-img-box">
+                                                <img :src=item.img alt="" :componentCode=item.code />
+                                            </div>
+                                            <p>{{item.title}}</p>
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Panel>
                             <Panel name="3">
@@ -217,6 +224,10 @@
                             <mz-button v-if="item.ctype == 'button'" :content="item.attrs.content" :url="item.attrs.url"></mz-button>
                             <mz-live v-if="item.ctype == 'live'" :liveurl="item.attrs.url" :style-width="item.styles.width" :style-height="item.styles.height"></mz-live>
                             <mz-file v-if="item.ctype == 'file'" :fileurl="item.attrs.fileUrl" :style-width="item.styles.width" :style-height="item.styles.height"></mz-file>
+                        
+                            <!-- 动态组件 -->
+                            <mz-dy-text v-if="item.ctype == 'dytext'" :text="item.attrs.innerHtml"></mz-dy-text>
+                            <mz-weather v-if="item.ctype == 'dyWeather'" :from-url="item.attrs.fromUrl"></mz-weather>
                         </div>
                     </div>
                 </div>
