@@ -209,10 +209,10 @@ export default {
         if(index==this.checkSelection.length-1){
           organIdStr+=item.organId
         }else{
-          organIdStr += item.organId + ",";
+          organIdStr += item.organId + ";";
         }
       })
-      delorgan({organId:organIdStr}).then((res)=>{
+      delorgan({organIdList:organIdStr}).then((res)=>{
         if(res.status==0){
           this.$Message.success("删除成功");
           this.delModelConfig=false;
