@@ -296,7 +296,7 @@ export default {
         if(index==this.checkSelection.length-1){
           userIdStr+=item.userId
         }else{
-          userIdStr += item.userId + ",";
+          userIdStr += item.userId + ";";
         }
       })
       deluser({userId:userIdStr}).then((res)=>{

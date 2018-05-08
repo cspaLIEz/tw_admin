@@ -32,16 +32,22 @@
         <Table border  :columns="columns" :data="tableData"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
             </div>
         </div>
     </div>
   </Card>
 </template>
 <script>
+import {getmsglist,getdevgroupinfolist} from '@/api/api';
 export default {
     data(){
         return {
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            selectSearch:{},
             treeData:[
                 {
                     title: 'parent 1',
@@ -124,7 +130,7 @@ export default {
                 },
                 {
                     title:"创建人",
-                    key:'createPeople'
+                    key:'userName'
                 },
             ],
             tableData: [
@@ -161,76 +167,62 @@ export default {
         }
     },
     mounted(){
-        console.log(88)
-        this.getLeftGroup()
+        this.getLeftGroup();
+        this.getList()
     },
     methods:{
         register(index){
 
         },
-        getLeftGroup(){
-            let url = "/device/getdevgroupinfolist";
-            
-            let data = [
-                {
-                    organId:"234",
-                    organName:"test1",
-                    group:[
-                        {
-                            userId:"122",
-                            userName:"管理员1",
-                            group:[
-                                {
-                                    devId:123,
-                                    devName:"终端一"
-                                },
-                                {
-                                    devId:1253,
-                                    devName:"终端二"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    organId:"234",
-                    organName:"test2",
-                    group:[
-                        {
-                            userId:"122",
-                            userName:"管理员2",
-                            group:[
-                                {
-                                    devId:1223,
-                                    devName:"终端1"
-                                },
-                                {
-                                    devId:12523,
-                                    devName:"终端2"
-                                }
-                            ]
-                        }
-                    ]
-                },
-            ];
-            data.map((item,index)=>{
-                if(item.group){
-                    item.children=item.group;
-                    item.title=item.organName;
-                    item.children.map((childItem,index)=>{
-                        if(childItem.group){
-                            childItem.children=childItem.group;
-                            childItem.title=childItem.userName;
-                            childItem.children.map((grandsonItem,index)=>{
-                                grandsonItem.title=grandsonItem.devName
-                            })
-                        }
-                        
-                    })
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+            let data = {
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+            getmsglist(data).then((res)=>{
+                console.log(res)
+                if(res.status==0){
+                    this.tableData=res.data.pinfo;
+                    this.pageSize=pageSize;
+                    this.currentPage=currentPage;
+                    this.totalPage=res.data.totalPage;
+                    this.totalRecord=res.data.totalRecord;
+                    this.selectSearch=searchInfo;
+                }else{
+                    this.$Message.error(res.message);
                 }
             })
-            this.treeData=data
-            console.log(data)
+            console.log(22,this.$store.state.user.userId)
+            
+        },
+        changePage(current) {
+            this.getList(current)
+        },
+        getLeftGroup(){
+            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+                console.log(res)
+                let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.devName
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
+            })
         },
         remove (index) {
             this.tableData.splice(index, 1);

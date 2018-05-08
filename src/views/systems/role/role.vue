@@ -247,40 +247,11 @@ export default {
           key: "roleDesc"
         },
         {
-          title: "角色功能",
-          key: "roleFunc"
-        },
-        {
          title:"更新时间",
          key:"updateTime"        
         }
       ],
-      tableData: [
-        {
-          name: "John Brown",
-          age: 18,
-          address: "New York No. 1 Lake Park",
-          date: "2016-10-03"
-        },
-        {
-          name: "Jim Green",
-          age: 24,
-          address: "London No. 1 Lake Park",
-          date: "2016-10-01"
-        },
-        {
-          name: "Joe Black",
-          age: 30,
-          address: "Sydney No. 1 Lake Park",
-          date: "2016-10-02"
-        },
-        {
-          name: "Jon Snow",
-          age: 26,
-          address: "Ottawa No. 2 Lake Park",
-          date: "2016-10-04"
-        }
-      ]
+      tableData: []
     };
   },
   mounted:function(){
@@ -326,9 +297,6 @@ export default {
       this.selectSearch={
         [this.terminalType]:this.searchLikes
       }
-      console.log({
-        [this.terminalType]:this.searchLikes
-      })
     },
     getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
       let data = {
@@ -367,7 +335,7 @@ export default {
         if(index==this.checkSelection.length-1){
           roleIdStr+=item.roleId
         }else{
-          roleIdStr += item.roleId + ",";
+          roleIdStr += item.roleId + ";";
         }
       })
       delrole({roleId:roleIdStr}).then((res)=>{

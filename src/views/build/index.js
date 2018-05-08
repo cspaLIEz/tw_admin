@@ -431,16 +431,17 @@ export default {
                 </html>
             `;
             let data = {
+                loginer:this.$store.state.user.user,
+                loginId:this.$store.state.user.userId,
                 progCode:progCode,
                 progName: this.programTreeData[0].title,
                 resolutionCode: "1",
                 progTime: "100",
-                progSourceCode: "1",
                 progDesc: "",
                 progTypeCode: "1",
-                userCode: "123",
                 progId:this.programTreeData[0].progId,
             };
+            console.log(data);
             SaveProgram(data).then(function(res){
                 console.log(res);
                 if(res.data && res.data.progId){
