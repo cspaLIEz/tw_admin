@@ -35,7 +35,10 @@ export const getdevgroupinfolist = data => axios.post('/device/getdevgroupinfoli
 
 export const getplayschedulestat = data => axios.post('/release/getplayschedulestat', data);
 
+//节目列表
 export const Getprginfolist = data => axios.post('/program/getprginfolist', data);
+export const delprg = data => axios.post('/program/delprg', data);
+
 export const Getdeviceinfolist = data => axios.post('/device/getdeviceinfolist', data);
 
 export const Getdevstatusinfolist = data => axios.post('/device/getdevstatusinfolist', data);
