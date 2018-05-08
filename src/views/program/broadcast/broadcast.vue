@@ -34,7 +34,7 @@
             <Table border  :columns="columns" :data="tableData"></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
-                    <Page :total="100" :current="1" @on-change="changePage"></Page>
+                    <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
                 </div>
             </div>
           </div>
@@ -43,39 +43,43 @@
 </template>
 
 <script>
+import {getmsginfolist,getdevgroupinfolist} from '@/api/api';
 export default {
-    name: 'releaseschedule',
     data(){
         return {
-            value2:1,
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            selectSearch:{},
             treeData:[
                 {
-                    title: '终端分组1',
+                    title: 'parent 1',
                     expand: true,
                     children: [
                         {
-                            title: '终端1'
+                            title: 'parent 1-1',
+                            expand: true,
+                            children: [
+                                {
+                                    title: 'leaf 1-1-1'
+                                },
+                                {
+                                    title: 'leaf 1-1-2'
+                                }
+                            ]
                         },
                         {
-                            title: '终端2'
-                        },
-                        {
-                            title: '终端2'
-                        }
-                    ]
-                },
-                {
-                    title: '终端分组2',
-                    expand: true,
-                    children: [
-                        {
-                            title: '终端1'
-                        },
-                        {
-                            title: '终端2'
-                        },
-                        {
-                            title: '终端2'
+                            title: 'parent 1-2',
+                            expand: true,
+                            children: [
+                                {
+                                    title: 'leaf 1-2-1'
+                                },
+                                {
+                                    title: 'leaf 1-2-1'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -114,7 +118,7 @@ export default {
                 },
                 {
                     title: '终端编号',
-                    key: 'deviceCode'
+                    key: 'devId'
                 },
                 {
                     title: '所属机构',
@@ -198,9 +202,63 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.getLeftGroup();
+        this.getList()
+    },
     methods:{
         detail(index){
 
+        },
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+            let data = {
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+            getmsginfolist(data).then((res)=>{
+                console.log(res)
+                if(res.status==0){
+                    this.tableData=res.data.pinfo;
+                    this.pageSize=pageSize;
+                    this.currentPage=currentPage;
+                    this.totalPage=res.data.totalPage;
+                    this.totalRecord=res.data.totalRecord;
+                    this.selectSearch=searchInfo;
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
+            console.log(22,this.$store.state.user.userId)
+            
+        },
+        changePage(current) {
+            this.getList(current)
+        },
+        getLeftGroup(){
+            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+                console.log(res)
+                let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.devName
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
+            })
         },
         remove (index) {
             this.tableData.splice(index, 1);
