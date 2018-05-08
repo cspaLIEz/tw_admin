@@ -35,7 +35,7 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
+        <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData.data.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -61,6 +61,7 @@ import {Getdevplayinfolist} from '@/api/api';
 export default {
     data(){
         return {
+            userSelection:[],
             Restart:false,
             treeData:[
                 {
@@ -177,6 +178,9 @@ export default {
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
+        },
+        hangdleSelect(selection){
+            this.userSelection=selection
         }
     },
     created:function(){

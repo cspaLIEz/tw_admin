@@ -283,7 +283,6 @@ export default {
                             Saturday:36,
                             Sunday:37
                             }
-                            
                         ]
             },
             data2:{
@@ -427,15 +426,23 @@ export default {
         
     },
     created:function(){
+        let startTime=util.getMonday('s',0)
+        let endTime=util.getMonday('e',0)
         this.resetup(this.data)
         this.tableData=this.data.playsum
         //请求列表数据
-        /*getplayschedulestat({
-            loginer:"admin",
-                
+        getplayschedulestat({
+            "loginer":"admin",
+            "loginId":"YH0001",
+            "startDate":"20180416",
+            "startTime":"09:00:00",
+            "endDate":"20180423",
+            "endTime":"12:00:00",
+            "devId":"ZD0002",//终端编号
+            "timeSection":"15"//时间分段长度，只能为15，30，60分钟
         }).then(function(res){
-            console.log(res)
-        })*/
+                    console.log(res)
+                })
     }
 };
 </script>

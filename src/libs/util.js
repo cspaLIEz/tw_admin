@@ -262,7 +262,7 @@ util.getMonday = function (type, dates) {
     let d = dd.getDate();
     m = m < 10 ? '0' + m : m;
     d = d < 10 ? '0' + d : d;
-    let days = y + '-' + m + '-' + d;
+    let days = y + '/' + m + '/' + d;
     return days        
 };
 
