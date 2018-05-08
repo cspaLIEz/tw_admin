@@ -4,8 +4,6 @@ export const apitest = data => axios.post('/article/lists', data);
 
 export const Login = data => axios.post('/user/ulogin', data);
 
-export const SaveProgram = data => axios.post('/program/saveprogram', data);
-
 export const Getrellist = data => axios.post('/release/getreleaselist', data);
 
 // 机构管理模块
@@ -37,7 +35,30 @@ export const getplayschedulestat = data => axios.post('/release/getplayschedules
 
 //节目列表
 export const Getprginfolist = data => axios.post('/program/getprginfolist', data);
+//删除节目
 export const delprg = data => axios.post('/program/delprg', data);
+//新建节目初始化接口
+export const getinitpara = data => axios.post('/program/getinitpara', data);
+//保存节目
+export const SaveProgram = data => axios.post('/program/saveprogram', data);
+//节目编辑接口
+export const editprg = data => axios.post('/program/editprg', data);
+//节目复制接口
+export const copyprginfo = data => axios.post('/program/copyprginfo', data);
+//节目提交模块
+export const submitprg = data => axios.post('/program/submitprg', data);
+
+//节目审批列表
+
+//插播消息列表
+export const getmsginfolist = data => axios.post('/message/getmsginfolist', data);
+//插入消息
+export const insertmsg = data => axios.post('/message/insertmsg', data);
+//清空消息
+export const deletemsg = data => axios.post('/message/deletemsg', data);
+//消息详情
+export const msginfo = data => axios.post('/message/msginfo', data);
+
 
 export const Getdeviceinfolist = data => axios.post('/device/getdeviceinfolist', data);
 
