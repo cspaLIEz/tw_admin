@@ -193,74 +193,36 @@ export default {
                     this.$Message.error(res.message);
                 }
             })
-            console.log(1,getdevgroupinfolist())
+            console.log(22,this.$store.state.user.userId)
+            
         },
         changePage(current) {
             this.getList(current)
         },
         getLeftGroup(){
-            let url = "/device/getdevgroupinfolist";
-            
-            let data = [
-                {
-                    organId:"234",
-                    organName:"test1",
-                    group:[
-                        {
-                            userId:"122",
-                            userName:"管理员1",
-                            group:[
-                                {
-                                    devId:123,
-                                    devName:"终端一"
-                                },
-                                {
-                                    devId:1253,
-                                    devName:"终端二"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    organId:"234",
-                    organName:"test2",
-                    group:[
-                        {
-                            userId:"122",
-                            userName:"管理员2",
-                            group:[
-                                {
-                                    devId:1223,
-                                    devName:"终端1"
-                                },
-                                {
-                                    devId:12523,
-                                    devName:"终端2"
-                                }
-                            ]
-                        }
-                    ]
-                },
-            ];
-            data.map((item,index)=>{
-                if(item.group){
-                    item.children=item.group;
-                    item.title=item.organName;
-                    item.children.map((childItem,index)=>{
-                        if(childItem.group){
-                            childItem.children=childItem.group;
-                            childItem.title=childItem.userName;
-                            childItem.children.map((grandsonItem,index)=>{
-                                grandsonItem.title=grandsonItem.devName
-                            })
-                        }
-                        
-                    })
-                }
+            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+                console.log(res)
+                let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.devName
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
             })
-            this.treeData=data
-            console.log(data)
         },
         remove (index) {
             this.tableData.splice(index, 1);

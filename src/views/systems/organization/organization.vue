@@ -1,4 +1,4 @@
-<style lang="less">
+0<style lang="less">
 @import "./organization.less";
 @import "../../../styles/common.less";
 </style>
