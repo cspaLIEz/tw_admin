@@ -15,7 +15,10 @@
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
-                  <Select v-model="terminalType" style="min-width:180px" filterable multiple>
+                <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+              </div>
+              <div class="search-item">
+                  <Select v-model="terminalType" style="width:90px">
                       <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
               </div>
@@ -45,7 +48,7 @@
 				</FormItem>
 				<FormItem label="上级机构">
 					<Select v-model="formInfo.superiororganId">
-						<Option v-for="item in orgSelection" :value="item.organId" :key="item.organId">{{item.organValue}}</Option>
+						<Option v-for="item in orgSelection" :value="item.organId" :key="item.organId">{{item.organName}}</Option>
 					</Select>
 				</FormItem>
 				<FormItem label="机构描述">
@@ -65,7 +68,7 @@
 		</div>
 	</Modal>
   <Modal v-model="organupdata" width="360" title='机构导入'>
-      <Upload action="http://47.95.201.45:8080/mzfb/upload">
+      <Upload action="http://118.31.15.7:89/file/upload" :headers="headers">
         <Button type="ghost" icon="ios-cloud-upload-outline">点击选择文件</Button>
       </Upload>
   </Modal>
@@ -85,7 +88,9 @@ import {organizationList,editorgan,addorgan,delorgan} from '@/api/api';
 export default {
   data() {
     return {
-	  terminalType: [],
+    terminalType: '',
+    tagObj:{},
+    headers:{"Access-Control-Allow-Origin": '*'},
 	  addOrgModal:false,
     delModelConfig: false,
     organupdata:false,
@@ -150,7 +155,7 @@ export default {
         },
         {
           title: "上属机构",
-          key: "superiorOrgan",        
+          key: "superiorOrganName",        
         },
         {
           title:"机构描述",
@@ -256,17 +261,19 @@ export default {
         }
         obj =this.checkSelection[0]
       }
-      console.log(obj)
       this.formInfo=obj;
       this.isEdit=isEdit;
       this.addOrgModal=true;
     },
     handleSearch(){
-      let obj = {}
-      this.terminalType.map((item)=>{
-        obj[item]=this.searchLikes
-      })
-      this.getList(1,this.pageSize,obj)
+      let { tagObj, terminalType, searchLikes} = this;
+      tagObj[terminalType]=searchLikes;
+      this.getList(1,this.pageSize,tagObj)
+    },
+    handleCloseTag(e,name){
+      let tagObj= { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj=tagObj;
     },
     orgModalCancel(e){
       if(!e){

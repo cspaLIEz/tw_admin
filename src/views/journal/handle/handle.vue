@@ -27,19 +27,25 @@
         <div class="view-main">
           <Table border  :columns="columns" :data="tableData"></Table>
           <div style="margin: 10px;overflow: hidden">
-              <div style="float: right;">
-                  <Page :total="100" :current="1" @on-change="changePage"></Page>
-              </div>
+            <div style="float: right;">
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
+            </div>
           </div>
         </div>
     </Card>
 </template>
 
 <script>
+import {getloginfolist} from '@/api/api';
 export default {
     name: 'releaseschedule',
     data(){
         return {
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            selectSearch:{},
             terminalType:"all",
             typeList:[
                 {
@@ -113,7 +119,7 @@ export default {
                 },
                 {
                     title: '操作结果',
-                    key: 'operResult',
+                    key: 'operResultCode',
                 },
             ],
             tableData: [
@@ -151,7 +157,33 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.getList()
+    },
     methods:{
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+            let data = {
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+            getloginfolist(data).then((res)=>{
+                console.log(res)
+                if(res.status==0){
+                    this.tableData=res.data.pinfo;
+                    this.pageSize=pageSize;
+                    this.currentPage=currentPage;
+                    this.totalPage=res.data.totalPage;
+                    this.totalRecord=res.data.totalRecord;
+                    this.selectSearch=searchInfo;
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
+        },
+        changePage(current) {
+            this.getList(current)
+        },
         detail(index){
 
         },

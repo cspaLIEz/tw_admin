@@ -32,16 +32,22 @@
         <Table border  :columns="columns" :data="tableData"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
             </div>
         </div>
     </div>
   </Card>
 </template>
 <script>
+import {getmsglist,getdevgroupinfolist} from '@/api/api';
 export default {
     data(){
         return {
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            selectSearch:{},
             treeData:[
                 {
                     title: 'parent 1',
@@ -124,7 +130,7 @@ export default {
                 },
                 {
                     title:"创建人",
-                    key:'createPeople'
+                    key:'userName'
                 },
             ],
             tableData: [
@@ -161,12 +167,36 @@ export default {
         }
     },
     mounted(){
-        console.log(88)
-        this.getLeftGroup()
+        this.getLeftGroup();
+        this.getList()
     },
     methods:{
         register(index){
 
+        },
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+            let data = {
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+            getmsglist(data).then((res)=>{
+                console.log(res)
+                if(res.status==0){
+                    this.tableData=res.data.pinfo;
+                    this.pageSize=pageSize;
+                    this.currentPage=currentPage;
+                    this.totalPage=res.data.totalPage;
+                    this.totalRecord=res.data.totalRecord;
+                    this.selectSearch=searchInfo;
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
+            console.log(1,getdevgroupinfolist())
+        },
+        changePage(current) {
+            this.getList(current)
         },
         getLeftGroup(){
             let url = "/device/getdevgroupinfolist";
