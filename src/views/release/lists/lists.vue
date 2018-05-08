@@ -25,10 +25,10 @@
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData"></Table>
+        <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="tableData.data.totalRecord" :current="tableData.data.currentPage" @on-change="changePage"></Page>
             </div>
         </div>
         <Modal v-model="deleteModal" title="发布详情" width="880">
@@ -531,8 +531,9 @@ export default {
         approve (index) {
             
         },
-        changePage (){
+        changePage (index){
             // this.tableData1 = this.mockTableData1();
+            console.log(index)
         },
         getlist(){
             Getrellist({
@@ -540,7 +541,7 @@ export default {
                 currentPage:"1",
                 pageSize:"10"
             }).then(function(res){
-                this.tableData=res.data.pinfo
+                this.tableData=res
             }.bind(this))
         },
         sNewRelease1(){

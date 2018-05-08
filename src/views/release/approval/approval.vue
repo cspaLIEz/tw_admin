@@ -28,29 +28,31 @@
         </div>
         <Modal v-model="deleteModal" title="发布详情" width="880">
             <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
-            
                 <Form :model="AlertData" :label-width="80" >
+                  <Row>
                     <Col span='8'>
                     <FormItem label="节目名称">
-                        <Input v-model="AlertData.progName" readonly="this.disableds"></Input>
+                        <Input v-model="AlertData.progName"></Input>
                     </FormItem>
                     </Col>
                     <Col span='8'>
                     <FormItem label="节目时长">
-                        <Input v-model="AlertData.progTime" readonly="this.disableds"></Input>
+                        <Input v-model="AlertData.progTime"></Input>
                     </FormItem>
                      </Col>
                     <Col span='8'>
                     <FormItem label="节目分辨率">
-                        <Input v-model="AlertData.resolutionValue" readonly="this.disableds"></Input>
+                        <Input v-model="AlertData.resolutionValue"></Input>
                     </FormItem>
                      </Col>
+                     </Row>
                     <FormItem label="节目描述">
-                        <Input v-model="AlertData.resolutionValue" readonly="this.disableds"></Input>
+                        <Input v-model="AlertData.resolutionValue"></Input>
                     </FormItem>
+                    <Row>
                     <Col span='12'>
                     <FormItem label="发布模式">
-                        <Select  style="width:200px" readonly="this.disableds">
+                        <Select  style="width:200px">
                             <Option value="1">定时发布</Option>
                             <Option value="1">周期发布</Option>
                         </Select> 
@@ -58,16 +60,17 @@
                     </Col>
                     <Col span='12'>
                     <FormItem label="发布时间">
-                        <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"  readonly="this.disableds"></DatePicker> 
+                        <DatePicker type="datetime" placeholder="Select date and time" style="width: 200px"  ></DatePicker> 
                     </FormItem>
                     </Col>
+                    </Row>
                     <FormItem label="播放模式">
-                        <Select  style="width:200px" readonly="this.disableds">
+                        <Select  style="width:200px">
                             <Option >定时发布</Option>
                             <Option >周期发布</Option>
                         </Select> 
                     </FormItem>
-                    <FormItem label="起止时间" readonly="this.disableds">
+                    <FormItem label="起止时间">
                         <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker> 
                     </FormItem>
                 
@@ -77,13 +80,13 @@
             <Table border  :columns="columns" :data="ContData.pinfo"></Table>
             <p style="font-size:16px;font-weigth:bold" >4.审批操作</p>
             <FormItem label="审批结果">
-                <Select  style="width:200px" readonly="this.disableds">
+                <Select  style="width:200px" >
                 <Option >审批通过</Option>
                 <Option >审批未通过</Option>
                 </Select> 
             </FormItem>
             <FormItem label="审批意见">
-                <Input v-model="terminalType" readonly="this.disableds"></Input>
+                <Input v-model="terminalType"></Input>
             </FormItem>
             </Form>
             <div slot="footer">
@@ -255,25 +258,25 @@ export default {
         totalRecord: 3
       },
       AlertData: {
-          progid: "", //(节目ID)
-            progName: "", //(节目名)
-            progCode: "", //(节目源码)
-            progTime: "", //(节目时长)
-            resolutionCode: "", //(节目分辨率代码)
-            resolutionValue: "", //(节目分辨率)
-            progSize: "", //(节目大小)
-            progTypeCode: "", //(节目类型代码)
-            progTypeName: "", //(节目类型)
-            progStatusCode: "", //(节目状态代码)
-            progStatusName: "", //(节目状态)
-            updateTime: "", //(节目更新时间)
-            progSourceCode: "", //(节目来源代码)
-            progSourceName: "", //(节目来源)
-            progUrl: "", //(节目下载地址)
-            approveResultCode: "", //(审批结果代码）
-            approveUserId: "", //(审批人代码）
-            approveUserName: "", //(审批人名)
-            approveTime: "" //(审批时间)
+          progid: "1", //(节目ID)
+            progName: "1", //(节目名)
+            progCode: "1", //(节目源码)
+            progTime: "1", //(节目时长)
+            resolutionCode: "1", //(节目分辨率代码)
+            resolutionValue: "1", //(节目分辨率)
+            progSize: "1", //(节目大小)
+            progTypeCode: "1", //(节目类型代码)
+            progTypeName: "1", //(节目类型)
+            progStatusCode: "1", //(节目状态代码)
+            progStatusName: "1", //(节目状态)
+            updateTime: "1", //(节目更新时间)
+            progSourceCode: "1", //(节目来源代码)
+            progSourceName: "1", //(节目来源)
+            progUrl: "1", //(节目下载地址)
+            approveResultCode: "1", //(审批结果代码）
+            approveUserId: "1", //(审批人代码）
+            approveUserName: "1", //(审批人名)
+            approveTime: "1" //(审批时间)
       }
     };
   },
