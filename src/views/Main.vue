@@ -128,6 +128,7 @@
                     this.$store.commit('addOpenSubmenu', pathArr[1].name);
                 }
                 this.userName = Cookies.get('user');
+
                 let messageCount = 3;
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
@@ -144,7 +145,7 @@
                     });
                 } else if (name === 'loginout') {
                     // 退出登录
-                    this.$store.commit('logout', this);
+                    this.$store.commit('user/logout', this);
                     this.$store.commit('clearOpenedSubmenu');
                     this.$router.push({
                         name: 'login'
@@ -188,6 +189,14 @@
             },
             lang () {
                 util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
+            }
+        },
+        beforeCreate(){
+            if(Cookies.get('user')){
+                this.$store.commit('user/login', {
+                    user:Cookies.get('user'),
+                    userId:Cookies.get('userId')
+                });
             }
         },
         mounted () {

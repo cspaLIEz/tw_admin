@@ -15,9 +15,12 @@ import MzQrcode from './components/mzQrcode'
 import MzButton from './components/mzButton'
 import MzLive from './components/mzLive'
 import MzFile from './components/mzFile'
+//动态组件
+import MzDyText from './dynamic/mzDyText'
+import MzWeather from './dynamic/mzWeather'
 
 export default {
-    components:{Setting,MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile},
+    components:{Setting,MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile,MzDyText,MzWeather},
     data(){
         return {
             leftCollapse:[2],
