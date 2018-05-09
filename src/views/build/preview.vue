@@ -102,7 +102,6 @@ export default {
                     url:$(".mz-file-site").eq(n).attr('iframesrc')
                 }))
             }
-            console.log($.ajax);
             //动态文本
             for(var n=0;n<$(".mz-dynamic-text").size();n++){
                 $.get($(".mz-dynamic-text").eq(n).attr('dataurl')).success(function(res){

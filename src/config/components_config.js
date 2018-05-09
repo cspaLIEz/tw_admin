@@ -369,7 +369,7 @@ config[11] = {
         "height":"100px"
     },
     attrs: {
-        dataUrl:"/src/views/build/json/text.txt"
+        dataUrl:"/static/json/text.txt"
     },
     contextmenu: {
         copy:true,
