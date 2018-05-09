@@ -369,7 +369,7 @@ config[11] = {
         "height":"100px"
     },
     attrs: {
-        innerHtml:"文本内容"
+        dataUrl:"/src/views/build/json/text.txt"
     },
     contextmenu: {
         copy:true,
@@ -392,11 +392,13 @@ config[12] = {
     belongTo:'dynamic',
     className: 'normal-component',
     styles: {
-        "align-items": attrconfig.verticalAlign,
-        "justify-content": attrconfig.align
+        "width":"290px",
+        "height":"100px"
     },
     attrs: {
-        fromUrl:'http://tianqi.2345.com/plugin/widget/index.htm?s=1&z=1&t=0&v=0&d=1&bd=0&k=000000&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=290&h=96&align=center'
+        fromUrl:'',
+        days:1,
+        showType:0
     },
     contextmenu: {
         lock:true,

@@ -226,8 +226,8 @@
                             <mz-file v-if="item.ctype == 'file'" :fileurl="item.attrs.fileUrl" :style-width="item.styles.width" :style-height="item.styles.height"></mz-file>
                         
                             <!-- 动态组件 -->
-                            <mz-dy-text v-if="item.ctype == 'dytext'" :text="item.attrs.innerHtml"></mz-dy-text>
-                            <mz-weather v-if="item.ctype == 'dyWeather'" :from-url="item.attrs.fromUrl"></mz-weather>
+                            <mz-dy-text v-if="item.ctype == 'dytext'" :dataurl="item.attrs.dataUrl"></mz-dy-text>
+                            <mz-weather v-if="item.ctype == 'dyWeather'" :from-url="item.attrs.fromUrl" :days="item.attrs.days" :style-width="item.styles.width" :style-height="item.styles.height"></mz-weather>
                         </div>
                     </div>
                 </div>
@@ -674,8 +674,12 @@
                         <!-- 动态文本框组件属性 -->
                         <div v-if="activeNode.ctype == 'dytext'">
                             <div class="setbox-item">
-                                <span>文本内容</span>
-                                <input type="text" v-model="activeNode.attrs.innerHtml">
+                                <span>数据来源</span>
+                                <input type="text" v-model="activeNode.attrs.dataUrl">
+                            </div> 
+                            <div class="setbox-item">
+                                <span>显示天数</span>
+                                <input type="text" v-model="activeNode.attrs.days">
                             </div> 
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
@@ -720,6 +724,9 @@
 
                         <!-- 文件组件属性 -->
                         <div v-if="activeNode.ctype == 'dyWeather'">
+                            <div class="setbox-item">
+                                <span>显示几天天气</span> <input type="text" v-model="activeNode.attrs.days">
+                            </div>
                             <div class="setbox-item">
                                 <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
                             </div>
