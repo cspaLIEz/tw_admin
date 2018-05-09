@@ -670,6 +670,69 @@
                                 <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
                             </div>
                         </div>
+
+                        <!-- 动态文本框组件属性 -->
+                        <div v-if="activeNode.ctype == 'dytext'">
+                            <div class="setbox-item">
+                                <span>文本内容</span>
+                                <input type="text" v-model="activeNode.attrs.innerHtml">
+                            </div> 
+                            <div class="setbox-item">
+                                <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件宽度</span> <input type="text" v-model="activeNode.styles['width']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件高度</span> <input type="text" v-model="activeNode.styles['height']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字号</span> <input type="text" v-model="activeNode.styles['font-size']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体样式</span> <input type="text" v-model="activeNode.styles['font-style']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>字体颜色</span><ColorPicker v-model="activeNode.styles['color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件背景色</span><ColorPicker v-model="activeNode.styles['background-color']" />
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>边框颜色</span> <input type="text" v-model="activeNode.styles['border-color']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>URL</span> <input type="text" v-model="activeNode.attrs['src']">
+                            </div>
+                        </div>
+
+                        <!-- 文件组件属性 -->
+                        <div v-if="activeNode.ctype == 'dyWeather'">
+                            <div class="setbox-item">
+                                <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>组件位置-y</span> <input type="text" v-model="activeNode.styles['top']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>水平对齐方式</span> <input type="text" v-model="activeNode.styles['justify-content']">
+                            </div>
+                            <div class="setbox-item">
+                                <span>垂直对齐方式</span> <input type="text" v-model="activeNode.styles['align-items']">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <Modal v-model="choseSourceModal" width="360">

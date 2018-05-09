@@ -390,9 +390,10 @@ config[12] = {
     img: weather_png,
     nodeName:"",
     belongTo:'dynamic',
+    className: 'normal-component',
     styles: {
-        "width":"290px",
-        "height":"100px"
+        "align-items": attrconfig.verticalAlign,
+        "justify-content": attrconfig.align
     },
     attrs: {
         fromUrl:'http://tianqi.2345.com/plugin/widget/index.htm?s=1&z=1&t=0&v=0&d=1&bd=0&k=000000&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=290&h=96&align=center'
