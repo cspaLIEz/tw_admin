@@ -8,10 +8,13 @@
         <div class="margin-bottom-10">
             <Row type="flex">
                 <Col span="12" class="handle-top-left">
-                    <Button type="info">导出日志</Button>
+                    <Button type="primary" @click="exportData()"><Icon type="ios-download-outline" style="margin-right:5px"></Icon>导出日志</Button>
                     <Button type="warning">清理日志</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
+                    <div class="search-item">
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
                     <div class="search-item">
                         <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -19,13 +22,13 @@
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
         </div>
         <div class="view-main">
-          <Table border  :columns="columns" :data="tableData"></Table>
+          <Table border  :columns="columns" :data="tableData" ref="table"></Table>
           <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
@@ -46,6 +49,7 @@ export default {
             pageSize:20,
             currentPage:1,
             selectSearch:{},
+            tagObj:{},
             terminalType:"all",
             typeList:[
                 {
@@ -53,31 +57,23 @@ export default {
                     label: '全部'
                 },
                 {
-                    value: 'name',
+                    value: 'userId',
                     label: '操作人'
                 },
                 {
-                    value: 'status',
-                    label: 'IP地址'
+                    value: 'operModule',
+                    label: '操作模块'
                 },
                 {
-                    value: 'time',
-                    label: '事件名'
-                },
-                {
-                    value: 'e1',
-                    label: '日志类型'
-                },
-                {
-                    value: 'e2',
-                    label: '日志级别'
-                },
-                {
-                    value: 'e4',
+                    value: 'logContent',
                     label: '日志内容'
                 },
                 {
-                    value: 'e3',
+                    value: 'logType',
+                    label: '日志类型'
+                },
+                {
+                    value: 'operResult',
                     label: '操作结果'
                 },
             ],
@@ -85,7 +81,7 @@ export default {
             columns: [
                 {
                     type: 'index',
-                    width: 70,
+                    width: 61,
                     title: '序号',
                     align: 'center'
                 },
@@ -161,10 +157,11 @@ export default {
         this.getList()
     },
     methods:{
-        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch,operType=1){
             let data = {
                 pageSize,
                 currentPage,
+                operType,
                 ...searchInfo
             }
             getloginfolist(data).then((res)=>{
@@ -181,18 +178,24 @@ export default {
                 }
             })
         },
+        handleSearch(){
+            let { tagObj, terminalType, searchLikes} = this;
+            tagObj[terminalType]=searchLikes;
+            this.getList(1,this.pageSize,tagObj,2)
+        },
+        handleCloseTag(e,name){
+            let tagObj= { ...this.tagObj };
+            delete tagObj[name];
+            this.tagObj=tagObj;
+        },
         changePage(current) {
             this.getList(current)
         },
-        detail(index){
-
+        exportData(){
+            this.$refs.table.exportCsv({
+                filename: 'The original data'
+            });
         },
-        approve (index) {
-            
-        },
-        changePage (){
-            // this.tableData1 = this.mockTableData1();
-        }
     }
 };
 </script>

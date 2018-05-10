@@ -36,7 +36,7 @@
         </Card>
         <Card v-else-if="selectModel==3">
             <div style="margin-bottom:15px">
-                <Button type="primary" >添加</Button>
+                <Button type="primary" @click="changeModalVisible=true">添加</Button>
                 <Button type="primary">删除</Button>
                 <Button type="primary">编辑</Button>
             </div>
@@ -44,7 +44,7 @@
         </Card>
         <Card v-else-if="selectModel==4">
             <div style="margin-bottom:15px">
-                <Button type="primary" >添加</Button>
+                <Button type="primary" @click="changeModalVisible=true">添加</Button>
                 <Button type="primary">删除</Button>
                 <Button type="primary">编辑</Button>
             </div>
@@ -53,7 +53,7 @@
         <Card v-else-if="selectModel==5">
             <Row type="flex" style="margin-bottom:15px;">
                 <Col span="20" class="handle-top-left">
-                <h3>授权信息</h3>
+                    <h3>授权信息</h3>
                 </Col>
                 <Col span="4" class="handle-top-right">
                 <Button type="default" size="small">导入授权文件</Button>
@@ -62,14 +62,37 @@
             <Table border  :columns="columns" :data="tableData"></Table>
         </Card>
         <Card v-else>
-          <div style="margin-bottom:15px">
-                <Button type="primary" >添加</Button>
+            <div style="margin-bottom:15px">
+                <Button type="primary" @click="changeModalVisible=true">添加</Button>
                 <Button type="primary">删除</Button>
                 <Button type="primary">编辑</Button>
             </div>
             <Table border  :columns="columns" :data="tableData"></Table>
         </Card>
     </div>
+    <!-- 添加和编辑角色 -->
+    <Modal v-model="changeModalVisible" width="400">
+      <p slot="header" style="color:#f60;text-align:center">
+        <span>{{"添加"}}</span>
+      </p>
+      <div style="text-align:center">
+        <Form :model="formInfo" :label-width="80">
+          <FormItem label="分辨率">
+            <Input v-model="formInfo.resolution"></Input>
+          </FormItem>       
+          <FormItem label="说明">
+            <Input v-model="formInfo.desc" type="textarea" :rows="4"></Input>
+          </FormItem>
+          <FormItem label="是否默认">
+            <Input v-model="formInfo.nomol"></Input>
+          </FormItem>
+        </Form>
+      </div>
+      <div slot="footer" class="btn_center_wrap">			
+        <Button type="primary" @click="changeModalVisible=false">确认</Button>
+        <Button type="default" @click="changeModalVisible=false">取消</Button>
+      </div>
+    </Modal>
   </Card>
 </template>
 <script>
@@ -77,6 +100,8 @@ export default {
   data(){
         return {
             selectModel:0,
+            changeModalVisible:false,
+            formInfo:{},
             treeData:[
                 {
                   title: '消息服务器',
@@ -102,6 +127,11 @@ export default {
                 }
             ],
             columns:[
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
                 {
                     title:"分辨率",
                     key:"screen"
@@ -132,9 +162,6 @@ export default {
                     isDefault:"是"
                 },
             ],
-            formInfo: {
-
-            }
         }
     },
     methods:{

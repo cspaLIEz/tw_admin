@@ -2,9 +2,9 @@ import axios from 'axios';
 import env from '../../build/env';
 
 const ajaxUrl = env === 'development'
-? 'http://47.95.201.45:8080/mzfb'
+? 'http://180.76.117.202:8080/mzfb'
 : env === 'production'
-    ? 'http://47.95.201.45:8080/mzfb'
+    ? 'http://180.76.117.202:8080/mzfb'
     : 'https://debug.url.com';
 
 let options = {

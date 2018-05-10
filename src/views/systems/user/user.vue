@@ -12,7 +12,7 @@
               <Button type="primary" @click="handleEditRole(true)">编辑用户</Button>
               <Button type="primary" @click="setRole">设置角色</Button>
               <Button type="primary">用户导入</Button>
-              <Button type="primary">用户导出</Button>
+              <Button type="primary" @click="exportData()"><Icon type="ios-download-outline" style="margin-right:5px"></Icon>用户导出</Button>
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
@@ -27,7 +27,7 @@
           </Col>
       </Row>
     </div>
-    <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData"></Table>
+    <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData" ref="table"></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
           <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
@@ -76,21 +76,21 @@
       <div style="text-align:center">
         <Form :model="setRoleInfo" :label-width="80">
           <FormItem label="用户名">
-            <Input v-model="setRoleInfo.userName" ></Input>
+            <Input v-model="setRoleInfo.userName" disabled></Input>
           </FormItem>
           <FormItem label="登录名">
-            <Input v-model="setRoleInfo.loginName"></Input>       
+            <Input v-model="setRoleInfo.loginName" disabled></Input>       
           </FormItem>
           <FormItem label="所属机构">
-            <Select v-model="setRoleInfo.organId">
+            <Select v-model="setRoleInfo.organId" disabled>
               <Option v-for="item in userSelection" :value="item.organId" :key="item.organId">{{item.organValue}}</Option>
             </Select>
           </FormItem>
           <FormItem label="电子邮箱">
-            <Input v-model="setRoleInfo.email"></Input>       
+            <Input v-model="setRoleInfo.email" disabled></Input>       
           </FormItem>
           <FormItem label="联系电话">
-            <Input v-model="setRoleInfo.userTel"></Input>       
+            <Input v-model="setRoleInfo.userTel" disabled></Input>       
           </FormItem>
           <FormItem label="用户角色">
             <Select v-model="setRoleInfo.userRole">
@@ -170,13 +170,14 @@ export default {
       columns: [
         {
           type: 'selection',
-          width: 60,
+          width: 58,
           align: 'center'
         },
         {
           type: 'index',
           title: "序号",
-          key: "index"
+          key: "index",
+          width: 61,
         },
         {
           title: "用户名",
@@ -236,7 +237,6 @@ export default {
             organId: 'JG0001',
             organValue: "武汉大学"
           }]
-          console.log(this.userSelection)
         }else{
           this.$Message.error(res.message);
         }
@@ -267,6 +267,7 @@ export default {
             this.$Message.success("编辑成功");
             this.getList();
             this.addUserModal=false;
+            this.codePassword=''
           }else{
             this.$Message.error(res.message);
           }
@@ -276,6 +277,7 @@ export default {
           if(res.status==0){
             this.$Message.success("添加成功");
             this.getList();
+            this.codePassword=''
             this.addUserModal=false;
           }else{
             this.$Message.error(res.message);
@@ -312,14 +314,12 @@ export default {
       
     },
     setRole(){
-      let obj ={
-          userName:"11",
-          loginName:"222",
-          password:"333",
-          organId:"shanghai",
-          email:"55",
-          userTel:"145454"
-        }
+      let obj = {}
+      if(this.checkSelection.length!=1){
+        this.$Message.error("只能选中一项进行编辑");
+        return;
+      }
+      obj =this.checkSelection[0]
       this.setRoleInfo=obj;
       this.setRoleModal=true;
     },
@@ -333,7 +333,12 @@ export default {
     },
     changePage(current) {
       this.getList(current)
-    }
+    },
+    exportData(){
+      this.$refs.table.exportCsv({
+          filename: 'The original data'
+      });
+    },
   }
 };
 </script>

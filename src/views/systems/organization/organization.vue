@@ -11,7 +11,7 @@
               <Button type="primary" @click="handleDel()">删除机构</Button>
               <Button type="primary" @click="handleEditRole(true)">编辑机构</Button>
               <Button type="primary" @click="organupdata=true">机构导入</Button>
-              <Button type="primary">机构导出</Button>
+              <Button type="primary" @click="exportData()"><Icon type="ios-download-outline" style="margin-right:5px"></Icon>机构导出</Button>
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
@@ -26,11 +26,10 @@
                   <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
                   <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
               </div>
-
           </Col>
       </Row>
     </div>
-    <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData"></Table>
+    <Table border @on-selection-change="hangdleSelect"  :columns="columns" :data="tableData" ref="table"></Table>
     <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
             <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
@@ -137,13 +136,14 @@ export default {
       columns: [
         {
           type: 'selection',
-          width: 60,
+          width: 58,
           align: 'center'
         },
         {
-		  type: 'index',
+          type: 'index',
           title: "序号",
-		  key: "index",
+          key: "index",
+          width: 61,
         },
         {
           title: "机构ID",
@@ -290,7 +290,12 @@ export default {
     },
     changePage(current) {
       this.getList(current)
-    }
+    },
+    exportData(){
+      this.$refs.table.exportCsv({
+          filename: 'The original data'
+      });
+    },
   }
 };
 </script>

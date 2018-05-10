@@ -17,6 +17,7 @@ export const getroleinfolist = data => axios.post('/role/getroleinfolist', data)
 export const addrole = data => axios.post('/role/addrole', data);
 export const delrole = data => axios.post('/role/delrole', data);
 export const editrole = data => axios.post('/role/editrole', data);
+export const getmenulist = data => axios.post('/menu/getmenulist', data);
 
 // 用户管理模块
 export const getuserinfolist = data => axios.post('user/getuserinfolist', data);

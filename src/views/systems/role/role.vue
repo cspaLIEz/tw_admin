@@ -11,7 +11,7 @@
               <Button type="primary" @click="handleDel()">删除角色</Button>
               <Button type="primary" @click="handleEditRole(true)">编辑角色</Button>
               <Button type="primary">角色导入</Button>
-              <Button type="primary">角色导出</Button>
+              <Button type="primary" @click="exportData()"><Icon type="ios-download-outline" size="14px" style="margin-right:5px"></Icon>角色导出</Button>
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
@@ -26,14 +26,14 @@
           </Col>
       </Row>
     </div>
-    <Table border @on-selection-change="hangdleSelect" :columns="columns" :data="tableData" ></Table>
+    <Table border @on-selection-change="hangdleSelect" :columns="columns" :data="tableData" ref="table"></Table>
     <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
             <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
         </div>
     </div>
     <!-- 添加和编辑角色 -->
-    <Modal v-model="addRoleModal" width="600">
+    <Modal v-model="addRoleModal" width="650">
       <p slot="header" style="color:#f60;text-align:center">
         <span>{{isEdit?"编辑角色":"添加角色"}}</span>
       </p>
@@ -50,10 +50,9 @@
                       :value="item.checkAll"
                       @click.prevent.native="handleCheckAll(item)" style="color:#2b85e4">{{item.AllLabel}}</Checkbox>
                 </li>
-                <li >
-                    
+                <li>                
                   <CheckboxGroup v-model="item.checkValue" @on-change="checkboxGroupChange(item)">
-                      <Checkbox :label="childItem.value" :key="childItem.value" v-for="childItem in item.checkGroup">{{childItem.childLabel}}</Checkbox>
+                      <Checkbox :label="childItem.value" :key="childItem.value" v-for="childItem in item.checkGroup">{{childItem.label}}</Checkbox>
                   </CheckboxGroup>
                 </li>
             </ul>            
@@ -80,7 +79,8 @@
   </Card>
 </template>
 <script>
-import {getroleinfolist,editrole,addrole,delrole} from '@/api/api';
+import {getroleinfolist,editrole,addrole,delrole,getmenulist} from '@/api/api';
+import { pramsChange } from '../../../config/until';
 export default {
   data() {
     return {
@@ -98,7 +98,7 @@ export default {
         {
           AllLabel:"节目管理",
           checkAll:false,
-          indeterminate:true,
+          indeterminate:false,
           checkAllValue:["0","1","2","3"],
           checkValue:[],
           checkGroup:[
@@ -124,7 +124,7 @@ export default {
           AllLabel:"终端管理",
           checkAll:false,
           checkValue:[],
-          indeterminate:true,
+          indeterminate:false,
           checkAllValue:["0","1","2"],
           checkGroup:[
             {
@@ -145,7 +145,7 @@ export default {
           AllLabel:"资源管理",
           checkAll:false,
           checkValue:[],
-          indeterminate:true,
+          indeterminate:false,
           checkAllValue:["0","1"],
           checkGroup:[
             {
@@ -162,7 +162,7 @@ export default {
           AllLabel:"日志管理",
           checkAll:false,
           checkValue:[],
-          indeterminate:true,
+          indeterminate:false,
           checkAllValue:["0","1"],
           checkGroup:[
             {
@@ -179,7 +179,7 @@ export default {
           AllLabel:"系统管理",
           checkAll:false,
           checkValue:[],
-          indeterminate:true,
+          indeterminate:false,
           checkAllValue:["0","1","2","3"],
           checkGroup:[
             {
@@ -230,13 +230,14 @@ export default {
       columns: [
         {
           type: 'selection',
-          width: 60,
+          width: 58,
           align: 'center'
         },
         {
           type: 'index',
           title: "序号",
-          key: "index"
+          key: "index",
+          width: 61,
         },
         {
           title: "角色名称",
@@ -255,7 +256,8 @@ export default {
     };
   },
   mounted:function(){
-    this.getList()
+    this.getList();
+    this.getMenuList();
   },
   methods: {
     register(index) {},
@@ -268,7 +270,6 @@ export default {
         } else {
             e.checkAll = !e.checkAll;
         }
-        console.log(e)
         e.indeterminate=false;
         if (e.checkAll) {
             e.checkValue = e.checkAllValue;
@@ -287,11 +288,55 @@ export default {
             item.indeterminate = false;
             item.checkAll = false;
         }
-      console.log(item)
-      console.log(this.checkAllGroup)
     },
     handleAddRole(){
-      this.addRoleModal=false
+      let {roleName,roleDesc,roleId} = this.formInfo;
+      let roleFunc=pramsChange(this.checkAllGroup.map((item) => pramsChange(item.checkValue)));
+      if(this.isEdit){
+        console.log(this.formInfo)
+        editrole({roleName,roleDesc,roleFunc,roleId}).then((res)=>{
+          if(res.status==0){
+            this.$Message.success("编辑成功");
+            this.getList();
+            this.addRoleModal=false;
+          }else{
+            this.$Message.error(res.message);
+          }
+        })
+      }else{
+        addrole({roleName,roleDesc,roleFunc}).then((res)=>{
+          if(res.status==0){
+            this.$Message.success("添加成功");
+            this.addRoleModal=false;
+            this.getList();
+          }else{
+            this.$Message.error(res.message);
+          }
+        })
+      }
+      
+    },
+    getMenuList(){
+      getmenulist({loginer:'admin',loginId:'YH0001'}).then(res=>{
+        if(res.status==0){
+          let ary = res.data.map((item,index)=>{
+            let obj = {
+              AllLabel:"",
+              checkAll:false,
+              indeterminate:false,
+              checkAllValue:[],
+              checkValue:[],
+              checkGroup:[]
+            };
+            obj.AllLabel=item.menuItem;
+            obj.checkAllValue=item.secondLevel.map((itemSon=>itemSon.menuItemId));
+            obj.checkGroup=item.secondLevel.map((itemSon)=>({value:itemSon.menuItemId,label:itemSon.menuItem}));
+            return obj
+          })
+         this.checkAllGroup=ary;
+        }
+        
+      })
     },
     handleSearch(){
       this.selectSearch={
@@ -330,14 +375,7 @@ export default {
       }
     },
     handleDelOk(){
-      let roleIdStr=""
-      this.checkSelection.map((item,index)=>{
-        if(index==this.checkSelection.length-1){
-          roleIdStr+=item.roleId
-        }else{
-          roleIdStr += item.roleId + ";";
-        }
-      })
+      let roleIdStr=pramsChange(this.checkSelection,";","roleId");
       delrole({roleId:roleIdStr}).then((res)=>{
         if(res.status==0){
           this.$Message.success("删除成功");
@@ -346,24 +384,18 @@ export default {
         }else{
           this.$Message.error(res.message)
         }
-      })
-      
-      
+      })  
     },
     handleEditRole(isEdit){
       let obj = {}
       if(isEdit){
-        obj ={
-          roleName:'111',
-          roleDesc:'111',
-          roleFunc:'',
+        if(this.checkSelection.length!=1){
+          this.$Message.error("只能选中一项进行编辑");
+          return;
         }
+        obj =this.checkSelection[0]
       }else{
-          obj ={
-            roleName:'',
-            roleDesc:'',
-            roleFunc:'',
-          }
+        this.getMenuList()
       }
       this.formInfo=obj;
       this.isEdit=isEdit;
@@ -384,6 +416,11 @@ export default {
     },
     changePage(current) {
       this.getList(current)
+    },
+    exportData(){
+      this.$refs.table.exportCsv({
+        filename: 'The original data'
+      });
     }
   }
 };
