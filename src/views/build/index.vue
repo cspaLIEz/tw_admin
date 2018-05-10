@@ -9,8 +9,8 @@
             <!-- <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.copy">复制</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.cut">剪切</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.stick">粘贴</v-contextmenu-item> -->
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
-            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item>
+            <!-- <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.lock">锁定</v-contextmenu-item>
+            <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.unlock">解锁</v-contextmenu-item> -->
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.delete" @click="deleteNode">删除</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveUp" @click="changeIndex('up')">上移一层</v-contextmenu-item>
             <v-contextmenu-item v-show="activeNode && activeNode.contextmenu.moveDown" @click="changeIndex('down')">下移一层</v-contextmenu-item>
@@ -31,12 +31,12 @@
             </div>
         </div>
         <div class="build-main">
-            <div class="build-main-left">
+            <div class="build-main-left" :class="{'closeAction':isCloseLeft}">
                 <div class="bml-header">
-                    <p></p>
-                    <img src="../../images/build/close_left.png" alt="">
+                    <p v-show="!isCloseLeft"></p>
+                    <img src="../../images/build/close_left.png" alt="" @click="leftNavClose">
                 </div>
-                <Collapse v-model="leftCollapse" class="bml-content">
+                <Collapse v-model="leftCollapse" class="bml-content" v-show="!isCloseLeft">
                     <Panel name="1" class="program-tree bml-group">
                         <div class="group-header">
                             页面
@@ -92,7 +92,7 @@
                                     </Row>
                                 </div>
                             </Panel>
-                            <Panel name="3">
+                            <!-- <Panel name="3">
                                 <div class="component-group-header">
                                     可视化组件
                                     <span>
@@ -102,7 +102,7 @@
                                 <div slot="content">
                                     
                                 </div>
-                            </Panel>
+                            </Panel> -->
                         </Collapse>
                     </Panel>
                     <Panel name="3" class="template-group bml-group">
@@ -147,19 +147,19 @@
                 <div class="tool-bar-container">
                     <a href="javascript:;" @click="alignAction('top')">
                         <img src="../../images/build/align_top.png" alt="">
-                        <p>上对其</p>
+                        <p>上对齐</p>
                     </a>
                     <a href="javascript:;" @click="alignAction('bottom')">
                         <img src="../../images/build/align_down.png" alt="">
-                        <p>下对其</p>
+                        <p>下对齐</p>
                     </a>
                     <a href="javascript:;" @click="alignAction('left')">
                         <img src="../../images/build/align_left.png" alt="">
-                        <p>左对其</p>
+                        <p>左对齐</p>
                     </a>
                     <a href="javascript:;" @click="alignAction('right')">
                         <img src="../../images/build/align_right.png" alt="">
-                        <p>右对其</p>
+                        <p>右对齐</p>
                     </a>
                     <a href="javascript:;" @click="changeIndex('top')">
                         <img src="../../images/build/zindex_top.png" alt="">
@@ -193,14 +193,14 @@
                         <img src="../../images/build/scale_down.png" alt="">
                         <p>缩小</p>
                     </a>
-                    <a href="javascript:;">
+                    <!-- <a href="javascript:;">
                         <img src="../../images/build/lock_close.png" alt="">
                         <p>锁定</p>
                     </a>
                     <a href="javascript:;">
                         <img src="../../images/build/lock_open.png" alt="">
                         <p>解锁</p>
-                    </a>
+                    </a> -->
                     <a href="javascript:;" @click="fullPageAction()">
                         <img src="../../images/build/fullscreen.png" alt="">
                         <p>全屏</p>
@@ -232,12 +232,12 @@
                     </div>
                 </div>
             </div>
-            <div class="build-main-right">
+            <div class="build-main-right" :class="{'closeAction':isCloseRight}">
                 <div class="bmr-header">
-                    <img src="../../images/build/close_right.png" alt="">
+                    <img src="../../images/build/close_right.png" alt="" @click="rightNavClose">
                     <p></p>
                 </div>
-                <div class="bmr-content">
+                <div class="bmr-content" v-show="!isCloseRight">
                     <div class="program-attr-setbox" v-if="!activeNode">
                         <div class="setbox-item">
                             <span>节目名称</span> <input type="text" v-model="programTreeData[0].title">
@@ -270,7 +270,7 @@
                         <div v-if="activeNode.ctype == 'text'">
                             <div class="setbox-item">
                                 <span>文本内容</span>
-                                <input type="text" v-model="activeNode.attrs.innerHtml">
+                                <textarea type="text" v-model="activeNode.attrs.innerHtml" style="resize:both"></textarea>
                             </div> 
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">

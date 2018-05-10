@@ -56,14 +56,12 @@
     .build-main{
         height: calc(~"100% - 60px");
         display: flex;
-        &>div{
-            flex: 0 0 auto;
-        }
         &-left,&-right{
-            width: 270px;
+            flex: 0 1 270px;
         }
         &-center{
             width: calc(~"100% - 540px");
+            flex-grow: 1;
         }
         &-left{
             background: #323233;
@@ -168,10 +166,12 @@
             .components-group{
                 .component-collapse{
                     padding: 0px 10px;
+                    .ivu-collapse-item{
+                        border-bottom: 1px solid #535353;
+                    }
                     .component-group-header{
                         height: 30px;
                         line-height: 28px;
-                        border-bottom: 1px solid #535353;
                         box-sizing: border-box;
                         position: relative;
                         padding-left: 10px;
@@ -221,6 +221,9 @@
                     }
                 }
             }
+        }
+        &-left.closeAction,&-right.closeAction{
+            flex: 0 1 60px;
         }
         &-right{
             background: #323233;

@@ -23,8 +23,10 @@ export default {
     components:{Setting,MzText,MzImage,MzMarquee,MzNowdate,MzTimer,MzVideo,MzIframe,MzQrcode,MzButton,MzLive,MzFile,MzDyText,MzWeather},
     data(){
         return {
+            isCloseLeft:false,
+            isCloseRight:false,
             leftCollapse:[2],
-            componentCollapse:[],
+            componentCollapse:[1],
             imageList:[{
                 value:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523814444032&di=a3052f88ca9a398c0947f7af05d483de&imgtype=0&src=http%3A%2F%2Fimg1.2345.com%2Fduoteimg%2FzixunImg%2Flocal%2F2017%2F02%2F24%2F14878982262042.jpg",
                 label:"图片一"
@@ -108,6 +110,12 @@ export default {
         }.bind(this))
     },
     methods:{
+        leftNavClose(){
+            this.isCloseLeft = !this.isCloseLeft;
+        },
+        rightNavClose(){
+            this.isCloseRight = !this.isCloseRight;
+        },
         onTreeSelectChange(item){ //树节点改变选中时
             console.log(item);
         },
