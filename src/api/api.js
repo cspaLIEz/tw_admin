@@ -50,6 +50,7 @@ export const copyprginfo = data => axios.post('/program/copyprginfo', data);
 export const submitprg = data => axios.post('/program/submitprg', data);
 
 //节目审批列表
+export const getprgappinfolist = data => axios.post('/program/getprgappinfolist', data);
 
 //插播消息列表
 export const getmsginfolist = data => axios.post('/message/getmsginfolist', data);
