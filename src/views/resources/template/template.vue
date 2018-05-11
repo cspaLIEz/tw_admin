@@ -14,13 +14,16 @@
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
                         <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
@@ -28,14 +31,14 @@
         <div class="view-main">
           <div class="view-main-left">
             <Card>
-              <Tree :data="treeData"></Tree>
+              <Tree :data="treeData" :render="renderContent"></Tree>
             </Card>
           </div>
           <div class="view-main-right">
             <Table border  :columns="columns" :data="tableData"></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
-                    <Page :total="100" :current="1" @on-change="changePage"></Page>
+                    <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
                 </div>
             </div>
           </div>
@@ -81,30 +84,42 @@
         <Modal v-model="MaterialUpload" title="上传素材">
             <Form :model="approvaFrom" :label-width="80">
                 <FormItem label="素材类型">
-                    <Select  style="width:200px">
-                        <Option >文本素材</Option>
-                        <Option >视频素材</Option>
-                        <Option >图片素材</Option>
-                        <Option >音频素材</Option>
+                    <Select v-model="approvaFrom.type"  style="width:200px">
+                        <Option value="1">文本素材</Option>
+                        <Option value="2">视频素材</Option>
+                        <Option value="3">图片素材</Option>
+                        <Option value="4">音频素材</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="素材分组">
-                    <Select  style="width:200px">
-                        <Option >1</Option>
-                        <Option >2</Option>
-                        <Option >3</Option>
-                        <Option >4</Option>
+                    <Select v-model="approvaFrom.group"  style="width:200px">
+                        <Option value="1">1</Option>
+                        <Option value="2">2</Option>
+                        <Option value="3">3</Option>
+                        <Option value="4">4</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="素材本地地址">
-                    <Upload action="//jsonplaceholder.typicode.com/posts/">
-                    <Button type="ghost" >浏览</Button>
-                </Upload>
+                    <FormItem label="素材本地地址">
+                        <Upload action="//jsonplaceholder.typicode.com/posts/">
+                        <Button type="ghost" >浏览</Button>
+                    </Upload>
                 </FormItem>
             </Form>
             <div slot="footer" class="btn_center_wrap">			
                 <Button type="primary" @click="MaterialUpload=false">上传</Button>
                 <Button type="default" @click="MaterialUpload=false">取消</Button>
+            </div>
+        </Modal>
+        <!--添加分租-->
+        <Modal v-model="groupModelVisible" title="创建分组">
+            <Form :model="groupFrom" :label-width="80">
+                <FormItem label="分组名称">
+                    <Input v-model="groupFrom.name"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer" class="btn_center_wrap">		
+                <Button type="primary" @click="append()">确定</Button>
+                <Button type="default" @click="groupModelVisible=false">取消</Button>
             </div>
         </Modal>
     </Card>
@@ -117,15 +132,54 @@ export default {
     data(){
         return {
             value2:1,
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            tagObj:{},
             renameModal:false,
             approvaModal:false,
             MaterialUpload:false,
+            checkData:null,
             renameFrom:{},
             approvaFrom:{},
+            groupModelVisible:false,
+            groupFrom:{},
             treeData:[
                 {
                     title: '终端分组1',
                     expand: true,
+                    render: (h, { root, node, data }) => {
+                        return h('span', {
+                            style: {
+                                display: 'inline-block',
+                                width: '100%'
+                            }
+                        }, [
+                            h('span', [
+                                h('span', data.title)
+                            ]),
+                            h('span', {
+                                style: {
+                                    display: 'inline-block',
+                                    float: 'right',
+                                }
+                            }, [
+                                h('Button', {
+                                    props: Object.assign({}, this.buttonProps, {
+                                        icon: 'ios-plus-empty'
+                                    }),
+                                    style: {
+                                        marginRight: '8px',
+                                        padding: "0px 5px",
+                                    },
+                                    on: {
+                                        click: () => { this.groupModelChange(data) }
+                                    }
+                                })
+                            ])
+                        ]);
+                    },
                     children: [
                         {
                             title: '终端1'
@@ -141,6 +195,37 @@ export default {
                 {
                     title: '终端分组2',
                     expand: true,
+                    render: (h, { root, node, data }) => {
+                        return h('span', {
+                            style: {
+                                display: 'inline-block',
+                                width: '100%'
+                            }
+                        }, [
+                            h('span', [
+                                h('span', data.title)
+                            ]),
+                            h('span', {
+                                style: {
+                                    display: 'inline-block',
+                                    float: 'right',
+                                }
+                            }, [
+                                h('Button', {
+                                    props: Object.assign({}, this.buttonProps, {
+                                        icon: 'ios-plus-empty'
+                                    }),
+                                    style: {
+                                        marginRight: '8px',
+                                        padding: "0px 5px",
+                                    },
+                                    on: {
+                                        click: () => { this.groupModelChange(data) }
+                                    }
+                                })
+                            ])
+                        ]);
+                    },
                     children: [
                         {
                             title: '终端1'
@@ -177,14 +262,14 @@ export default {
             columns: [
                 {
                     type: 'selection',
-                    width: 60,
+                    width: 58,
                     align: 'center'
                 },
                 {
                     type: 'index',
-                    title:"序号",
-                    width: 80,
-                    align: 'center'
+                    title: "序号",
+                    key: "index",
+                    width: 61,
                 },
                 {
                     title: '模板名称',
@@ -287,24 +372,110 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.getList()
+    },
     methods:{
+        renderContent (h, { root, node, data }) {
+            return h('span', {
+                style: {
+                    display: 'inline-block',
+                    width: '100%'
+                }
+            }, [
+                h('span', [
+                    h('span', data.title)
+                ]),
+                h('span', {
+                    style: {
+                        display: 'inline-block',
+                        float: 'right',
+                    }
+                }, [
+                    h('Button', {
+                        props: Object.assign({}, this.buttonProps, {
+                            icon: 'ios-minus-empty'
+                        }),
+                        style: {
+                            marginRight: '8px',
+                            padding: "0px 5px",
+                        },
+                        on: {
+                            click: () => { this.remove(root, node, data) }
+                        }
+                    })
+                ])
+            ]);
+        },
         detail(index){
 
         },
-        approve (index) {
-            
+        handleSearch(){
+            let { tagObj, terminalType, searchLikes} = this;
+            tagObj[terminalType]=searchLikes;
+            this.getList(1,this.pageSize,tagObj)
         },
-        changePage (){
-            // this.tableData1 = this.mockTableData1();
+        handleCloseTag(e,name){
+            let tagObj= { ...this.tagObj };
+            delete tagObj[name];
+            this.tagObj=tagObj;
+        },
+        changePage(current) {
+            this.getList(current)
         },
         hrefs(){
              this.$router.push('../build')
+        },
+        groupModelChange(data){
+            if(data){
+                this.checkData=data;
+            }
+            this.groupModelVisible=true;
+        },
+        append () {
+            const children = this.checkData.children || [];
+            children.push({
+                title: this.groupFrom.name,
+                expand: true
+            });
+            this.$set(this.checkData, 'children', children);
+            console.log(this.checkData)
+            this.groupModelVisible=false;
+        },
+        remove (root, node, data) {
+            const parentKey = root.find(el => el === node).parent;
+            const parent = root.find(el => el.nodeKey === parentKey).node;
+            const index = parent.children.indexOf(data);
+            parent.children.splice(index, 1);
+        },
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch,operType=1){
+            let data = {
+                pageSize,
+                currentPage,
+                operType,
+                ...searchInfo
+            }
+            Gettempinfolist(data).then((res)=>{
+                console.log(res)
+                // if(res.status==0){
+                //     this.tableData=res.data.pinfo;
+                //     this.pageSize=pageSize;
+                //     this.currentPage=currentPage;
+                //     this.totalPage=res.data.totalPage;
+                //     this.totalRecord=res.data.totalRecord;
+                //     this.selectSearch=searchInfo;
+                //     this.orgSelection=res.data.tree;
+                // }else{
+                //     this.$Message.error(res.message);
+                // }
+            })
+        },
+        getList(){
+            Gettempinfolist({loginer:"admin"}).then((res)=>{
+                console.log(res)
+            })
         }
     },
-    created:function(){
-        Gettempinfolist({loginer:"admin"}).then((res)=>{
-            console.log(res)
-        })
-    }
+
 };
 </script>
