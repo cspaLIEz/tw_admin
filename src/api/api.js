@@ -72,7 +72,7 @@ export const Getmateriallist = data => axios.post('/material/getmateriallist', d
 
 export const Gettempinfolist = data => axios.post('/template/gettempinfolist', data);
 
-
+export const Getreldetail = data => axios.post('/release/getreldetail', data);
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

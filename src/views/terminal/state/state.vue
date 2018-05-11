@@ -18,24 +18,24 @@
                 </Col>
                 <Col span="20" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px">
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
-                    </div>
-                    <div class="search-item">
-                        <Checkbox v-model="searchInResult">在结果中查询</Checkbox>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
         </div>
-        <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
+        <Table border  :columns="columns" :data="tableData"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
             </div>
         </div>
         <Modal v-model="editorModel" width="560">
@@ -99,10 +99,15 @@
 </template>
 <script>
 
-import {Getdevstatusinfolist} from '@/api/api';
+import {Getdevstatusinfolist,getdevgroupinfolist} from '@/api/api';
 export default {
   data() {
     return {
+        searchLikes: "",
+      terminalType: "",
+      tagObj: {},
+      pageSize: 20,
+      currentPage: 1,
       autoRefresh: false,
       editorModel: false,
       modal_loading: false,
@@ -262,16 +267,67 @@ export default {
     changePage (){
         // this.tableData1 = this.mockTableData1();
         
-    }
-  },
-  created:function(){
-      Getdevstatusinfolist({
-            loginer:"admin",
+    },
+    handleSearch() {
+      let { tagObj, terminalType, searchLikes } = this;
+      tagObj[terminalType] = searchLikes;
+        this.getlist(1,this.pageSize,tagObj)
+    },
+    handleCloseTag(e, name) {
+      let tagObj = { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj = tagObj;
+    },
+    getlist(currentPage = this.currentPage,
+      pageSize = this.pageSize,
+      searchInfo = this.selectSearch){
+          let data = {
+          pageSize,
+          currentPage,
+          ...searchInfo
+        };
+        Getdevstatusinfolist({
             currentPage:"1",
             pageSize:"10"
         }).then((res)=>{
-            this.tableData=res
+            this.tableData=res.data.pinfo
+            this.selectSearch=searchInfo;
+          this.pageSize=pageSize;
+          this.currentPage=currentPage;
+          this.totalPage=res.data.totalPage;
+          this.totalRecord=res.data.totalRecord;
+          
         })
+    },
+    getLeftGroup(){
+            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+                console.log(res)
+                let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.groupName;
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
+            })
+        }
+  },
+  created:function(){
+      this.getlist()
+       this.getLeftGroup()
   }
 };
 </script>

@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import {Gettempinfolist} from "@/api/api"
+import {Gettempinfolist,getdevgroupinfolist} from "@/api/api"
 export default {
     name: 'releaseschedule',
     data(){
@@ -299,12 +299,38 @@ export default {
         },
         hrefs(){
              this.$router.push('../build')
+        },
+        getLeftGroup(){
+            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+                console.log(res)
+                let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.groupName;
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
+            })
         }
     },
     created:function(){
         Gettempinfolist({loginer:"admin"}).then((res)=>{
             console.log(res)
         })
+        this.getLeftGroup()
     }
 };
 </script>

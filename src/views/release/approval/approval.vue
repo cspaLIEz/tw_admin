@@ -9,13 +9,16 @@
             <Row type="flex">
                 <Col span="24" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px">
+                      <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
@@ -23,7 +26,7 @@
         <Table border  :columns="columns" :data="ContData.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="totalRecord" :current="currentPage" @on-change="changePage" :page-size="pageSize" show-elevator show-total></Page>
             </div>
         </div>
         <Modal v-model="deleteModal" title="发布详情" width="880">
@@ -54,7 +57,7 @@
                     <FormItem label="发布模式">
                         <Select  style="width:200px">
                             <Option value="1">定时发布</Option>
-                            <Option value="1">周期发布</Option>
+                            <Option value="2">周期发布</Option>
                         </Select> 
                     </FormItem>
                     </Col>
@@ -66,8 +69,8 @@
                     </Row>
                     <FormItem label="播放模式">
                         <Select  style="width:200px">
-                            <Option >定时发布</Option>
-                            <Option >周期发布</Option>
+                            <Option value="3" >定时发布</Option>
+                            <Option value="4" >周期发布</Option>
                         </Select> 
                     </FormItem>
                     <FormItem label="起止时间">
@@ -77,12 +80,12 @@
             <p style="font-size:16px;font-weigth:bold" >2.播放日程</p>
             <p style="border:1px solid #dddee1;text-align:center">星期一 13:10~13:20</p>
             <p style="font-size:16px;font-weigth:bold" >3.终端信息</p>
-            <Table border  :columns="columns" :data="ContData.pinfo"></Table>
+            <Table border  :columns="Twocolumns" :data="data3.devlist"></Table>
             <p style="font-size:16px;font-weigth:bold" >4.审批操作</p>
             <FormItem label="审批结果">
                 <Select  style="width:200px" >
-                <Option >审批通过</Option>
-                <Option >审批未通过</Option>
+                <Option value="5" >审批通过</Option>
+                <Option value="6" >审批未通过</Option>
                 </Select> 
             </FormItem>
             <FormItem label="审批意见">
@@ -90,8 +93,8 @@
             </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="" @click="deleteModal=false">取消</Button>
-                <Button type="" >确认</Button>
+                <Button type="primary" @click="deleteModal=false">取消</Button>
+                <Button type="primary" >确认</Button>
             </div>
         </Modal>
         
@@ -99,11 +102,21 @@
 </template>
 
 <script>
-import { Getprginfolist } from "@/api/api";
+import { Getprginfolist,Getreldetail } from "@/api/api";
 export default {
   name: "releaseschedule",
   data() {
     return {
+      searchLikes: "",
+      terminalType: "",
+      tagObj: {},
+      totalRecord:1,
+      selectSearch:{},
+      searchLikes: "",
+      terminalType: "",
+      tagObj: {},
+      pageSize: 20,
+      currentPage: 1,
       disableds:true,  
       deleteModal: false,
       value2: 1,
@@ -139,6 +152,27 @@ export default {
           ]
         }
       ],
+      Twocolumns:[
+                {
+                    title:"终端名称",
+                    key:"devName"
+                },{
+                    title:"终端状态",
+                    key:"devTypeName"
+                },{
+                    title:"分辨率",
+                    key:"resolutionValue"
+                },{
+                    title:"终端类型",
+                    key:"devTypeName"
+                },{
+                    title:"所属机构",
+                    key:"groupName"
+                },{
+                    title:"位置信息",
+                    key:"devLocation"
+                }
+            ],
       terminalType: "all",
       typeList: [
         {
@@ -204,8 +238,7 @@ export default {
           title: " ",
           key: "approveResultCode",
           render: (h, params) => {
-            const text =
-              params.row.approveResultCode == "已通过" ? "详情" : "审批";
+            const text = params.row.approveResultCode == "已通过" ? "详情" : "审批";
 
             return h(
               "Button",
@@ -219,7 +252,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.detail(params.index);
+                    // console.log(params.row.progId)
+                    this.detail(params.row.progId);
                   }
                 }
               },
@@ -277,12 +311,66 @@ export default {
             approveUserId: "1", //(审批人代码）
             approveUserName: "1", //(审批人名)
             approveTime: "1" //(审批时间)
-      }
+      },
+      data3: {
+        relinfo:{
+            id:"",//(记录顺序号)
+            releaseId:"",//(发布编号)
+            releaseName:"",//(发布名称)
+            releaseTypeCode:"",//(发布类型代码)
+            releaseType:"",//(发布类型)
+            releaseModeCode:"",//(发布模式代码)
+            releaseMode:"",//(发布模式)
+            releaseTime:"",//(发布时间)
+          },
+          proginfo:{
+          progId:"",//(节目ID)
+          progName:"",//(节目名称)
+            prgPlayModeCode:"",//(播放模式代码)
+            prgPlayMode:"",//(播放模式)
+            expirationStartTime:"",//(有效期开始时间)
+            expirationEndTime:"",//(有效期结束时间)
+            releaseStatusCode:"",//(发布状态代码)
+            releaseStatus:"",//(发布状态)
+
+            },
+          playSchedule:[ "Time1","time2"],//(播放时段)
+          devlist:[{
+              id:"",//(记录顺序号)
+              devId:"",//(终端代码)
+              devIdentification:"",//(终端标识)
+              devName:"",//(终端名称)
+              devTypeCode:"",//(终端类型代码)
+              devTypeName:"",//(终端类型)
+              devIpAddr:"",//(终端IP地址)
+              devLocation:"",//(终端地点)
+              resolutionCode:"",//(终端分辨率代码)
+              resolutionValue:"",//(终端分辨率)
+              groupCode:"",//(终端所在组代码)
+              groupName:"",//(终端所在组)
+          }],
+          approveinfo:{
+            approveUserId:"",//(审批人代码)
+            approveUserName:"",//(审批人)
+            approveResult:"",//(审结结果代码)
+            approveOption:"",//(审批意见)
+            approveTime:"",//(审批时间)
+            }
+	
+  }
+
     };
   },
   methods: {
-    detail(index) {
-      console.log(index);
+    detail(data) {
+      // console.log(data)
+      Getreldetail({
+        "loginer":"admin",
+        "loginId":"YH0001",
+        "releaseId":data
+      }).then((res)=>{
+        // console.log(res)
+      })
       this.deleteModal = true;
     },
     approve(index) {
@@ -290,17 +378,33 @@ export default {
     },
     changePage() {
       // this.tableData1 = this.mockTableData1();
+    },
+    getlist(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+      let data = {
+                pageSize,
+                currentPage,
+                ...searchInfo
+            }
+      Getprginfolist(data).then(
+        (res) =>{
+          this.ContData = res.data;
+        }
+      );
+    },
+    handleSearch() {
+      let { tagObj, terminalType, searchLikes } = this;
+      tagObj[terminalType] = searchLikes;
+        this.getlist(1,this.pageSize,tagObj)
+    },
+    handleCloseTag(e, name) {
+      let tagObj = { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj = tagObj;
     }
   },
   created: function() {
     // this.tableData=this.data.pinfo
-    Getprginfolist({
-      loginer: "admin"
-    }).then(
-      function(res) {
-        this.ContData = res.data;
-      }.bind(this)
-    );
+    this.getlist()
   }
 };
 </script>

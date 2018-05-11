@@ -11,7 +11,6 @@
                     <Button type="info" @click="MaterialUpload=true">上传</Button>
                     <Button type="warning" >删除</Button>
                     <Button type="info" @click="MaterialGrouping=true">分组</Button>
-                    <Button type="info">缩略图查看</Button>
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">

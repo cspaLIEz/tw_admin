@@ -18,16 +18,16 @@
                 </Col>
                 <Col span="20" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px">
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
-                    </div>
-                    <div class="search-item">
-                        <Checkbox v-model="searchInResult">在结果中查询</Checkbox>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
@@ -35,7 +35,7 @@
         <Table border  :columns="columns" :data="tableData.data.pinfo"></Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
+                <Page :total="tableData.data.totalRecord" :current="tableData.data.currentPage" @on-change="changePage" :page-size="tableData.data.pageSize" show-elevator show-total></Page>
             </div>
         </div>
         <!-- 删除框 -->
@@ -114,6 +114,11 @@ import { Getdeviceinfolist } from "@/api/api";
 export default {
   data() {
     return {
+      searchLikes: "",
+      terminalType: "1",
+      tagObj: {},
+      pageSize: 20,
+      currentPage: 1,
       deleteModal: false,
       deleteIndex: "",
       registerModal: false,
@@ -210,11 +215,11 @@ export default {
       searchLikes: "",
       searchInResult: "",
       columns: [
-        {
-          type: "selection",
-          width: 60,
-          align: "center"
-        },
+        // {
+        //   type: "selection",
+        //   width: 60,
+        //   align: "center"
+        // },
         {
           title: "终端名称",
           key: "devName"
@@ -394,20 +399,65 @@ export default {
   methods: {
     register(index) {},
     remove() {
-      this.tableData.splice(this.deleteIndex, 1);
+      this.tableData.data.pinfo.splice(this.deleteIndex, 1);
       this.deleteModal = false;
     },
     changePage() {
       // this.tableData1 = this.mockTableData1();
+    },
+    handleSearch() {
+      let { tagObj, terminalType, searchLikes } = this;
+      tagObj[terminalType] = searchLikes;
+        this.getlist(1,this.pageSize,tagObj)
+    },
+    handleCloseTag(e, name) {
+      let tagObj = { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj = tagObj;
+    },
+    getlist(currentPage = this.currentPage,
+      pageSize = this.pageSize,
+      searchInfo = this.selectSearch){
+        let data = {
+          pageSize,
+          currentPage,
+          ...searchInfo
+        };
+        Getdeviceinfolist(data).then((res) => {
+          console.log(res)
+          this.tableData = res;
+          this.selectSearch=searchInfo;
+          this.pageSize=pageSize;
+          this.currentPage=currentPage;
+          this.totalPage=res.data.totalPage;
+          this.totalRecord=res.data.totalRecord;
+          
+          let dataArr = []
+                dataArr=res.data.tree;
+                dataArr.map((item,index)=>{
+                    if(item.orggroup){
+                        item.children=item.orggroup;
+                        item.title=item.organName;
+                        item.children.map((childItem,index)=>{
+                            if(childItem.group){
+                                childItem.children=childItem.group;
+                                childItem.title=childItem.userName;
+                                childItem.children.map((grandsonItem,index)=>{
+                                    grandsonItem.title=grandsonItem.groupName;
+                                })
+                            }
+                            
+                        })
+                    }
+                
+                })
+                this.treeData=dataArr
+        });
     }
   },
   created: function() {
     // this.tableData=this.data.pinfo
-    Getdeviceinfolist({
-      loginer: "admin"
-    }).then(res => {
-      this.tableData = res;
-    });
+    this.getlist()
   }
 };
 </script>
