@@ -68,7 +68,6 @@ export default {
     computed:{
         buildPageStyle(){
             let style = this.programTreeData[0].fbl.split('*');
-            console.log(style)
             return {
                 width:style[0]+'px',
                 height:style[1]+'px',

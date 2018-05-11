@@ -107,7 +107,7 @@ export default {
             columns: [
                 {
                     type: 'index',
-                    width: 70,
+                    width: 61,
                     title: '序号',
                     align: 'center'
                 },

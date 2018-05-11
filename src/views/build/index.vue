@@ -253,13 +253,16 @@
                             </Select>
                         </div>
                         <div class="setbox-item">
-                            <span>节目类型</span> <input type="text" v-model="programTreeData[0].type">
+                            <span>节目类型</span>
+                            <Select v-model="programTreeData[0].type" style="width:160px">
+                                <Option value="普通节目">普通节目</Option>
+                            </Select>
                         </div>
                         <div class="setbox-item">
                             <span>背景音乐</span> <input type="text" v-model="programTreeData[0].bgAudio">
                         </div>
                         <div class="setbox-item">
-                            <span>背景颜色</span> <input type="text" v-model="programTreeData[0].bgColor">
+                            <span>背景颜色</span> <ColorPicker v-model="programTreeData[0].bgColor" />
                         </div>
                         <div>
                             
