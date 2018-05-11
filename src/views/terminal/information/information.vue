@@ -73,7 +73,16 @@
                     <FormItem label="安装地址">
                         <Input v-model="formRegister.address" readonly></Input>
                     </FormItem>
+                    <FormItem label="机构">
+                      <!-- v-model="formRegister.ogr" -->
+                        <Select value="all" >
+                            <Option value="all" checked>全部</Option>
+                            <Option value="admin">admin</Option>
+                            <Option value="zs">张三</Option>
+                        </Select>
+                    </FormItem>
                     <FormItem label="管理员">
+                       <!-- v-model="formRegister.admin" -->
                         <Select>
                             <Option value="admin">admin</Option>
                             <Option value="zs">张三</Option>
@@ -83,7 +92,7 @@
             </div>
             <div slot="footer">
                 <Button type="error" @click="registerModal=false">取消</Button>
-                <Button type="error" @click="register">确认</Button>
+                <Button type="error" @click="GroupRegist">确认</Button>
             </div>
         </Modal>
         <!--批量导入-->
@@ -110,7 +119,7 @@
   </Card>
 </template>
 <script>
-import { Getdeviceinfolist } from "@/api/api";
+import { Getdeviceinfolist,Regdevice,Deldevice } from "@/api/api";
 export default {
   data() {
     return {
@@ -128,7 +137,9 @@ export default {
         id: "",
         mark: "",
         type: "",
-        address: ""
+        address: "",
+        org:"",
+        admin:""
       },
       treeData: [
         {
@@ -274,7 +285,7 @@ export default {
                   on: {
                     click: () => {
                       this.register(params.index);
-                      this.registerModal = true;
+                      
                     }
                   }
                 },
@@ -289,7 +300,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.remove(params.index)
+                      //  this.remove(params.index)
                       this.deleteModal = true;
                       this.deleteIndex = params.index;
                     }
@@ -397,9 +408,22 @@ export default {
     };
   },
   methods: {
-    register(index) {},
+    register(index) {
+      // console.log(index)
+      this.formRegister.name=this.tableData.data.pinfo[index].devName
+      this.formRegister.id=this.tableData.data.pinfo[index].devId
+      this.formRegister.mark=this.tableData.data.pinfo[index].devIdentification
+      this.formRegister.type=this.tableData.data.pinfo[index].devTypeName
+      this.formRegister.address=this.tableData.data.pinfo[index].devLocation
+      this.registerModal = true;
+    },
     remove() {
-      this.tableData.data.pinfo.splice(this.deleteIndex, 1);
+      // this.tableData.data.pinfo.splice(this.deleteIndex, 1);
+      let data=this.tableData.data.pinfo[this.deleteIndex].devId
+      console.log(data)
+      Deldevice(data).then((res)=>{
+        console.log(res)
+      })
       this.deleteModal = false;
     },
     changePage() {
@@ -453,6 +477,12 @@ export default {
                 })
                 this.treeData=dataArr
         });
+    },
+    GroupRegist(){
+      Regdevice(this.formRegister).then((res)=>{
+        console.log(res)
+        this.registerModal = false;
+      })
     }
   },
   created: function() {

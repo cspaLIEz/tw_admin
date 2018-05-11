@@ -73,6 +73,14 @@ export const Getmateriallist = data => axios.post('/material/getmateriallist', d
 export const Gettempinfolist = data => axios.post('/template/gettempinfolist', data);
 
 export const Getreldetail = data => axios.post('/release/getreldetail', data);
+
+//终端注册接口
+export const Regdevice = data => axios.post('/device/regdevice', data);
+//终端删除列表
+export const Deldevice = data => axios.post('/device/deldevice', data);
+//终端运行属性保存接口
+
+export const Savedevruninfo = data => axios.post('/device/savedevruninfo', data);
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

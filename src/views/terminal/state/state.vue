@@ -94,15 +94,62 @@
               <Button type="warning">关闭</Button>
           </div>
       </Modal>
+      <Modal v-model="GrouoRunModel" width="560">
+          <p slot="header" style="color:#f60;text-align:center">
+              终端运行参数设置
+          </p>
+          <div style="text-align:center">
+              <Form :model="runGroupdata" :label-width="80">
+                <FormItem label="终端代码">
+                    <Input v-model="runGroupdata.devId"></Input>
+                </FormItem>
+                <FormItem label="终端名称">
+                    <Input v-model="runGroupdata.devname"></Input>
+                </FormItem>
+                <FormItem label="音量">
+                    <Slider v-model="runGroupdata.volume"></Slider>
+
+                </FormItem>
+                <FormItem label="存储报警阈值">
+                    <Input v-model="runGroupdata.devStoragethresh" style="width:200px"></Input><span>GB</span>
+                </FormItem>
+                <FormItem label="无操作返回等待时间">
+                    <Select v-model="runGroupdata.spareTime">
+                        <Option value="1">1分钟</Option>
+                        <Option value="3">3分钟</Option>
+                        <Option value="5">5分钟</Option>
+                        <Option value="10">10分钟</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="自动开机时间">
+                    <TimePicker :value="runGroupdata.spareTime" format="HH:mm" placeholder="选择时、分" style="width: 168px"></TimePicker>
+                </FormItem>
+                <FormItem label="自动关机时间">
+                    <TimePicker :value="runGroupdata.devAutoOffTime" format="HH:mm" placeholder="选择时、分" style="width: 168px"></TimePicker>
+                </FormItem>
+                <Checkbox v-model="runGroupdata.singleUsb">USB接口使能</Checkbox>
+                <Checkbox v-model="runGroupdata.singleAutoplay">开机自动播放节目</Checkbox>
+                <Checkbox v-model="runGroupdata.singleAutohidden">自动隐藏鼠标</Checkbox>
+                <Checkbox v-model="runGroupdata.singleFullscreen">自动全屏播放节目</Checkbox>
+            </Form>
+          </div>
+          <div slot="footer">
+              <Button type="warning">关闭</Button>
+              <Button type="primary" @click="uploadGroupdata">保存</Button>
+          </div>
+      </Modal>
     </div>
   </Card>
 </template>
 <script>
 
-import {Getdevstatusinfolist,getdevgroupinfolist} from '@/api/api';
+import {Getdevstatusinfolist,getdevgroupinfolist,Savedevruninfo} from '@/api/api';
 export default {
   data() {
     return {
+        sliderone:50,
+        GrouoRunModel:false,
+        totalRecord:"",
         searchLikes: "",
       terminalType: "",
       tagObj: {},
@@ -237,10 +284,31 @@ export default {
                   on: {
                     click: () => {
                       this.showModel(params.index)
+                      editorModel=true
                     }
                   }
                 },
-                "详情"
+                "基本属性"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                    //   this.showModel(params.index)
+                    // this.GrouoRunModel=true
+                    this.showGroup(params.index)
+                    }
+                  }
+                },
+                "运行配置"
               )
             ]);
           }
@@ -257,7 +325,26 @@ export default {
         time: '',
         slider: [20, 50],
         textarea: ''
-      }
+      },
+      runGroupdata:{
+            devname:'',
+            devId:"",//(终端代码)
+            // devAutoUpdateFlag(设备信息自动更新)
+            devStoragethresh:"",//(存储阈值)
+            devUsable:"",//(端口使能，0-否，1-是)
+            devAutoOnTime:"",//(开机时间,HH:mm)
+            devAutoOffTime:"",//(关机时间,HH:mm)
+            devMouseHide:"",//(鼠标是否隐藏，0-否，1-是)
+            devFullScreen:"",//(终端全屏，0-否，1-是)
+            spareTime:"3",//(无操作时间，取值1~10，默认3)
+            autoPlay:"",//(自动播放，0-否，1-是)
+            volume:50,//(终端音量，0~100，默认50)
+            singleUsb:false,
+            singleAutoplayb:false,
+            singleAutohidden:false,
+            singleFullscreen:false,
+      },
+      alldata:''
     };
   },
   methods: {
@@ -290,12 +377,14 @@ export default {
             currentPage:"1",
             pageSize:"10"
         }).then((res)=>{
+            // console.log(res)
+            this.alldata=res
             this.tableData=res.data.pinfo
             this.selectSearch=searchInfo;
-          this.pageSize=pageSize;
-          this.currentPage=currentPage;
-          this.totalPage=res.data.totalPage;
-          this.totalRecord=res.data.totalRecord;
+            this.pageSize=pageSize;
+            this.currentPage=currentPage;
+            this.totalPage=res.data.totalPage;
+            this.totalRecord=res.data.totalRecord;
           
         })
     },
@@ -323,6 +412,20 @@ export default {
                 })
                 this.treeData=dataArr
             })
+        },
+        showGroup(i){
+            console.log(this.alldata.data.pinfo[i].devId)
+            this.runGroupdata.devId=this.alldata.data.pinfo[i].devId
+            this.runGroupdata.devname=this.alldata.data.pinfo[i].devName
+            this.GrouoRunModel=true
+        },
+        uploadGroupdata(){
+            console.log(this.runGroupdata)
+            this.GrouoRunModel=false
+            Savedevruninfo().then((res) => {
+                console.log(res)
+            })    
+            
         }
   },
   created:function(){
