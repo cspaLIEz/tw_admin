@@ -115,7 +115,7 @@
             </div>
         </Modal>
         <Modal v-model="NewRelease2" width="880" title="第2步：节目选择">
-            <Form :label-width="80">
+            <Form :model="terminalType" :label-width="80">
                 <Row>
                 <Col span='12'>
                     <FormItem label="节目名称">
@@ -168,16 +168,16 @@
         </Modal>
         <Modal v-model="NewRelease3" width="1280" title="第3步：播放终端设置">
             <div  class="handle-top-right margin-bottom-10">
-                    <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px">
-                            <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                        </Select>
-                    </div>
-                    <div class="search-item">
-                        <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
-                    </div>
+                <div class="search-item">
+                    <Select v-model="terminalType" style="width:80px">
+                        <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
                 </div>
+                <div class="search-item">
+                    <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
+                    <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                </div>
+            </div>
             <Row>
                 <Col span="3">
                     <Card>
@@ -196,22 +196,31 @@
             </div>
         </Modal>
         <Modal v-model="NewRelease4" width="1280" title="第4步：播放日程设置">
-            <div style="margin: 10px;overflow: hidden">
-                <div style="float: right;">
-                    <Button type="info">上一周</Button>
-                    <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
-                    <Button type="info" @click="one()">下一周</Button>
-                    <span>&nbsp;&nbsp;</span>
-                    <Input v-model="value2" style="width: 30px"></Input>
-                    <Button type="info">跳转</Button>
-                </div>
-            </div>
-                    <Table class="margin-left-10" border  :columns="Twocolumns" :data="data3.devlist"></Table>
+            
+                    <!-- <Table class="margin-left-10" border  :columns="Twocolumns" :data="data3.devlist"></Table> -->
+                    <Form :label-width="80"  :model="selectPushDate">
+                        <Row>
+                            <Col span="6">    
+                                <FormItem label="选择日期">
+                                    <DatePicker type="date" placeholder="Select date" style="width: 200px" @on-change="changeDatePicker"></DatePicker>
+                                </FormItem>
+                            </Col>
+                            <Col span="6">
+                            <FormItem label="选择时间">
+                                <TimePicker :steps="[1,15]" format="HH:mm" placeholder="Select time" style="width: 112px" @on-change="changeTimePicker"></TimePicker>
+                            </FormItem>
+                            </Col>
+                            <Col span="12">
+                                <Button type="success" @click="PushSelect">添加</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <Table border :columns="Threecolumns" :data="ThreeTableData"></Table>    
             
 
             <div slot="footer">
-                <Button type="primary" @click="detilModal=false">取消</Button>
-                <Button type="primary" @click="sNewRelease4">下一步</Button>
+                <Button type="primary" @click="NewRelease4=false">上一步</Button>
+                <Button type="primary" @click="sNewRelease4">发布</Button>
             </div>
         </Modal>
     </Card>
@@ -289,65 +298,6 @@ export default {
           label: "分辨率"
         }
       ],
-      /*treeData: [
-        {
-          title: "未注册",
-          expand: true,
-          children: [
-            {
-              title: "终端1"
-            }
-          ]
-        },
-        {
-          title: "机构1",
-          expand: true,
-          children: [
-            {
-              title: "管理员1",
-              expand: true,
-              children: [
-                {
-                  title: "分组1",
-                  expand: true,
-                  children: [
-                    {
-                      title: "终端1"
-                    }
-                  ]
-                },
-                {
-                  title: "分组2"
-                }
-              ]
-            },
-            {
-              title: "管理员2",
-              expand: true,
-              children: [
-                {
-                  title: "分组1"
-                },
-                {
-                  title: "分组2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "机构2",
-          expand: true,
-          children: [
-            {
-              title: "管理员1"
-            },
-            {
-              title: "管理员2"
-            }
-          ]
-        }
-      ],*/
       columns: [
         {
           title: "序号",
@@ -664,7 +614,19 @@ export default {
           }
         ]
       },
-      releaseData:{}
+      releaseData:{},
+      selectPushDate:{
+          DatePicker:"",
+          TimePicker:""
+      },
+      ThreeTableData:[],
+      Threecolumns:[{
+          title:"日期",
+          key:"tDate"
+      },{
+          title:"时段",
+          key:"tTime"
+      }]
     };
   },
   methods: {
@@ -715,11 +677,26 @@ export default {
       let tagObj = { ...this.tagObj };
       delete tagObj[name];
       this.tagObj = tagObj;
+    },
+    changeDatePicker(data){
+        this.selectPushDate.DatePicker=data
+    },
+    changeTimePicker(data){
+        this.selectPushDate.TimePicker=data
+    },
+    PushSelect(){
+        // console.log(this.selectPushDate)
+        let aa={
+            tDate:this.selectPushDate.DatePicker,
+            tTime:this.selectPushDate.TimePicker
+            }
+        this.ThreeTableData.push(aa)
     }
   },
   created: function() {
     // this.tableData=this.data.pinfo
     this.getlist();
   }
+
 };
 </script>

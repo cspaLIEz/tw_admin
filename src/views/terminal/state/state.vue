@@ -284,7 +284,7 @@ export default {
                   on: {
                     click: () => {
                       this.showModel(params.index)
-                      editorModel=true
+                    //   editorModel=true
                     }
                   }
                 },
