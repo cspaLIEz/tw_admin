@@ -315,12 +315,14 @@
                                 <span>URL</span> <input type="text" v-model="activeNode.attrs['src']">
                             </div>
                         </div>
+                        <!-- 图片组件 -->
                         <div v-if="activeNode.ctype == 'image'">
                             <div class="setbox-item">
                                 <span>图片选择</span>
-                                <Select v-model="activeNode.attrs['srcs']" multiple style="width:160px">
+                                <!-- <Select v-model="activeNode.attrs['srcs']" multiple style="width:160px">
                                     <Option v-for="item in imageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
+                                </Select> -->
+                                <Button type="primary" @click="choseSourceModal=true">选择</Button>
                             </div>
                             <div class="setbox-item">
                                 <span>组件位置-x</span> <input type="text" v-model="activeNode.styles['left']">
@@ -679,11 +681,7 @@
                             <div class="setbox-item">
                                 <span>数据来源</span>
                                 <input type="text" v-model="activeNode.attrs.dataUrl">
-                            </div> 
-                            <div class="setbox-item">
-                                <span>显示天数</span>
-                                <input type="text" v-model="activeNode.attrs.days">
-                            </div> 
+                            </div>
                             <div class="setbox-item">
                                 <span>字体</span> <input type="text" v-model="activeNode.styles['font-family']">
                             </div>
@@ -745,12 +743,17 @@
                         </div>
                     </div>
                 </div>
-                <Modal v-model="choseSourceModal" width="360">
+                <Modal v-model="choseSourceModal" width="780">
                     <p slot="header" style="color:#f60;text-align:center">
                         <span>选择资源</span>
                     </p>
-                    <div style="text-align:center">
-                        
+                    <div>
+                        <Table border  :columns="columns" :data="resourseData"></Table>
+                        <div style="margin: 10px;overflow: hidden">
+                            <div style="float: right;">
+                                <Page :total="totalRecord" :current="currentPage" @on-change="changeResPage" :page-size="pageSize" show-elevator show-total></Page>
+                            </div>
+                        </div>
                     </div>
                     <div slot="footer" class="btn_center_wrap">			
                         <Button type="primary">确认</Button>

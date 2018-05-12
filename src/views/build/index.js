@@ -62,7 +62,44 @@ export default {
             activeNode:null,
             activeNodes:[],
             ctrl_press:false,
-            choseSourceModal:false
+            choseSourceModal:false,
+            totalRecord:1,
+            totalPage:1,
+            pageSize:20,
+            currentPage:1,
+            columns: [
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    type: 'index',
+                    title:"序号",
+                    align: 'center'
+                },
+                {
+                    title: '素材名称',
+                    key: 'matName'
+                },
+                {
+                    title: '预览',
+                    key: 'matTypeValue'
+                },
+                {
+                    title: '分辨率',
+                    key: 'matResolution'
+                },
+                {
+                    title: '大小',
+                    key: 'matSize'
+                },
+                {
+                    title: '上传人',
+                    key: 'userId'
+                }
+            ],
+            resourseData:[]
         }
     },
     computed:{
@@ -109,6 +146,9 @@ export default {
         }.bind(this))
     },
     methods:{
+        changeResPage(){
+            
+        },
         leftNavClose(){
             this.isCloseLeft = !this.isCloseLeft;
         },
