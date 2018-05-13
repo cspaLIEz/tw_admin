@@ -9,7 +9,10 @@
             <Row type="flex">
                 <Col span="24" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="min-width:80px" filterable multiple>
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
@@ -26,18 +29,35 @@
                 <Page :total="totalRecord" :current="currentPage" :page-size="pageSize" show-elevator show-total @on-change="changePage"></Page>
             </div>
         </div>
+        <!--审批-->
+        <Modal v-model="approveModel" title="审批">
+            <div>
+                <!-- <p><span>节目名称</span>{{curApprove.progName}}</p>
+                <p><span>创建人</span>{{curApprove.progName}}</p>
+                <p><span>节目名称</span>{{curApprove.progName}}</p>
+                <p><span>节目名称</span>{{curApprove.progName}}</p> -->
+                请选择审批结果
+            </div>
+            <div slot="footer" class="btn_center_wrap">			
+                <Button type="primary" @click="approve(0);approveModel=false">通过</Button>
+                <Button type="default" @click="approve(1);approveModel=false">不通过</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
 <script>
-import { getprgappinfolist} from '@/api/api';
+import { getprgappinfolist, approveprg } from '@/api/api';
 
 export default {
     name: 'releaseschedule',
     data(){
         return {
-            delModelConfig: false,
+            approveModel:false,
+            curApprove:{},
+            curApproveId:'',
             selectSearch:{},
+            tagObj:{},
             totalRecord:1,
             totalPage:1,
             pageSize:20,
@@ -69,7 +89,7 @@ export default {
                 },
                 {
                     title: '节目编号',
-                    key: 'progId'
+                    key: 'progid'
                 },
                 {
                     title: '节目名称',
@@ -122,11 +142,9 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.copyModel = true;
-                                    // this.copyModel(params)
-                                    console.log(params);
-                                    this.copyForm.copyName = params.row.name;
-                                    this.copyForm.newName = params.row.name + "-001";
+                                    this.approveModel = true;
+                                    this.curApproveId = params.row.progid;
+                                    // this.approve(params.row.progid);
                                 }
                             }
                         }, '审批')
@@ -144,12 +162,13 @@ export default {
         this.getList();
     },
     methods:{
-        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,opertype=1,searchInfo=this.selectSearch){
             let data = {
                 loginer:this.$store.state.user.user,
                 loginId:this.$store.state.user.userId,
                 pageSize,
                 currentPage,
+                opertype,
                 ...searchInfo
             }
             getprgappinfolist(data).then((res)=>{
@@ -166,18 +185,32 @@ export default {
             })
         },
         handleSearch(){
-            let obj = {}
-            this.terminalType.map((item)=>{
-                obj[item]=this.searchLikes
-            })
-            console.log(obj)
-            this.getList(1,this.pageSize,obj)
+            let { tagObj, terminalType, searchLikes} = this;
+            tagObj[terminalType]=searchLikes;
+            this.getList(1,this.pageSize,2,tagObj)
+        },
+        handleCloseTag(e,name){
+            let tagObj= { ...this.tagObj };
+            delete tagObj[name];
+            this.tagObj=tagObj;
         },
         detail(index){
 
         },
-        approve (index) {
-            
+        approve (resCode) {
+            let data = {
+                loginer:this.$store.state.user.user,
+                loginId:this.$store.state.user.userId,
+                progid:this.curApproveId,
+                approveResultCode:resCode
+            }
+            approveprg(data).then((res)=>{
+                if(res.status==0){
+                    this.$Message.error(res.message);
+                }else{
+                    this.$Message.error(res.message);
+                }
+            })
         },
         changePage(current) {
             this.getList(current)

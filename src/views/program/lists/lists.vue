@@ -15,7 +15,10 @@
                 </Col>
                 <Col span="12" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px" filterable multiple>
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
+                    <div class="search-item">
+                        <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
@@ -66,6 +69,7 @@ export default {
         return {
             delModelConfig: false,
             selectSearch:{},
+            tagObj:{},
             totalRecord:1,
             totalPage:1,
             pageSize:20,
@@ -242,12 +246,14 @@ export default {
             })
         },
         handleSearch(){
-            let obj = {}
-            this.terminalType.map((item)=>{
-                obj[item]=this.searchLikes
-            })
-            console.log(obj)
-            this.getList(1,this.pageSize,obj)
+            let { tagObj, terminalType, searchLikes} = this;
+            tagObj[terminalType]=searchLikes;
+            this.getList(1,this.pageSize,2,tagObj)
+        },
+        handleCloseTag(e,name){
+            let tagObj= { ...this.tagObj };
+            delete tagObj[name];
+            this.tagObj=tagObj;
         },
         detail(index){
 

@@ -7,11 +7,14 @@
     <Card class="view-program-broadcast">
         <div class="margin-bottom-10">
             <Row type="flex">
-                <Col span="12" class="handle-top-left">
-                    <Button type="info">新建消息</Button>
+                <Col span="8" class="handle-top-left">
+                    <Button type="info" @click="addBroadcast=true">新建消息</Button>
                     <Button type="warning">清空消息</Button>
                 </Col>
-                <Col span="12" class="handle-top-right">
+                <Col span="16" class="handle-top-right">
+                    <div class="search-item">
+                        <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+                    </div>
                     <div class="search-item">
                         <Select v-model="terminalType" style="width:90px">
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -19,7 +22,7 @@
                     </div>
                     <div class="search-item">
                         <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                        <Button type="ghost" shape="circle" icon="ios-search"></Button>
+                        <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
                     </div>
                 </Col>
             </Row>
@@ -39,19 +42,69 @@
             </div>
           </div>
         </div>
+        <Modal v-model="addBroadcast" width="360" @on-visible-change="addModalCancel">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>新建消息</span>
+            </p>
+            <div style="text-align:center">
+                <Form :model="formInfo" :label-width="80">
+                    <FormItem label="终端编号列表">
+                        <Input v-model="formInfo.devIdList"></Input>
+                    </FormItem>
+                    <FormItem label="主旨">
+                        <Input v-model="formInfo.msgTitle"></Input>
+                    </FormItem>
+                    <FormItem label="消息内容">
+                        <Input v-model="formInfo.msgContent"></Input>
+                    </FormItem>
+                    <FormItem label="开始时间">
+                        <Input></Input>
+                    </FormItem>
+                    <FormItem label="结束时间">
+                        <Input v-model="formInfo.playEndTime"></Input>
+                    </FormItem>
+                    <FormItem label="字体">
+                        <Select v-model="formInfo.msgFontCode">
+                            
+                        </Select>
+                    </FormItem>
+                    <FormItem label="字体大小">
+                        <Input v-model="formInfo.msgFontSizeCode"></Input>
+                    </FormItem>
+                    <FormItem label="字体颜色">
+                        <Input v-model="formInfo.msgFontColor"></Input>
+                    </FormItem>
+                </Form>
+            </div>
+            <div slot="footer" class="btn_center_wrap">			
+                <Button type="primary" @click="handleAddBroadcast">提交</Button>
+                <Button type="default" @click="addBroadcast=false">取消</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
 <script>
-import {getmsginfolist,getdevgroupinfolist} from '@/api/api';
+import {getmsginfolist,getdevgroupinfolist, insertmsg, deletemsg, msginfo} from '@/api/api';
 export default {
     data(){
         return {
+            addBroadcast:false,
             totalRecord:1,
             totalPage:1,
             pageSize:20,
             currentPage:1,
             selectSearch:{},
+            tagObj:{},
+            formInfo:{
+                devIdList:'',
+                msgTitle:'',
+                msgContent:'',
+                playEndTime:'',
+                msgFontCode:'',
+                msgFontSizeCode:'',
+                msgFontColor:''
+            },
             treeData:[
                 {
                     title: 'parent 1',
@@ -87,10 +140,6 @@ export default {
             terminalType:"all",
             typeList:[
                 {
-                    value: 'all',
-                    label: '全部'
-                },
-                {
                     value: 'name',
                     label: '节目名称'
                 },
@@ -99,7 +148,7 @@ export default {
                     label: '更新时间'
                 },
                 {
-                    value: 'time',
+                    value: 'msgTitle',
                     label: '主旨'
                 }
             ],
@@ -158,18 +207,7 @@ export default {
                                     this.detail(params.index)
                                 }
                             }
-                        }, '详情'),
-                        h('Button', {
-                            props: {
-                                type: 'error',
-                                size: 'small'
-                            },
-                            on: {
-                                click: () => {
-                                    this.remove(params.index)
-                                }
-                            }
-                        }, '删除')
+                        }, '详情')
                     ]);
                     }
                 }
@@ -210,7 +248,7 @@ export default {
         detail(index){
 
         },
-        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,opertype=1,searchInfo=this.selectSearch){
             let data = {
                 pageSize,
                 currentPage,
@@ -260,12 +298,35 @@ export default {
                 this.treeData=dataArr
             })
         },
-        remove (index) {
-            this.tableData.splice(index, 1);
+        handleAddBroadcast(){
+
+        },
+        addModalCancel(e){
+            if(!e){
+                let obj ={
+                superiororganId:'',
+                organName:'',
+                organDescr:'',
+                organLeader:'',
+                organTele:''
+                }
+                this.formInfo=obj;
+            }
+        
         },
         changePage (){
             // this.tableData1 = this.mockTableData1();
-        }
+        },
+        handleSearch(){
+            let { tagObj, terminalType, searchLikes} = this;
+            tagObj[terminalType]=searchLikes;
+            this.getList(1,this.pageSize,2,tagObj)
+        },
+        handleCloseTag(e,name){
+            let tagObj= { ...this.tagObj };
+            delete tagObj[name];
+            this.tagObj=tagObj;
+        },
     }
 };
 </script>
