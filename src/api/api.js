@@ -6,6 +6,9 @@ export const Login = data => axios.post('/user/ulogin', data);
 
 export const Getrellist = data => axios.post('/release/getreleaselist', data);
 
+// 首页
+export const getstatinfo = data => axios.post('/home/getstatinfo', data);
+
 // 机构管理模块
 export const organizationList = data => axios.post('/organ/getorganinfolist', data);
 export const editorgan = data => axios.post('/organ/editorgan', data);

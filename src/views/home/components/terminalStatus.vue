@@ -23,6 +23,7 @@ import pause_png from '../../../images/index/group47.png';
 import playing_png from '../../../images/index/playing.png';
 import echarts from 'echarts';
 export default {
+    props:['statusData'],
     data(){
         return {
             legend:[{
@@ -57,93 +58,122 @@ export default {
             terminalStatusCharts:{},
         }
     },
+    watch:{
+        statusData(newVal){
+            this.statusData = newVal;
+            this.initData();
+        }
+    },
     mounted () {
-        let option = {
-            tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                show:false,
-                data: ['离线终端', '暂停终端','在线终端','正在播放']
-            },
-            color:['#1d55a1','#4B89DC', '#26C6DA', '#48CFAE'],
-            grid: {
-                top:'0%',
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis:  {
-                type: 'value'
-            },
-            yAxis: {
-                type: 'category',
-                data: ['周一','周二','周三','周四','周五','周六','周日']
-            },
-            series: [
-                {
-                    name: '离线终端',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [320, 302, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: '暂停终端',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: '在线终端',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: '正在播放',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [150, 212, 201, 154, 190, 330, 410]
-                }
-            ]
-        };
-
-        this.terminalStatusCharts = echarts.init(this.$refs.terminalStatus);
-        this.terminalStatusCharts.setOption(option);
-        // window.terminalStatusCharts = this.terminalStatusCharts;
-        window.addEventListener('resize',  ()=>{
-            this.terminalStatusCharts.resize();
-        });
+        if(this.statusData.length>0){
+            this.initData();
+        }
     },
     methods:{
+        initData(){
+            let dates = [],
+                offlineDevArr = [],
+                onlineDevArr = [],
+                pauseDevArr = [],
+                runDevArr = [],
+                seriesDatas=[
+                    {
+                        name: '离线终端',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: []
+                    },
+                    {
+                        name: '暂停终端',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data:  []
+                    },
+                    {
+                        name: '在线终端',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data:  []
+                    },
+                    {
+                        name: '正在播放',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data:  []
+                    }
+                ];
+            this.statusData.forEach((item,index)=>{
+                dates.push(item.recordDate);
+                offlineDevArr.push(item.offlineDevNum);
+                onlineDevArr.push(item.onlineDevNum);
+                pauseDevArr.push(item.pauseDevNum);
+                runDevArr.push(item.runDevNum);
+            })
+            seriesDatas[0].data = offlineDevArr;
+            seriesDatas[1].data = pauseDevArr;
+            seriesDatas[2].data = onlineDevArr;
+            seriesDatas[3].data = runDevArr;
+            
+            let option = {
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    show:false,
+                    data: ['离线终端', '暂停终端','在线终端','正在播放']
+                },
+                color:['#1d55a1','#4B89DC', '#26C6DA', '#48CFAE'],
+                grid: {
+                    top:'0%',
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis:  {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    data:  dates
+                },
+                series: seriesDatas
+            };
+
+            this.terminalStatusCharts = echarts.init(this.$refs.terminalStatus);
+            this.terminalStatusCharts.setOption(option);
+            // window.terminalStatusCharts = this.terminalStatusCharts;
+            window.addEventListener('resize',  ()=>{
+                this.terminalStatusCharts.resize();
+            });
+        },
         showCur(item){
             if(item.active){
                 this.terminalStatusCharts.dispatchAction({

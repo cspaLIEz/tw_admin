@@ -9,7 +9,7 @@
             <Row type="flex">
                 <Col span="24" class="handle-top-right">
                     <div class="search-item">
-                        <Select v-model="terminalType" style="width:80px" filterable multiple>
+                        <Select v-model="terminalType" style="min-width:80px" filterable multiple>
                             <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </div>
