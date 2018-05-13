@@ -6,6 +6,9 @@ export const Login = data => axios.post('/user/ulogin', data);
 
 export const Getrellist = data => axios.post('/release/getreleaselist', data);
 
+// 首页
+export const getstatinfo = data => axios.post('/home/getstatinfo', data);
+
 // 机构管理模块
 export const organizationList = data => axios.post('/organ/getorganinfolist', data);
 export const editorgan = data => axios.post('/organ/editorgan', data);
@@ -51,6 +54,7 @@ export const submitprg = data => axios.post('/program/submitprg', data);
 
 //节目审批列表
 export const getprgappinfolist = data => axios.post('/program/getprgappinfolist', data);
+export const approveprg = data => axios.post('/program/approveprg', data);
 
 //插播消息列表
 export const getmsginfolist = data => axios.post('/message/getmsginfolist', data);
