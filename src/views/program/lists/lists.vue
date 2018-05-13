@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { Getprginfolist, delprg } from '@/api/api';
+import { Getprginfolist, delprg, submitprg } from '@/api/api';
 
 export default {
     name: 'releaseschedule',
@@ -201,7 +201,8 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    
+                                    console.log(params.row.progId);
+                                    this.submitToApproval(params.row.progId);
                                 }
                             }
                         }, '提交')
@@ -302,6 +303,20 @@ export default {
             })
         
         },
+        submitToApproval(progid){
+            let data = {
+                loginer:this.$store.state.user.user,
+                loginId:this.$store.state.user.userId,
+                progid:progid
+            };
+            submitprg(data).then((res)=>{
+                if(res.status==0){
+
+                } else {
+                    this.$Message.error(res.message);
+                }
+            })
+        }
     }
 };
 </script>
