@@ -83,8 +83,14 @@ export const Regdevice = data => axios.post('/device/regdevice', data);
 //终端删除列表
 export const Deldevice = data => axios.post('/device/deldevice', data);
 //终端运行属性保存接口
-
 export const Savedevruninfo = data => axios.post('/device/savedevruninfo', data);
+
+//终端基本属性获取接口
+export const Getdevbaseinfo = data => axios.post('/device/getdevbaseinfo', data);
+
+//终端运行配置获取接口
+export const Getdevruninfo = data => axios.post('/device/getdevruninfo', data);
+
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

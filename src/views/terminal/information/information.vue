@@ -241,7 +241,7 @@ export default {
         },
         {
           title: "终端状态",
-          key: "devTypeName"
+          key: "devStatusValue"
         },
         {
           title: "分辨率",
@@ -265,7 +265,7 @@ export default {
         },
         {
           title: "位置信息",
-          key: "address"
+          key: "devLocation"
         },
         {
           title: "Action",
@@ -413,16 +413,18 @@ export default {
       this.formRegister.name=this.tableData.data.pinfo[index].devName
       this.formRegister.id=this.tableData.data.pinfo[index].devId
       this.formRegister.mark=this.tableData.data.pinfo[index].devIdentification
-      this.formRegister.type=this.tableData.data.pinfo[index].devTypeName
+      this.formRegister.type=this.tableData.data.pinfo[index].devTypeValue
       this.formRegister.address=this.tableData.data.pinfo[index].devLocation
       this.registerModal = true;
     },
     remove() {
       // this.tableData.data.pinfo.splice(this.deleteIndex, 1);
-      let data=this.tableData.data.pinfo[this.deleteIndex].devId
+      let data={devId:this.tableData.data.pinfo[this.deleteIndex].devId}
+
       console.log(data)
       Deldevice(data).then((res)=>{
-        console.log(res)
+        // console.log(res)
+        this.getlist()
       })
       this.deleteModal = false;
     },

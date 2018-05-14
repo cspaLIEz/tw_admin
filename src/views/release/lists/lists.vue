@@ -38,21 +38,23 @@
             <p style="font-size:16px;font-weigth:bold" >1.节目信息</p>
             
                 <Form :model="terminalType" :label-width="80">
-                    <Col span='8'>
-                    <FormItem label="节目名称">
-                        <Input v-model="terminalType" ></Input>
-                    </FormItem>
-                    </Col>
-                    <Col span='8'>
-                    <FormItem label="节目时长">
-                        <Input v-model="terminalType"></Input>
-                    </FormItem>
-                     </Col>
-                    <Col span='8'>
-                    <FormItem label="节目分辨率">
-                        <Input v-model="terminalType"></Input>
-                    </FormItem>
-                     </Col>
+                    <Row>
+                      <Col span='8'>
+                      <FormItem label="节目名称">
+                          <Input v-model="terminalType" ></Input>
+                      </FormItem>
+                      </Col>
+                      <Col span='8'>
+                      <FormItem label="节目时长">
+                          <Input v-model="terminalType"></Input>
+                      </FormItem>
+                      </Col>
+                      <Col span='8'>
+                      <FormItem label="节目分辨率">
+                          <Input v-model="terminalType"></Input>
+                      </FormItem>
+                      </Col>
+                    </Row>
                     <FormItem label="节目描述">
                         <Input v-model="terminalType"></Input>
                     </FormItem>
@@ -524,7 +526,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                    //   this.deleteModal = true;
+                      //   this.deleteModal = true;
                     }
                   }
                 },
@@ -542,7 +544,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                    //   this.detilModal = true;
+                      //   this.detilModal = true;
                     }
                   }
                 },
@@ -614,19 +616,22 @@ export default {
           }
         ]
       },
-      releaseData:{},
-      selectPushDate:{
-          DatePicker:"",
-          TimePicker:""
+      releaseData: {},
+      selectPushDate: {
+        DatePicker: "",
+        TimePicker: ""
       },
-      ThreeTableData:[],
-      Threecolumns:[{
-          title:"日期",
-          key:"tDate"
-      },{
-          title:"时段",
-          key:"tTime"
-      }]
+      ThreeTableData: [],
+      Threecolumns: [
+        {
+          title: "日期",
+          key: "tDate"
+        },
+        {
+          title: "时段",
+          key: "tTime"
+        }
+      ]
     };
   },
   methods: {
@@ -671,32 +676,31 @@ export default {
     handleSearch() {
       let { tagObj, terminalType, searchLikes } = this;
       tagObj[terminalType] = searchLikes;
-        this.getlist(1,this.pageSize,tagObj)
+      this.getlist(1, this.pageSize, tagObj);
     },
     handleCloseTag(e, name) {
       let tagObj = { ...this.tagObj };
       delete tagObj[name];
       this.tagObj = tagObj;
     },
-    changeDatePicker(data){
-        this.selectPushDate.DatePicker=data
+    changeDatePicker(data) {
+      this.selectPushDate.DatePicker = data;
     },
-    changeTimePicker(data){
-        this.selectPushDate.TimePicker=data
+    changeTimePicker(data) {
+      this.selectPushDate.TimePicker = data;
     },
-    PushSelect(){
-        // console.log(this.selectPushDate)
-        let aa={
-            tDate:this.selectPushDate.DatePicker,
-            tTime:this.selectPushDate.TimePicker
-            }
-        this.ThreeTableData.push(aa)
+    PushSelect() {
+      // console.log(this.selectPushDate)
+      let aa = {
+        tDate: this.selectPushDate.DatePicker,
+        tTime: this.selectPushDate.TimePicker
+      };
+      this.ThreeTableData.push(aa);
     }
   },
   created: function() {
     // this.tableData=this.data.pinfo
     this.getlist();
   }
-
 };
 </script>

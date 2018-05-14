@@ -333,7 +333,7 @@ export default {
                 },
                 {
                     title: '审核状态',
-                    key: 'approvalResultValue'
+                    key: 'approveResultValue'
                 },
                 {
                     title: '操作',
@@ -445,25 +445,25 @@ export default {
             const index = parent.children.indexOf(data);
             parent.children.splice(index, 1);
         },
-        getList(currentPage=this.currentPage,pageSize=this.pageSize,operType=1){
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,operType=2){
             let data = {
                 pageSize,
                 currentPage,
                 operType,
             }
             Getmateriallist(data).then((res)=>{
-                console.log(res)
-                // if(res.status==0){
-                //     this.tableData=res.data.pinfo;
-                //     this.pageSize=pageSize;
-                //     this.currentPage=currentPage;
-                //     this.totalPage=res.data.totalPage;
-                //     this.totalRecord=res.data.totalRecord;
-                //     this.selectSearch=searchInfo;
-                //     this.orgSelection=res.data.tree;
-                // }else{
-                //     this.$Message.error(res.message);
-                // }
+                // console.log(res)
+                if(res.status==0){
+                    this.tableData=res.data.pinfo;
+                    this.pageSize=pageSize;
+                    this.currentPage=currentPage;
+                    this.totalPage=res.data.totalPage;
+                    this.totalRecord=res.data.totalRecord;
+                    this.selectSearch=searchInfo;
+                    this.orgSelection=res.data.tree;
+                }else{
+                    this.$Message.error(res.message);
+                }
             })
         },
     },
