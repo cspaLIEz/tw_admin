@@ -84,8 +84,8 @@
             <p style="font-size:16px;font-weigth:bold" >4.审批操作</p>
             <FormItem label="审批结果">
                 <Select  style="width:200px" >
-                <Option value="5" >审批通过</Option>
-                <Option value="6" >审批未通过</Option>
+                <Option value="5" >通过</Option>
+                <Option value="6" >不通过</Option>
                 </Select> 
             </FormItem>
             <FormItem label="审批意见">

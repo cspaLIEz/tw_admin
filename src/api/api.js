@@ -6,6 +6,9 @@ export const Login = data => axios.post('/user/ulogin', data);
 
 export const Getrellist = data => axios.post('/release/getreleaselist', data);
 
+// 首页
+export const getstatinfo = data => axios.post('/home/getstatinfo', data);
+
 // 机构管理模块
 export const organizationList = data => axios.post('/organ/getorganinfolist', data);
 export const editorgan = data => axios.post('/organ/editorgan', data);
@@ -64,6 +67,7 @@ export const submitprg = data => axios.post('/program/submitprg', data);
 
 //节目审批列表
 export const getprgappinfolist = data => axios.post('/program/getprgappinfolist', data);
+export const approveprg = data => axios.post('/program/approveprg', data);
 
 //插播消息列表
 export const getmsginfolist = data => axios.post('/message/getmsginfolist', data);
@@ -92,8 +96,14 @@ export const Regdevice = data => axios.post('/device/regdevice', data);
 //终端删除列表
 export const Deldevice = data => axios.post('/device/deldevice', data);
 //终端运行属性保存接口
-
 export const Savedevruninfo = data => axios.post('/device/savedevruninfo', data);
+
+//终端基本属性获取接口
+export const Getdevbaseinfo = data => axios.post('/device/getdevbaseinfo', data);
+
+//终端运行配置获取接口
+export const Getdevruninfo = data => axios.post('/device/getdevruninfo', data);
+
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

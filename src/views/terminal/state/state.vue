@@ -43,12 +43,12 @@
               终端基本信息设置
           </p>
           <div style="text-align:center">
-              <Form :model="detailForm" :label-width="80">
-                <FormItem label="终端标识">
-                    <Input></Input>
+              <Form :model="detailForm"  :label-width="80">
+                <FormItem label="终端代码">
+                    <Input v-model="detailForm.pinfo.devId" readonly></Input>
                 </FormItem>
-                <FormItem label="终端ID">
-                    <Input></Input>
+                <FormItem label="终端名称">
+                    <Input v-model="detailForm.pinfo.devName"></Input>
                 </FormItem>
                 <FormItem label="组名">
                     <Select>
@@ -56,36 +56,32 @@
                         <Option value="shanghai">周边道路</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="终端名称">
-                    <Input></Input>
-                </FormItem>
                 <FormItem label="IP地址">
-                    <Input></Input>
+                    <Input v-model="detailForm.pinfo.devIpAddr"></Input>
+                </FormItem>
+                <FormItem label="分辨率">
+                    <Select v-model="detailForm.pinfo.resolutionCode">
+                        <Option v-for="item in detailForm.rinfo" :value="item.resolutionCode" :key="item.resolutionCode">{{item.resolutionValue}}</Option>
+                    </Select>
                 </FormItem>
                 <FormItem label="终端类型">
-                    <Select>
-                        <Option value="beijing">Windows</Option>
-                        <Option value="shanghai">Mac</Option>
-                        <Option value="shanghai">Android</Option>
+                    <Select v-model="detailForm.pinfo.devTypeCode">
+                        <Option v-for="item in detailForm.ainfo" :value="item.devTypeCode" :key="item.devTypeCode">{{item.devTypeValue}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="安装地址">
-                    <Input></Input>
+                    <Input v-model="detailForm.pinfo.devLocation"></Input>
                 </FormItem>
                 <FormItem label="经度">
-                    <Input></Input>
+                    <Input v-model="detailForm.pinfo.devGpsY"></Input>
                 </FormItem>
                 <FormItem label="纬度">
-                    <Input></Input>
+                    <Input v-model="detailForm.pinfo.devGpsX"></Input>
                 </FormItem>
                 <FormItem label="下载带宽">
-                    <Input></Input>
-                </FormItem>
-                <FormItem label="设置音量">
-                    <Input></Input>
-                </FormItem>
-                <FormItem label="存储报警阈值">
-                    <Input></Input>
+                    <Select v-model="detailForm.pinfo.bandWidthCode">
+                        <Option v-for="item in detailForm.binfo" :value="item.bandWidthCode" :key="item.bandWidthCode">{{item.bandWidthValue}}MB</Option>
+                    </Select>
                 </FormItem>
             </Form>
           </div>
@@ -99,15 +95,15 @@
               终端运行参数设置
           </p>
           <div style="text-align:center">
-              <Form :model="runGroupdata" :label-width="80">
+              <Form :model="runGroupdata" :label-width="180">
                 <FormItem label="终端代码">
-                    <Input v-model="runGroupdata.devId"></Input>
+                    <Input v-model="runGroupdata.devId" readonly></Input>
                 </FormItem>
                 <FormItem label="终端名称">
-                    <Input v-model="runGroupdata.devname"></Input>
+                    <Input v-model="runGroupnames" readonly></Input>
                 </FormItem>
                 <FormItem label="音量">
-                    <Slider v-model="runGroupdata.volume"></Slider>
+                    <Slider :v-model="runGroupdata.volume"></Slider>
 
                 </FormItem>
                 <FormItem label="存储报警阈值">
@@ -122,19 +118,19 @@
                     </Select>
                 </FormItem>
                 <FormItem label="自动开机时间">
-                    <TimePicker :value="runGroupdata.spareTime" format="HH:mm" placeholder="选择时、分" style="width: 168px"></TimePicker>
+                    <TimePicker :value="runGroupdata.devAutoOnTime" format="HH:mm" placeholder="选择时、分" style="width: 168px"></TimePicker>
                 </FormItem>
                 <FormItem label="自动关机时间">
                     <TimePicker :value="runGroupdata.devAutoOffTime" format="HH:mm" placeholder="选择时、分" style="width: 168px"></TimePicker>
                 </FormItem>
-                <Checkbox v-model="runGroupdata.singleUsb">USB接口使能</Checkbox>
-                <Checkbox v-model="runGroupdata.singleAutoplay">开机自动播放节目</Checkbox>
-                <Checkbox v-model="runGroupdata.singleAutohidden">自动隐藏鼠标</Checkbox>
-                <Checkbox v-model="runGroupdata.singleFullscreen">自动全屏播放节目</Checkbox>
+                <!-- <Checkbox v-model="runGroupdata.devUsable">USB接口使能</Checkbox>
+                <Checkbox v-model="runGroupdata.autoPlay">开机自动播放节目</Checkbox>
+                <Checkbox v-model="runGroupdata.devMouseHide">自动隐藏鼠标</Checkbox>
+                <Checkbox v-model="runGroupdata.devFullScreen">自动全屏播放节目</Checkbox> -->
             </Form>
           </div>
           <div slot="footer">
-              <Button type="warning">关闭</Button>
+              <Button type="warning" @click="GrouoRunModel=false">关闭</Button>
               <Button type="primary" @click="uploadGroupdata">保存</Button>
           </div>
       </Modal>
@@ -142,15 +138,20 @@
   </Card>
 </template>
 <script>
-
-import {Getdevstatusinfolist,getdevgroupinfolist,Savedevruninfo} from '@/api/api';
+import {
+  Getdevstatusinfolist,
+  getdevgroupinfolist,
+  Savedevruninfo,
+  Getdevbaseinfo,
+  Getdevruninfo,
+} from "@/api/api";
 export default {
   data() {
     return {
-        sliderone:50,
-        GrouoRunModel:false,
-        totalRecord:"",
-        searchLikes: "",
+      sliderone: 50,
+      GrouoRunModel: false,
+      totalRecord: 1,
+      searchLikes: "",
       terminalType: "",
       tagObj: {},
       pageSize: 20,
@@ -158,47 +159,55 @@ export default {
       autoRefresh: false,
       editorModel: false,
       modal_loading: false,
-      treeData:[
-          {
-              title: '机构1',
+      treeData: [
+        {
+          title: "机构1",
+          expand: true,
+          children: [
+            {
+              title: "管理员1",
               expand: true,
               children: [
-                  {
-                      title: '管理员1',
-                      expand: true,
-                      children: [{
-                          title: '分组1',
-                          expand: true,
-                          children: [{
-                              title:'终端1'
-                          }]
-                      },{
-                          title: '分组2'
-                      }]
-                  },
-                  {
-                      title: '管理员2',
-                      expand: true,
-                      children: [{
-                          title: '分组1'
-                      },{
-                          title: '分组2'
-                      }]
-                  }
+                {
+                  title: "分组1",
+                  expand: true,
+                  children: [
+                    {
+                      title: "终端1"
+                    }
+                  ]
+                },
+                {
+                  title: "分组2"
+                }
               ]
-          },
-          {
-              title: '机构2',
+            },
+            {
+              title: "管理员2",
               expand: true,
               children: [
-                  {
-                      title: '管理员1'
-                  },
-                  {
-                      title: '管理员2'
-                  }
+                {
+                  title: "分组1"
+                },
+                {
+                  title: "分组2"
+                }
               ]
-          }
+            }
+          ]
+        },
+        {
+          title: "机构2",
+          expand: true,
+          children: [
+            {
+              title: "管理员1"
+            },
+            {
+              title: "管理员2"
+            }
+          ]
+        }
       ],
       terminalType: "all",
       typeList: [
@@ -227,44 +236,46 @@ export default {
       searchInResult: "",
       columns: [
         {
-            type: 'index',
-            width: 70,
-            title: '序号',
-            align: 'center'
-        },{
-            title:'终端代码',
-            key:'devId'
-            },{
-            title: '终端名称',
-            key: 'devName'
+          type: "index",
+          width: 70,
+          title: "序号",
+          align: "center"
         },
         {
-            title:'终端地点',
-            key:'devLocation'
+          title: "终端代码",
+          key: "devId"
         },
         {
-            title:'组',
-            key:'groupValue'
+          title: "终端名称",
+          key: "devName"
         },
         {
-            title: '终端类型',
-            key: 'devTypeValue'
+          title: "终端地点",
+          key: "devLocation"
         },
         {
-            title: '终端状态',
-            key: 'onlineStatusCode'
+          title: "组",
+          key: "groupValue"
         },
         {
-            title: '在线时长',
-            key: 'onlineTime'
+          title: "终端类型",
+          key: "devTypeValue"
         },
         {
-            title: '磁盘空间（GB）',
-            key: 'diskSpace'
+          title: "终端状态",
+          key: "onlineStatusCode"
         },
         {
-            title: '更新时间',
-            key: 'updateTime'
+          title: "在线时长",
+          key: "onlineTime"
+        },
+        {
+          title: "磁盘空间（GB）",
+          key: "diskSpace"
+        },
+        {
+          title: "更新时间",
+          key: "updateTime"
         },
         {
           title: " ",
@@ -283,8 +294,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showModel(params.index)
-                    //   editorModel=true
+                      this.showModel(params.row.devId);
+                      //   editorModel=true
                     }
                   }
                 },
@@ -302,9 +313,9 @@ export default {
                   },
                   on: {
                     click: () => {
-                    //   this.showModel(params.index)
-                    // this.GrouoRunModel=true
-                    this.showGroup(params.index)
+                      //   this.showModel(params.index)
+                      // this.GrouoRunModel=true
+                      this.showGroup(params.index);
                     }
                   }
                 },
@@ -316,121 +327,158 @@ export default {
       ],
       tableData: [],
       detailForm: {
-        input: '',
-        select: '',
-        radio: 'male',
-        checkbox: [],
-        switch: true,
-        date: '',
-        time: '',
-        slider: [20, 50],
-        textarea: ''
+        pinfo: {
+            devId:"1", //(终端代码)
+            devName: "21", //(终端名称)
+            devIpAddr: "1", //(终端IP地址)
+            resolutionCode: "1", //(终端分辨率代码)
+            devTypeCode: "1", //(终端类型代码)
+            devLocation: "1", //(安装地点)
+            devGpsY: "1", //(终端坐标-经度)
+            devGpsX: "1", //(终端坐标-纬度)
+            bandWidthCode: "1", //(终端带宽代码)
+        },
+        ainfo: [
+          {
+            devTypeCode: "1", //(终端类型代码)
+            devTypeValue: "1" //(终端类型)
+          }
+        ],
+        rinfo: [
+          {
+            resolutionCode: "1", //(分辨率代码)
+            resolutionValue: "1" //(分辨率)
+          }
+        ],
+        binfo: [
+          {
+            devBandWidthCode: "1", //(终端带宽代码)
+            devBandWidthValue: "1" //(终端带宽)
+          }
+        ]
       },
-      runGroupdata:{
-            devname:'',
-            devId:"",//(终端代码)
-            // devAutoUpdateFlag(设备信息自动更新)
-            devStoragethresh:"",//(存储阈值)
-            devUsable:"",//(端口使能，0-否，1-是)
-            devAutoOnTime:"",//(开机时间,HH:mm)
-            devAutoOffTime:"",//(关机时间,HH:mm)
-            devMouseHide:"",//(鼠标是否隐藏，0-否，1-是)
-            devFullScreen:"",//(终端全屏，0-否，1-是)
-            spareTime:"3",//(无操作时间，取值1~10，默认3)
-            autoPlay:"",//(自动播放，0-否，1-是)
-            volume:50,//(终端音量，0~100，默认50)
-            singleUsb:false,
-            singleAutoplayb:false,
-            singleAutohidden:false,
-            singleFullscreen:false,
+      runGroupdata: {
+        devname: "",
+        devId: "", //(终端代码)
+        // devAutoUpdateFlag(设备信息自动更新)
+        devStoragethresh: "", //(存储阈值)
+        devUsable: "", //(端口使能，0-否，1-是)
+        devAutoOnTime: "", //(开机时间,HH:mm)
+        devAutoOffTime: "", //(关机时间,HH:mm)
+        devMouseHide: "", //(鼠标是否隐藏，0-否，1-是)
+        devFullScreen: "", //(终端全屏，0-否，1-是)
+        spareTime: "3", //(无操作时间，取值1~10，默认3)
+        autoPlay: "", //(自动播放，0-否，1-是)
+        volume: 50, //(终端音量，0~100，默认50)
       },
-      alldata:''
+      alldata: "",
+      runGroupnames:"",
     };
   },
   methods: {
-    showModel(index) {
-      this.editorModel = true;
+    showModel(ids) {
+        Getdevbaseinfo({devId:ids}).then((res) => {
+            if(res.message=="success"){
+              
+                this.detailForm=res.data
+                console.log(this.detailForm.volume)
+                this.editorModel = true;
+            }
+            
+        })
+      
     },
-    changePage (){
-        // this.tableData1 = this.mockTableData1();
-        
+    changePage() {
+      // this.tableData1 = this.mockTableData1();
     },
     handleSearch() {
       let { tagObj, terminalType, searchLikes } = this;
       tagObj[terminalType] = searchLikes;
-        this.getlist(1,this.pageSize,tagObj)
+      this.getlist(1, this.pageSize, tagObj);
     },
     handleCloseTag(e, name) {
       let tagObj = { ...this.tagObj };
       delete tagObj[name];
       this.tagObj = tagObj;
     },
-    getlist(currentPage = this.currentPage,
+    getlist(
+      currentPage = this.currentPage,
       pageSize = this.pageSize,
-      searchInfo = this.selectSearch){
-          let data = {
-          pageSize,
-          currentPage,
-          ...searchInfo
-        };
-        Getdevstatusinfolist({
-            currentPage:"1",
-            pageSize:"10"
-        }).then((res)=>{
-            // console.log(res)
-            this.alldata=res
-            this.tableData=res.data.pinfo
-            this.selectSearch=searchInfo;
-            this.pageSize=pageSize;
-            this.currentPage=currentPage;
-            this.totalPage=res.data.totalPage;
-            this.totalRecord=res.data.totalRecord;
-          
-        })
+      searchInfo = this.selectSearch
+    ) {
+      let data = {
+        pageSize,
+        currentPage,
+        ...searchInfo
+      };
+      Getdevstatusinfolist({
+        currentPage: "1",
+        pageSize: "10"
+      }).then(res => {
+        // console.log(res)
+        this.alldata = res;
+        this.tableData = res.data.pinfo;
+        this.selectSearch = searchInfo;
+        this.pageSize = pageSize;
+        this.currentPage = currentPage;
+        this.totalPage = res.data.totalPage;
+        this.totalRecord = Number(res.data.totalRecord);
+        
+      });
     },
-    getLeftGroup(){
-            getdevgroupinfolist({loginId:'YH0001'}).then((res)=>{
+    getLeftGroup() {
+      getdevgroupinfolist({ loginId: "YH0001" }).then(res => {
+        console.log(res);
+        let dataArr = [];
+        dataArr = res.data.tree;
+        dataArr.map((item, index) => {
+          if (item.orggroup) {
+            item.children = item.orggroup;
+            item.title = item.organName;
+            item.children.map((childItem, index) => {
+              if (childItem.group) {
+                childItem.children = childItem.group;
+                childItem.title = childItem.userName;
+                childItem.children.map((grandsonItem, index) => {
+                  grandsonItem.title = grandsonItem.groupName;
+                });
+              }
+            });
+          }
+        });
+        this.treeData = dataArr;
+      });
+    },
+    showGroup(i) {
+        this.runGroupnames = this.alldata.data.pinfo[i].devName;
+        let aa={devId:this.alldata.data.pinfo[i].devId}
+        Getdevruninfo(aa).then((res) => {
+            if(res.message=="success"){
                 console.log(res)
-                let dataArr = []
-                dataArr=res.data.tree;
-                dataArr.map((item,index)=>{
-                    if(item.orggroup){
-                        item.children=item.orggroup;
-                        item.title=item.organName;
-                        item.children.map((childItem,index)=>{
-                            if(childItem.group){
-                                childItem.children=childItem.group;
-                                childItem.title=childItem.userName;
-                                childItem.children.map((grandsonItem,index)=>{
-                                    grandsonItem.title=grandsonItem.groupName;
-                                })
-                            }
-                            
-                        })
-                    }
+                this.runGroupdata=res.data
+                this.GrouoRunModel = true;
                 
-                })
-                this.treeData=dataArr
-            })
-        },
-        showGroup(i){
-            console.log(this.alldata.data.pinfo[i].devId)
-            this.runGroupdata.devId=this.alldata.data.pinfo[i].devId
-            this.runGroupdata.devname=this.alldata.data.pinfo[i].devName
-            this.GrouoRunModel=true
-        },
-        uploadGroupdata(){
-            console.log(this.runGroupdata)
-            this.GrouoRunModel=false
-            Savedevruninfo().then((res) => {
-                console.log(res)
-            })    
+            }
             
-        }
+        })
+    //   console.log(this.alldata.data.pinfo[i].devId);
+    //   this.runGroupdata.devId = this.alldata.data.pinfo[i].devId;
+    //   this.runGroupnames = this.alldata.data.pinfo[i].devName;
+    },
+    uploadGroupdata() {
+      let aa=this.runGroupdata
+      console.log(aa)
+      Savedevruninfo(aa).then((res) => {
+          if(res.message=="success"){
+            this.GrouoRunModel = false;
+            this.$Message.success("操作成功");
+          }
+      });
+    }
   },
-  created:function(){
-      this.getlist()
-       this.getLeftGroup()
+  created: function() {
+    this.getlist();
+    this.getLeftGroup();
   }
 };
 </script>
