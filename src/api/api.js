@@ -25,11 +25,24 @@ export const adduser = data => axios.post('/user/adduser', data);
 export const deluser = data => axios.post('/user/deluser', data);
 export const edituser = data => axios.post('/user/edituser', data);
 export const setuserrole = data => axios.post('/user/setuserrole', data);
+export const getorganname = data => axios.post('/organ/getorganname', data);
+export const getrolename = data => axios.post('/role/getroleName', data);
 
 // 日志模块
 export const getloginfolist = data => axios.post('/log/getloginfolist', data);
 export const getmsglist = data => axios.post('/log/getmsglist', data);
 export const getdevgroupinfolist = data => axios.post('/device/getdevgroupinfolist', data);
+
+// MQTT系统参数
+export const setmqttpara = data => axios.post('/system/setmqttpara', data);
+export const getmqttpara = data => axios.post('/system/getmqttpara', data);
+export const testmqtt = data => axios.post('/system/testmqtt', data);
+
+// FTP系统参数
+export const setftppara = data => axios.post('/system/setftppara', data);
+export const getftppara = data => axios.post('/system/getftppara', data);
+export const testftp = data => axios.post('/system/testftp', data);
+
 
 
 export const getplayschedulestat = data => axios.post('/release/getplayschedulestat', data);

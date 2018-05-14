@@ -23,13 +23,14 @@
                   <Input v-model="formInfo.username"></Input>
               </FormItem>
               <FormItem label="密码">
-                  <Input v-model="formInfo.pwd"></Input>
+                  <Input v-model="formInfo.password"></Input>
               </FormItem>
               <FormItem label="存放地址" v-if="selectModel==1">
                   <Input v-model="formInfo.address"></Input>
               </FormItem>
               <FormItem>
-                <Button type="primary">关闭</Button>
+                <Button type="primary" @click="serverModelVisible=true">保存</Button>
+                <Button type="primary" @click="handleDetection()">检测服务器</Button>
                 <span class="tip">注意，关闭时判断是否有修改如修改提示用户是否保存</span>
               </FormItem>
           </Form>
@@ -93,14 +94,25 @@
         <Button type="default" @click="changeModalVisible=false">取消</Button>
       </div>
     </Modal>
+    <Modal v-model="serverModelVisible" width="360" title='修改服务器信息'>
+      <div>
+        你确定修改服务器信息吗？
+      </div>
+      <div slot="footer" class="btn_center_wrap">		
+        <Button type="primary" @click="handleServerSave">确认</Button>
+        <Button type="default" @click="serverModelVisible=false">取消</Button>
+      </div>
+    </Modal>
   </Card>
 </template>
 <script>
+import {setmqttpara,getmqttpara,testmqtt,setftppara,getftppara,testftp } from '@/api/api';
 export default {
   data(){
         return {
             selectModel:0,
             changeModalVisible:false,
+            serverModelVisible:false,
             formInfo:{},
             treeData:[
                 {
@@ -164,12 +176,75 @@ export default {
             ],
         }
     },
+    mounted(){
+        getmqttpara({loginId:'YH0001'}).then(res=>{
+            console.log(11,res)
+            let { mqttIp: ip,mqttPort:port,password,username} = res.data;
+            this.formInfo= {ip,port,password,username};
+        })
+    },
     methods:{
-        register(index){
-
+        
+        handleDetection(){
+           let {selectModel,formInfo} = this;
+            if(selectModel==0){
+                let {ip:mqttIp,port:mqttPort,password,username} = formInfo;
+                testmqtt({mqttIp,mqttPort,password,username}).then(res=>{
+                    if(res.status==0){
+                        this.$Message.success("修改成功");
+                        this.getMqtt();
+                    }else{
+                        this.$Message.error(res.message)
+                    }
+                })
+            }else{
+                let {ip:mqttIp,port:mqttPort,address:path,password,username} = formInfo;
+                testftp({mqttIp,mqttPort,password,username,path}).then(res=>{
+                    if(res.status==0){
+                        this.$Message.success("修改成功");
+                        this.getFtp();
+                    }else{
+                        this.$Message.error(res.message)
+                    }
+                })
+            }
         },
-        remove (index) {
-            this.tableData.splice(index, 1);
+        handleServerSave(){
+            let {selectModel,formInfo} = this;
+            if(selectModel==0){
+                let {ip:mqttIp,port:mqttPort,password,username} = formInfo;
+                setmqttpara({mqttIp,mqttPort,password,username}).then(res=>{
+                    if(res.status==0){
+                        this.$Message.success("修改成功");
+                        this.getMqtt();
+                    }else{
+                        this.$Message.error(res.message)
+                    }
+                })
+            }else{
+                let {ip:mqttIp,port:mqttPort,address:path,password,username} = formInfo;
+                setftppara({mqttIp,mqttPort,password,username,path}).then(res=>{
+                    if(res.status==0){
+                        this.$Message.success("修改成功");
+                        this.getFtp();
+                    }else{
+                        this.$Message.error(res.message)
+                    }
+                })
+            }
+            this.serverModelVisible=false;
+        },
+        getMqtt(){
+            getmqttpara({loginId:'YH0001'}).then(res=>{
+                let { mqttIp: ip,mqttPort:port,password,username} = res.data;
+                this.formInfo= {ip,port,password,username};
+            })
+        },
+        getFtp(){
+            getftppara({loginId:'YH0001'}).then(res=>{
+                let { ftpIp: ip,ftpPort:port,password,username,path:address} = res.data;
+                this.formInfo= {ip,port,password,username,address};
+            })
         },
         selectChange(e){
             if(e.length==1){
@@ -178,6 +253,11 @@ export default {
                 if(e[0].nodeKey==2){
                     e[0].expand=true
                 }else{
+                    if(e[0].nodeKey==0){
+                        this.getMqtt();
+                    }else if(e[0].nodeKey==1){
+                        this.getFtp();
+                    }
                     this.selectModel=e[0].nodeKey;
                     this.formInfo = {}
                 }

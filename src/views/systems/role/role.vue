@@ -15,13 +15,16 @@
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
+                <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+              </div>
+              <div class="search-item">
                   <Select v-model="terminalType" style="width:80px">
                       <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
               </div>
               <div class="search-item">
                   <Input v-model="searchLikes" placeholder="模糊查询" clearable style="width: 140px"></Input>
-                  <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch"></Button>
+                  <Button type="ghost" shape="circle" icon="ios-search" @click="handleSearch()"></Button>
               </div>
           </Col>
       </Row>
@@ -89,6 +92,7 @@ export default {
       isEdit:false,
       delModelConfig: false,
       selectSearch:{},
+      tagObj:{},
       totalRecord:1,
       totalPage:1,
       pageSize:20,
@@ -277,6 +281,16 @@ export default {
             e.checkValue = [];
         }
     },
+    handleSearch(){
+      let { tagObj, terminalType, searchLikes} = this;
+      tagObj[terminalType]=searchLikes;
+      this.getList(1,this.pageSize,tagObj);
+    },
+    handleCloseTag(e,name){
+      let tagObj= { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj=tagObj;
+    },
     checkboxGroupChange(item){
       if (item.checkValue.length === item.checkAllValue.length) {
             item.indeterminate = false;
@@ -319,6 +333,7 @@ export default {
     getMenuList(){
       getmenulist({loginer:'admin',loginId:'YH0001'}).then(res=>{
         if(res.status==0){
+          console.log(66,res.data)
           let ary = res.data.map((item,index)=>{
             let obj = {
               AllLabel:"",
@@ -329,19 +344,16 @@ export default {
               checkGroup:[]
             };
             obj.AllLabel=item.menuItem;
+            obj.menuItemId=item.menuItemId.substr(0,2);
             obj.checkAllValue=item.secondLevel.map((itemSon=>itemSon.menuItemId));
             obj.checkGroup=item.secondLevel.map((itemSon)=>({value:itemSon.menuItemId,label:itemSon.menuItem}));
             return obj
           })
+          console.log(55,ary)
          this.checkAllGroup=ary;
         }
         
       })
-    },
-    handleSearch(){
-      this.selectSearch={
-        [this.terminalType]:this.searchLikes
-      }
     },
     getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
       let data = {
@@ -388,16 +400,30 @@ export default {
     },
     handleEditRole(isEdit){
       let obj = {}
+      let { checkSelection,checkAllGroup } = this;
+      let arrGroup = [...checkAllGroup];
       if(isEdit){
-        if(this.checkSelection.length!=1){
+        let selectObj=checkSelection[0];
+        if(checkSelection.length!=1){
           this.$Message.error("只能选中一项进行编辑");
           return;
         }
-        obj =this.checkSelection[0]
+        console.log(5656,checkSelection[0])
+        let arr = selectObj.roleFunc.split(';');
+        console.log(98989,arr)
+        arrGroup.map((item)=>{
+          let selectionArr=arr.filter((i)=>i.indexOf(item.menuItemId)>-1);
+          item.checkValue=selectionArr;
+          item.checkAll = selectionArr.length == item.checkAllValue.length;
+        });
+        
+        obj =selectObj
       }else{
         this.getMenuList()
       }
       this.formInfo=obj;
+      this.checkAllGroup=arrGroup;
+      console.log(arrGroup);
       this.isEdit=isEdit;
       this.addRoleModal=true;
     },
