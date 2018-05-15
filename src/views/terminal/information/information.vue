@@ -76,8 +76,8 @@
                     <FormItem label="机构">
                       <!-- v-model="formRegister.ogr" -->
                         <Select value="all" >
-                            <Option value="all" checked>全部</Option>
-                            <Option v-for="item in allOrgname" :value="item.organName">{{item.organName}}</Option>
+                            <Option value="all">全部</Option>
+                            <Option v-for="item in allOrgname" :value="item.organId">{{item.organName}}</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="管理员">
@@ -405,10 +405,9 @@ export default {
         //
       },
       allOrgname:[{
-        organName: "武汉大学"
-      },{
-        organName: "武汉大学"
-      },]
+        organId:"",
+        organName: ""
+      }]
     };
   },
   methods: {
@@ -495,8 +494,8 @@ export default {
         "loginId":"YH0001"
       }).then((res) => {
         if(res.message=="success"){
-          // console.log(res)
-          this.allOrgname=res.data.organName
+          console.log(res)
+          this.allOrgname=res.data
         }
       })
     }

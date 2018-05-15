@@ -12,8 +12,7 @@
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
-                    <img v-show="!shrink"  src="../images/logo.png" key="max-logo" />
-                    <img v-show="shrink" src="../images/logo-min.png" key="min-logo" />
+                    贪玩岛
                 </div>
             </shrinkable-menu>
         </div>

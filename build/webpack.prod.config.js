@@ -82,7 +82,7 @@ module.exports = merge(webpackBaseConfig, {
             }
         ]),
         new HtmlWebpackPlugin({
-            title: '麦子科技 v' + package.version,
+            title: '贪玩岛 v' + package.version,
             favicon: './favicon.png',
             filename: '../index.html',
             template: '!!ejs-loader!./src/template/index.ejs',

@@ -103,7 +103,7 @@
                     <Input v-model="runGroupnames" readonly></Input>
                 </FormItem>
                 <FormItem label="音量">
-                    <Slider :v-model="runGroupdata.volume"></Slider>
+                    <Slider v-model="runGroupdata.volume"></Slider>
 
                 </FormItem>
                 <FormItem label="存储报警阈值">
@@ -352,15 +352,14 @@ export default {
         ],
         binfo: [
           {
-            devBandWidthCode: "1", //(终端带宽代码)
-            devBandWidthValue: "1" //(终端带宽)
+            bandWidthCode: "1", //(终端带宽代码)
+            bandWidthValue: "1" //(终端带宽)
           }
         ]
       },
       runGroupdata: {
         devname: "",
         devId: "", //(终端代码)
-        // devAutoUpdateFlag(设备信息自动更新)
         devStoragethresh: "", //(存储阈值)
         devUsable: "", //(端口使能，0-否，1-是)
         devAutoOnTime: "", //(开机时间,HH:mm)
@@ -369,7 +368,9 @@ export default {
         devFullScreen: "", //(终端全屏，0-否，1-是)
         spareTime: "3", //(无操作时间，取值1~10，默认3)
         autoPlay: "", //(自动播放，0-否，1-是)
-        volume: 50, //(终端音量，0~100，默认50)
+        volume:30, //(终端音量，0~100，默认50)
+        devAutoUpdateFlag: "1",
+        updateTime: "2018-05-15 09:37:56.0"
       },
       alldata: "",
       runGroupnames:"",
@@ -379,9 +380,8 @@ export default {
     showModel(ids) {
         Getdevbaseinfo({devId:ids}).then((res) => {
             if(res.message=="success"){
-              
+                // console.log(res)
                 this.detailForm=res.data
-                console.log(this.detailForm.volume)
                 this.editorModel = true;
             }
             
@@ -454,8 +454,10 @@ export default {
         let aa={devId:this.alldata.data.pinfo[i].devId}
         Getdevruninfo(aa).then((res) => {
             if(res.message=="success"){
-                console.log(res)
-                this.runGroupdata=res.data
+                // console.log(res)
+                
+                this.runGroupdata=res.data;
+                console.log(this.runGroupdata)
                 this.GrouoRunModel = true;
                 
             }

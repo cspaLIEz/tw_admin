@@ -81,61 +81,61 @@ export const appRouter = [
         path: '/index',
         icon: 'home',
         name: 'index',
-        title: '系统首页',
+        title: '全局开关',
         component: Main,
         children: [
-            { path: 'index', title: '系统首页', name: 'index', redirect:"/home" }
+            { path: 'index', title: '全局开关', name: 'index', redirect:"/home" }
         ]
     },
     {
         path: '/program',
         icon: 'ios-paper',
         name: 'program',
-        title: '节目管理',
+        title: '饰品数量监控',
         component: Main,
         children: [
-            { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', redirect: '/build'},
-            { path: 'lists', title: '节目列表', name: 'program_lists', icon: 'ios-list-outline', component: () => import('@/views/program/lists/lists.vue') },
-            { path: 'approval', title: '节目审批', name: 'program_approval', icon: 'funnel', component: () => import('@/views/program/approval/approval.vue') },
-            { path: 'broadcast', title: '插播消息', name: 'program_broadcast', icon: 'monitor', component: () => import('@/views/program/broadcast/broadcast.vue') }
+            // { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', redirect: '/build'},
+            // { path: 'lists', title: '节目列表', name: 'program_lists', icon: 'ios-list-outline', component: () => import('@/views/program/lists/lists.vue') },
+            // { path: 'approval', title: '节目审批', name: 'program_approval', icon: 'funnel', component: () => import('@/views/program/approval/approval.vue') },
+            { path: 'broadcast', title: '饰品数量监控', name: 'program_broadcast', icon: 'monitor', component: () => import('@/views/program/broadcast/broadcast.vue') }
         ]
     },
     {
         path: '/release',
         icon: 'ios-paperplane',
         name: 'release',
-        title: '发布管理',
+        title: '推荐位',
         component: Main,
         children: [
-            { path: 'schedule', title: '发布日程', name: 'release_build', icon:'ios-calendar', component: () => import('@/views/release/schedule/schedule.vue') },
-            { path: 'approval', title: '发布审批', name: 'release_lists', icon: 'compose', component: () => import('@/views/release/approval/approval.vue') },
-            { path: 'lists', title: '发布列表', name: 'release_approval', icon: 'android-list', component: () => import('@/views/release/lists/lists.vue') }
+            { path: 'schedule', title: '推荐位', name: 'release_build', icon:'ios-calendar', component: () => import('@/views/release/schedule/schedule.vue') }
+        //     { path: 'approval', title: '发布审批', name: 'release_lists', icon: 'compose', component: () => import('@/views/release/approval/approval.vue') },
+        //     { path: 'lists', title: '发布列表', name: 'release_approval', icon: 'android-list', component: () => import('@/views/release/lists/lists.vue') }
         ]
     },
     {
         path: '/terminal',
         icon: 'android-desktop',
         name: 'terminal',
-        title: '终端管理',
+        title: '套装管理',
         component: Main,
         children: [
-            { path: 'information', title: '终端注册', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') },
-            { path: 'state', title: '终端状态', name: 'terminal_state', icon:'ios-pulse', component: () => import('@/views/terminal/state/state.vue') },
-            { path: 'control', title: '终端控制', name: 'terminal_control', icon:'mouse', component: () => import('@/views/terminal/control/control.vue') }
+            { path: 'information', title: '套装管理', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') }
+            // { path: 'state', title: '终端状态', name: 'terminal_state', icon:'ios-pulse', component: () => import('@/views/terminal/state/state.vue') },
+            // { path: 'control', title: '终端控制', name: 'terminal_control', icon:'mouse', component: () => import('@/views/terminal/control/control.vue') }
         ]
     },
     {
         path: '/resources',
         icon: 'social-buffer',
         name: 'resources',
-        title: '资源管理',
+        title: '装备管理',
         component: Main,
         children: [
-            { path: 'material', title: '素材', name: 'resources_material', icon:'filing', component: () => import('@/views/resources/material/material.vue') },
-            { path: 'template', title: '模板', name: 'resources_template', icon:'document-text', component: () => import('@/views/resources/template/template.vue') }
+            { path: 'material', title: '装备管理', name: 'resources_material', icon:'filing', component: () => import('@/views/resources/material/material.vue') }
+            // { path: 'template', title: '模板', name: 'resources_template', icon:'document-text', component: () => import('@/views/resources/template/template.vue') }
         ]
-    },
-    {
+    }
+    /*{
         path: '/journal',
         icon: 'ios-paper-outline',
         name: 'journal',
@@ -158,7 +158,7 @@ export const appRouter = [
             { path: 'user', title: '用户管理', name: 'systems_user', icon: 'ios-people', component: () => import('@/views/systems/user/user.vue') },
             { path: 'parameter', title: '系统参数', name: 'systems_parameter', icon: 'ios-settings', component: () => import('@/views/systems/parameter/parameter.vue') }
         ]
-    }
+    }*/
 ];
 
 // 所有上面定义的路由都要写在下面的routers里

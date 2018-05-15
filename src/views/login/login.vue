@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-con">
                     <div class="form-con-header">
-                        <img src="../../images/login/logo_text.png" alt="">
+                        贪玩岛后台管理系统
                     </div>
                     <Form ref="loginForm" :model="form" :rules="rules">
                         <FormItem prop="userName">

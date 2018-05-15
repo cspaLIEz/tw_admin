@@ -459,7 +459,7 @@ export default {
                     this.currentPage=currentPage;
                     this.totalPage=res.data.totalPage;
                     this.totalRecord=res.data.totalRecord;
-                    this.selectSearch=searchInfo;
+                    // this.selectSearch=searchInfo;
                     this.orgSelection=res.data.tree;
                 }else{
                     this.$Message.error(res.message);
