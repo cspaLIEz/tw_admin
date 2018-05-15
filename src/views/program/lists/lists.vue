@@ -224,7 +224,7 @@ export default {
         this.getList();
     },
     methods:{
-        getList(currentPage=this.currentPage,pageSize=this.pageSize,searchInfo=this.selectSearch){
+        getList(currentPage=this.currentPage,pageSize=this.pageSize,opertype=1,searchInfo=this.selectSearch){
             let data = {
                 loginer:this.$store.state.user.user,
                 loginId:this.$store.state.user.userId,

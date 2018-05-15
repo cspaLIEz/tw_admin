@@ -16,6 +16,9 @@
           </Col>
           <Col span="12" class="handle-top-right">
               <div class="search-item">
+                <Tag v-for="item in Object.keys(tagObj)" :key="item" :name="item" closable @on-close="handleCloseTag">{{tagObj[item]}}</Tag>
+              </div>
+              <div class="search-item">
                   <Select v-model="terminalType" style="width:80px">
                       <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
@@ -54,7 +57,7 @@
           </FormItem>
           <FormItem label="所属机构">
             <Select v-model="formInfo.organId">
-                <Option v-for="item in userSelection" :value="item.organId" :key="item.organId">{{item.organValue}}</Option>
+                <Option v-for="item in userSelection" :value="item.organId" :key="item.organId">{{item.organName}}</Option>
 					  </Select>   
           </FormItem>
           <FormItem label="联系电话">
@@ -93,9 +96,8 @@
             <Input v-model="setRoleInfo.userTel" disabled></Input>       
           </FormItem>
           <FormItem label="用户角色">
-            <Select v-model="setRoleInfo.userRole">
-						  <Option value="beijing">管理员</Option>
-						  <Option value="shanghai">超级管理员</Option>
+            <Select v-model="setRoleInfo.userRole">            
+						  <Option v-for="item in roleSelection" :value="item.roleId" :key="item.roleId">{{item.roleName}}</Option>
 					  </Select>   
           </FormItem>
         </Form>
@@ -117,7 +119,7 @@
   </Card>
 </template>
 <script>
-import {getuserinfolist,edituser,adduser,deluser} from '@/api/api';
+import {getuserinfolist,edituser,adduser,deluser,getrolename,getorganname,setuserrole} from '@/api/api';
 export default {
   data() {
     return {
@@ -128,8 +130,10 @@ export default {
       delModelConfig: false,
       setRoleInfo:{},
       selectSearch:{},
+      tagObj: {},
       userSelection:[],
       checkSelection:[],
+      roleSelection:[],
       totalRecord:1,
       totalPage:1,
       pageSize:20,
@@ -170,7 +174,7 @@ export default {
       columns: [
         {
           type: 'selection',
-          width: 58,
+          width: 59,
           align: 'center'
         },
         {
@@ -208,7 +212,9 @@ export default {
     };
   },
   mounted:function(){
-    this.getList()
+    this.getList();
+    this.getOrganName();
+    this.getRoleName();
   },
   methods: {
     register(index) {},
@@ -233,10 +239,24 @@ export default {
           this.totalPage=res.data.totalPage;
           this.totalRecord=res.data.totalRecord;
           this.selectSearch=searchInfo;
-          this.userSelection=[{
-            organId: 'JG0001',
-            organValue: "武汉大学"
-          }]
+        }else{
+          this.$Message.error(res.message);
+        }
+      })
+    },
+    getOrganName(){
+      getorganname({loginer:'admin','loginId':'YH0001'}).then((res)=>{
+        if(res.status==0){
+          this.userSelection=res.data;
+        }else{
+          this.$Message.error(res.message);
+        }
+      })
+    },
+    getRoleName(){
+      getrolename({loginer:'admin','loginId':'YH0001'}).then((res)=>{
+        if(res.status==0){
+          this.roleSelection=res.data;
         }else{
           this.$Message.error(res.message);
         }
@@ -323,13 +343,24 @@ export default {
       this.setRoleInfo=obj;
       this.setRoleModal=true;
     },
-    handleSearch(){
-      this.selectSearch={
-        [this.terminalType]:this.searchLikes
-      }
-      console.log({
-        [this.terminalType]:this.searchLikes
+    setRoleOk(){
+      setuserrole(this.setRoleInfo).then(res=>{
+        if(res.status==0){
+          this.$Message.success("设置成功")
+        }else{
+          this.$Message.error(res.message);
+        }
       })
+    },
+    handleSearch(){
+      let { tagObj, terminalType, searchLikes} = this;
+      tagObj[terminalType]=searchLikes;
+      this.getList(1,this.pageSize,tagObj)
+    },
+    handleCloseTag(e,name){
+      let tagObj= { ...this.tagObj };
+      delete tagObj[name];
+      this.tagObj=tagObj;
     },
     changePage(current) {
       this.getList(current)

@@ -87,10 +87,6 @@ export default {
             terminalType:"all",
             typeList:[
                 {
-                    value: 'all',
-                    label: '全部'
-                },
-                {
                     value: 'msgTitle',
                     label: '消息主旨'
                 },
