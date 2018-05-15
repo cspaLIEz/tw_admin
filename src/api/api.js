@@ -91,6 +91,12 @@ export const Getdevbaseinfo = data => axios.post('/device/getdevbaseinfo', data)
 //终端运行配置获取接口
 export const Getdevruninfo = data => axios.post('/device/getdevruninfo', data);
 
+//获取所有的组
+export const Getorganname = data => axios.post('/organ/getorganname', data);
+//获取所有角色
+export const GetroleName = data => axios.post('role/getroleNam', data);
+
+
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

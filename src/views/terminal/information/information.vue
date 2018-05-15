@@ -77,8 +77,7 @@
                       <!-- v-model="formRegister.ogr" -->
                         <Select value="all" >
                             <Option value="all" checked>全部</Option>
-                            <Option value="admin">admin</Option>
-                            <Option value="zs">张三</Option>
+                            <Option v-for="item in allOrgname" :value="item.organName">{{item.organName}}</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="管理员">
@@ -119,7 +118,7 @@
   </Card>
 </template>
 <script>
-import { Getdeviceinfolist,Regdevice,Deldevice } from "@/api/api";
+import { Getdeviceinfolist,Regdevice,Deldevice,Getorganname } from "@/api/api";
 export default {
   data() {
     return {
@@ -404,7 +403,12 @@ export default {
           totalRecord: 3
         }
         //
-      }
+      },
+      allOrgname:[{
+        organName: "武汉大学"
+      },{
+        organName: "武汉大学"
+      },]
     };
   },
   methods: {
@@ -482,14 +486,25 @@ export default {
     },
     GroupRegist(){
       Regdevice(this.formRegister).then((res)=>{
-        console.log(res)
         this.registerModal = false;
+      })
+    },
+    GetOrgAllName(){
+      Getorganname({
+        "loginer":"admin",
+        "loginId":"YH0001"
+      }).then((res) => {
+        if(res.message=="success"){
+          // console.log(res)
+          this.allOrgname=res.data.organName
+        }
       })
     }
   },
   created: function() {
     // this.tableData=this.data.pinfo
     this.getlist()
+    this.GetOrgAllName()
   }
 };
 </script>
