@@ -120,7 +120,7 @@ export default {
                     }
                     
                     Login(data).then(function(res){
-                        if(res.status===0){
+                        /*if(res.status===0){
                             this.$Message.success("登录成功");
                             this.$store.commit('user/login', {
                                 user:this.form.userName,
@@ -139,7 +139,18 @@ export default {
                             });
                         } else {
                             this.$Message.error("登录失败");
-                        }
+                        }*/
+                        this.$store.commit('user/login', {
+                                user:this.form.userName,
+                                userId:"YH0001"
+                        });
+                        Cookies.set('user', this.form.userName);
+                        Cookies.set('password', this.form.password);
+                        this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+                        Cookies.set('access', 0);
+                        this.$router.push({
+                                name: 'global_switch'
+                            });    
                     }.bind(this));
                 }
             });

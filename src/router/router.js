@@ -78,13 +78,13 @@ export const otherRouter = {
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
     {
-        path: '/index',
-        icon: 'home',
+        path: '/switch',
+        icon: 'power',
         name: 'index',
         title: '全局开关',
         component: Main,
         children: [
-            { path: 'index', title: '全局开关', name: 'index', redirect:"/home" }
+            { path: '/switch', title: '全局开关', name: 'global_switch', icon: 'power', component: () => import('@/views/main/switch/switch.vue') }
         ]
     },
     {
@@ -97,7 +97,7 @@ export const appRouter = [
             // { path: 'build', title: '节目制作', name: 'program_build', icon:'hammer', redirect: '/build'},
             // { path: 'lists', title: '节目列表', name: 'program_lists', icon: 'ios-list-outline', component: () => import('@/views/program/lists/lists.vue') },
             // { path: 'approval', title: '节目审批', name: 'program_approval', icon: 'funnel', component: () => import('@/views/program/approval/approval.vue') },
-            { path: 'broadcast', title: '饰品数量监控', name: 'program_broadcast', icon: 'monitor', component: () => import('@/views/program/broadcast/broadcast.vue') }
+            { path: '/monitor', title: '饰品数量监控', name: 'stock_monitor', icon: 'monitor', component: () => import('@/views/main/monitor/monitor.vue') }
         ]
     },
     {
@@ -107,7 +107,7 @@ export const appRouter = [
         title: '推荐位',
         component: Main,
         children: [
-            { path: 'schedule', title: '推荐位', name: 'release_build', icon:'ios-calendar', component: () => import('@/views/release/schedule/schedule.vue') }
+            { path: '/recommend', title: '推荐位', name: 'release_build', icon:'ios-calendar', component: () => import('@/views/main/recommend/recommend.vue') }
         //     { path: 'approval', title: '发布审批', name: 'release_lists', icon: 'compose', component: () => import('@/views/release/approval/approval.vue') },
         //     { path: 'lists', title: '发布列表', name: 'release_approval', icon: 'android-list', component: () => import('@/views/release/lists/lists.vue') }
         ]
@@ -119,7 +119,7 @@ export const appRouter = [
         title: '套装管理',
         component: Main,
         children: [
-            { path: 'information', title: '套装管理', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/terminal/information/information.vue') }
+            { path: '/suit', title: '套装管理', name: 'terminal_information', icon:'information-circled', component: () => import('@/views/main/suit/suit.vue') }
             // { path: 'state', title: '终端状态', name: 'terminal_state', icon:'ios-pulse', component: () => import('@/views/terminal/state/state.vue') },
             // { path: 'control', title: '终端控制', name: 'terminal_control', icon:'mouse', component: () => import('@/views/terminal/control/control.vue') }
         ]
@@ -131,7 +131,7 @@ export const appRouter = [
         title: '装备管理',
         component: Main,
         children: [
-            { path: 'material', title: '装备管理', name: 'resources_material', icon:'filing', component: () => import('@/views/resources/material/material.vue') }
+            { path: '/equipment', title: '装备管理', name: 'resources_material', icon:'filing', component: () => import('@/views/main/equipment/equipment.vue') }
             // { path: 'template', title: '模板', name: 'resources_template', icon:'document-text', component: () => import('@/views/resources/template/template.vue') }
         ]
     }

@@ -20,6 +20,7 @@
                 <Col span="8" class="handle-top-center">
                     {{this.startstop}}
                 </Col>
+                <Switch value=true></Switch>
                 <Col span="8" class="handle-top-right">
                     时段设置
                     <Select v-model="times" style="width:50px">
@@ -436,7 +437,7 @@ export default {
             "loginId":"YH0001",
             "startDate":"20180416",
             "startTime":"09:00:00",
-            "endDate":"20180423",
+            "endDate":"20180422",
             "endTime":"12:00:00",
             "devId":"ZD0002",//终端编号
             "timeSection":"15"//时间分段长度，只能为15，30，60分钟
