@@ -69,7 +69,7 @@ export const otherRouter = {
     redirect: '/home',
     component: Main,
     children: [
-        { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/home/home.vue') },
+        // { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/main/switch/switch.vue') },
         { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/own-space/own-space.vue') },
         { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
     ]
@@ -84,7 +84,7 @@ export const appRouter = [
         title: '全局开关',
         component: Main,
         children: [
-            { path: '/switch', title: '全局开关', name: 'global_switch', icon: 'power', component: () => import('@/views/main/switch/switch.vue') }
+            { path: '/home', title: '全局开关', name: 'home_index', icon: 'power', component: () => import('@/views/main/switch/switch.vue') }
         ]
     },
     {

@@ -26,7 +26,17 @@
                         type:"center"
                     },{
                         title:"在架数量",
-                        key:'number'
+                        key:'number',
+                        render(h,params){
+                            const colors = Number(params.row.number) < Number(params.row.salenumber) ? 'red' : 'black'
+                            return h('span',{
+                                style:{
+                                    color : colors
+                                }
+                            },params.row.number)
+
+                            
+                        }
                     },{
                         title:"销售数量",
                         key:'salenumber'

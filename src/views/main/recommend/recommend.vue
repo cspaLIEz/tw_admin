@@ -1,47 +1,28 @@
 <style lang="less">
 @import '../../../styles/common.less';
+.box{height: 40px;line-height: 40px}
 </style>
 <template>
     <Card>
         <Form :label-width="100">
-            <FormItem label="支付2宝购买">
-                <i-switch v-model="alipay"></i-switch >
-            </FormItem> 
-            <FormItem label="微信购买">
-                <i-switch  v-model="wechatpay"></i-switch >
-            </FormItem>
             <Row>
-                <Col span="3">
-                    <FormItem label="公告栏">
-                        <i-switch  v-model="NoticeSwitch"></i-switch >
-                    </FormItem>
+                <Col span="2" style="margin-left:20px">
+                    <div class="box">折扣</div>
+                    <Input v-model="value1" type="textarea" :rows="12" placeholder=" "></Input>
                 </Col>
-                <div v-if="NoticeSwitch">
-                    <Col span='3'>
-                            <Input v-model="Notice" style="width:200px" placeholder="请输入系统公告文本"></Input>
-                    </Col>
-                    <Col span="3">
-                        <Button type="primary">确定</Button>
-                    </Col>
-                </div>
-            </Row>
-            <FormItem label="全局弹窗">
-                <i-switch  v-model="GlobalPopup"></i-switch >
-            </FormItem>
-            <div class="GlobalPopup" v-if="GlobalPopup">
-            <Row><Input v-model="Notice" style="width:240px;" placeholder="弹窗标题"></Input></Row>
-            <Row><Input v-model="Notice" style="width:240px" placeholder="弹窗正文 换行内容用 | 隔开"></Input></Row>
-            <Row><Input v-model="Notice" style="width:240px" placeholder="关闭按钮名称"></Input></Row>
-            <Row>
-                <Input v-model="Notice" style="width:240px" placeholder="跳转按钮名称，若不跳则不写"></Input>
-                <Input v-model="Notice" style="width:180px" placeholder="跳转链接"></Input>
-                 <RadioGroup v-model="animal" style="margin-left:40px">
-                    <Radio label="新页面"></Radio>
-                    <Radio label="跳转"></Radio>
-                </RadioGroup>
-            </Row>
-            <Button type="primary" style="margin-left:20px">确定</Button>
-            </div>
+                <Col span="2" style="margin-left:20px">
+                    <div class="box">武器</div>
+                    <Input v-model="value1" type="textarea" :rows="12" placeholder=" "></Input>
+                </Col>
+                <Col span="2" style="margin-left:20px">
+                    <div class="box">套装</div>
+                    <Input v-model="value1" type="textarea" :rows="12" placeholder=" "></Input>
+                </Col>
+                <Col span="2" style="margin-left:20px">
+                    <div class="box">土豪</div>
+                    <Input v-model="value1" type="textarea" :rows="12" placeholder=" "></Input>
+                </Col>
+            </Row>    
         </Form>
     </Card>
 </template>
@@ -50,6 +31,7 @@
         name:"globalswith",
         data() {
             return {
+                value1:'',
                 alipay:true,
                 wechatpay:true,
                 Notice:'',

@@ -113,13 +113,13 @@ export default {
         },
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
-                if (valid) {
+                // if (valid) {
                     var data = {
                         username:this.form.userName,
                         password:this.form.password
                     }
                     
-                    Login(data).then(function(res){
+                    // Login(data).then(function(res){
                         /*if(res.status===0){
                             this.$Message.success("登录成功");
                             this.$store.commit('user/login', {
@@ -151,8 +151,8 @@ export default {
                         this.$router.push({
                                 name: 'global_switch'
                             });    
-                    }.bind(this));
-                }
+                    // }.bind(this));
+                // }
             });
         }
     }
