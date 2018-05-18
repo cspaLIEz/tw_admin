@@ -3,7 +3,8 @@
 </style>
 <template>
     <Card>
-        <Checkbox v-model="single">只显示数量不足的饰品</Checkbox>
+        <div><Input v-model="bhurl" placeholder="交易URL" style="width:200px"></Input><Button type="primary">补货</Button></div>
+        <Checkbox v-model="single">只显示数量少于待发货的饰品</Checkbox>
         <Table border  :columns="columns" :data="tableData"></Table>
     </Card>
 </template>
@@ -12,6 +13,7 @@
         name:"globalswith",
         data() {
             return {
+                bhurl:'',
                 alipay:true,
                 wechatpay:true,
                 Notice:'',
@@ -38,7 +40,7 @@
                             
                         }
                     },{
-                        title:"销售数量",
+                        title:"待发货",
                         key:'salenumber'
                     }
                 ],
@@ -48,7 +50,7 @@
                     salenumber:"3"
                 },{
                     name:"小白衣",
-                    number:"3",
+                    number:"2",
                     salenumber:"3"
                 },{
                     name:"小白衣",

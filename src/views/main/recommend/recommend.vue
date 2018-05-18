@@ -22,7 +22,11 @@
                     <div class="box">土豪</div>
                     <Input v-model="value1" type="textarea" :rows="12" placeholder=" "></Input>
                 </Col>
-            </Row>    
+            </Row>
+            <div style="margin:20px">
+               <Button type="success">确定</Button>     
+            </div>
+            
         </Form>
     </Card>
 </template>

@@ -33,14 +33,14 @@
             <Row><Input v-model="Notice" style="width:240px;" placeholder="弹窗标题"></Input></Row>
             <Row><Input v-model="Notice" style="width:240px" placeholder="弹窗正文 换行内容用 | 隔开"></Input></Row>
             <Row><Input v-model="Notice" style="width:240px" placeholder="关闭按钮名称"></Input></Row>
-            <Row>
+            <!-- <Row>
                 <Input v-model="Notice" style="width:240px" placeholder="跳转按钮名称，若不跳则不写"></Input>
                 <Input v-model="Notice" style="width:180px" placeholder="跳转链接"></Input>
                  <RadioGroup v-model="animal" style="margin-left:40px">
                     <Radio label="新页面"></Radio>
                     <Radio label="跳转"></Radio>
                 </RadioGroup>
-            </Row>
+            </Row> -->
             <Button type="primary" style="margin-left:20px">确定</Button>
             </div>
         </Form>
