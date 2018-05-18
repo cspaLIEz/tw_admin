@@ -1,6 +1,6 @@
 export default {
     'zh-CN': {
-        home: '',
+        home: '开关',
         switchLangTitle: '切换语言',
         international: '多语言切换',
         iviewComponentTitle: 'iview组件多语言切换',
