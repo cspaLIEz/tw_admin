@@ -33,7 +33,7 @@
                             <input type="text" class="user-name" v-model="form.userName" placeholder="用户名">
                         </FormItem>
                         <FormItem prop="password">
-                            <input type="text" class="user-password" v-model="form.password" placeholder="用户密码">
+                            <input type="password" class="user-password" v-model="form.password" placeholder="用户密码">
                         </FormItem>
                         <FormItem style="text-align:center">
                             <Button @click="handleSubmit" type="primary" size="large" class="sub-btn">登录</Button>
@@ -113,46 +113,31 @@ export default {
         },
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
-                // if (valid) {
+                if (valid) {
                     var data = {
                         username:this.form.userName,
                         password:this.form.password
                     }
                     
-                    // Login(data).then(function(res){
-                        /*if(res.status===0){
+                    Login(data).then((res) => {
+                        // console.log(res)
+                        if(res.data.access_token==undefined){
+                            this.$Message.error(res.data.message)
+                        }else{
                             this.$Message.success("登录成功");
                             this.$store.commit('user/login', {
                                 user:this.form.userName,
-                                userId:res.data.userId
                             });
-                            Cookies.set('user', this.form.userName);
-                            Cookies.set('password', this.form.password);
+                            localStorage.setItem('token',res.data.access_token)
                             this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                            if (this.form.userName === 'admin') {
-                                Cookies.set('access', 0);
-                            } else {
-                                Cookies.set('access', 1);
-                            }
                             this.$router.push({
                                 name: 'home_index'
                             });
-                        } else {
-                            this.$Message.error("登录失败");
-                        }*/
-                        this.$store.commit('user/login', {
-                                user:this.form.userName,
-                                userId:"YH0001"
-                        });
-                        Cookies.set('user', this.form.userName);
-                        Cookies.set('password', this.form.password);
-                        this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                        Cookies.set('access', 0);
-                        this.$router.push({
-                                name: 'home_index'
-                            });    
-                    // }.bind(this));
-                // }
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                }
             });
         }
     }

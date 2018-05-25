@@ -70,6 +70,7 @@
     </Card>
 </template>
 <script>
+import {GetSuitsList} from '@/api/api.js'
     export default {
         name:"globalswith",
         data() {
@@ -90,27 +91,30 @@
                         type:"center"
                     },{
                         title:"套装部件，以逗号隔开",
-                        key:'number'
+                        key:'assetNames'
                     },{
                         title:"套装图片",
-                        key:'salenumber',
+                        key:'suitImgUrl',
                         render:(h,params) =>{
                             return h("img",
                                 {
                                     attrs:{
-                                        'src':params.row.salenumber
+                                        'src':params.row.suitImgUrl
+                                    },
+                                    style: {
+                                        width: "50px"
                                     }  
                                 }
                             )
                         }
                     },{
                         title:"套装游戏截图",
-                        key:'gameimg',
+                        key:'detailedImgUrl',
                         render:(h,params) =>{
                             return h("img",
                                 {
                                     attrs:{
-                                        'src':params.row.gameimg
+                                        'src':params.row.detailedImgUrl
                                     }  
                                 }
                             )
@@ -151,24 +155,7 @@
                         }
                     }
                 ],
-                tableData:[
-                    {
-                    name:"美团外卖",
-                    number:"小黄衣，小黄裤",
-                    salenumber:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQvrmhy3qr2r44kS69FLdKLuQ/90fx60f",
-                    gameimg:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXaCO1pqE8uh9Fmnw_N1dRE/90fx60f"
-                    },{
-                    name:"小白衣",
-                    number:"3",
-                    salenumber:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXaCO1pqE8uh9Fmnw_N1dRE/90fx60f",
-                    gameimg:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXaCO1pqE8uh9Fmnw_N1dRE/90fx60f"
-                    },{
-                    name:"小白衣",
-                    number:"3",
-                    salenumber:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXaCO1pqE8uh9Fmnw_N1dRE/90fx60f",
-                    gameimg:"https://huzu-steam-cdn.oss-cn-hangzhou.aliyuncs.com/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXaCO1pqE8uh9Fmnw_N1dRE/90fx60f"
-                    }
-                ],
+                tableData:[],
                 file: null,
                 loadingStatus: false
             }
@@ -188,10 +175,18 @@
                     this.loadingStatus = false;
                     this.$Message.success('Success')
                 }, 1500);
+            },
+            getlist(){
+                GetSuitsList().then((res)=>{
+                    let data = res.data
+                    if(data.success==true){
+                        this.tableData=data.data
+                    }
+                })
             }
         },
         created:function(){
-
+            this.getlist()
         }
     }
 </script>
