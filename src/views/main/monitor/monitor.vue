@@ -29,7 +29,7 @@
         name: "globalswith",
         data() {
             return {
-                gurl:'http://localhost:5002',
+                gurl:'http://adminapi.tanwandao.com',
                 isshow:false,
                 bhId:'',
                 understockOnly: false,
@@ -49,21 +49,21 @@
                     title: "售价",
                     key: 'price'
                 }, {
-                    title: "在架数量",
-                    key: 'sold',
+                    title: "库存数量",
+                    key: 'stock',
                     render(h, params) {
-                        const colors = Number(params.row.sold) < Number(params.row.stock) ? 'red' : 'black'
+                        const colors = Number(params.row.stock) < Number(params.row.sold) ? 'red' : 'black'
                         return h('span', {
                             style: {
                                 color: colors
                             }
-                        }, params.row.sold)
+                        }, params.row.stock)
 
 
                     }
                 }, {
                     title: "待发货",
-                    key: 'stock'
+                    key: 'sold'
                 }],
                 tableData: [],
                 responsdata: { //结构与取回的data.responses[i]的结构相同

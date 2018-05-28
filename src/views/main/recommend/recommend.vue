@@ -117,18 +117,23 @@ import {SaveRecommendedItems,GetRecommendedItems} from "@/api/api";
                                 this.value1='';
                         arrays.map((item,index) => {
                             if(item.category==0){
+                                if(item.isDynamic==true){item.price=0}
                                 this.value1+=item.name+","+item.price+"\n"
                             }
                             if(item.category==1){
+                                if(item.isDynamic==true){item.price=0}
                                 this.value2+=item.name+","+item.price+"\n"
                             }
                             if(item.category==2){
+                                if(item.isDynamic==true){item.price=0}
                                 this.value3+=item.name+","+item.price+"\n"
                             }
                             if(item.category==3){
+                                if(item.isDynamic==true){item.price=0}
                                 this.value4+=item.name+","+item.price+"\n"
                             }
                             if(item.category==4){
+                                if(item.isDynamic==true){item.price=0}
                                 this.value5+=item.name+","+item.price+"\n"
                             }
                         })

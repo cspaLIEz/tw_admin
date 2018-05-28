@@ -7,74 +7,78 @@
             <Button type="primary" @click="addModal=true">添加套装</Button>
         </div>
         <Table border  :columns="columns" :data="tableData"></Table>
-        <Modal v-model="addModal" title="添加套装">
-            <Form :label-width="100">
+        <Modal v-model="addModal"  title="添加套装" ref="myaddsuit">
+            <Form :label-width="100" v-model="suitform" method="post" enctype="multipart/form-data" id="addshuits">
                 <FormItem label="套装名称">
-                    <Input v-model="suit"></Input>
+                    <Input v-model="suitform.name" name="Name"></Input>
                 </FormItem> 
                 <FormItem label="套装部件">
-                    <Input v-model="suit" placeholder="以逗号隔开"></Input>
+                    <Input v-model="suitform.assname" placeholder="以逗号隔开" name="AssetNames"></Input>
                 </FormItem> 
                 <FormItem label="套装图片">
-                     <Upload
-                        :before-upload="handleUpload"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">图片上传</Button>
-                    </Upload>
+                    <input type="file" accept="image/*" name="Image">
                 </FormItem>
-                <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div> 
+                 
                 <FormItem label="套装游戏截图">
-                     <Upload
-                        :before-upload="handleUpload"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">图片上传</Button>
-                    </Upload>
+                    <input type="file" accept="image/*" name="ImageLarge">
                 </FormItem>
-                <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div> 
             </Form>    
             <div slot="footer">
                 <Button type="warning" @click="addModal=false">关闭</Button>
-                <Button type="primary" @click="addModal=false">确定</Button>
+                <Button type="primary" @click="addsuit">确定</Button>
             </div>
         </modal>
         <Modal v-model="editModal" title="编辑套装">
-            <Form :label-width="100">
+            <Form :label-width="100" v-model="suitform" method="post" enctype="multipart/form-data" id="editshuits">
                 <FormItem label="套装名称">
-                    <Input v-model="suit"></Input>
+                    <Input name="Name"></Input>
                 </FormItem> 
                 <FormItem label="套装部件">
-                    <Input v-model="suit" placeholder="以逗号隔开"></Input>
+                    <Input name="AssetNames" placeholder="以逗号隔开"></Input>
                 </FormItem> 
                 <FormItem label="套装图片">
-                     <Upload
-                        :before-upload="handleUpload"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">图片变更</Button>
-                    </Upload>
+                    <input type="file" accept="image/*" name="Image">
                 </FormItem>
-                <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div> 
+                <!-- <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div>  -->
                 <FormItem label="套装游戏截图">
-                     <Upload
-                        :before-upload="handleUpload"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">图片变更</Button>
-                    </Upload>
+                    <input type="file" accept="image/*" name="ImageLarge">
                 </FormItem>
-                <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div> 
             </Form>    
             <div slot="footer">
                 <Button type="warning" @click="editModal=false">关闭</Button>
-                <Button type="primary" @click="editModal=false">确定</Button>
+                <Button type="primary" @click="editsuit">确定</Button>
+            </div>
+        </modal>
+        <Modal v-model="deleteM" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="information-circled"></Icon>
+                <span>确认要删除吗</span>
+            </p>
+            <div style="text-align:center">
+                <p>删除套装</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long  @click="deletes">删除套装</Button>
             </div>
         </modal>
     </Card>
 </template>
 <script>
-import {GetSuitsList} from '@/api/api.js'
+import {GetSuitsList,UpdateSuits,AddSuits,DeleteSuits} from '@/api/api.js';
+import axios from '@/libs/axios';
     export default {
-        name:"globalswith",
+        // name:"globalswith",
         data() {
             return {
+                gurl:"http://adminapi.tanwandao.com",
+                deleteM:false,
+                suitform:{
+                    id:0,
+                    name:'',
+                    assname:'',
+                    image:null,
+                    imagel:null
+                },
                 editModal:false,
                 suit:'',
                 addModal:false,
@@ -131,6 +135,7 @@ import {GetSuitsList} from '@/api/api.js'
                                         },
                                         on:{
                                             click:()=>{
+                                                this.editId=params.row.id
                                                 this.editModal=true
                                             }
                                         }    
@@ -144,7 +149,9 @@ import {GetSuitsList} from '@/api/api.js'
                                         style:{marginLeft:"10px"},
                                         on:{
                                             click:()=>{
-                                                console.log("321")
+
+                                                this.deleteID=params.row.id
+                                                this.deleteM=true
                                             }
                                         }    
                                     },"删除"
@@ -157,7 +164,9 @@ import {GetSuitsList} from '@/api/api.js'
                 ],
                 tableData:[],
                 file: null,
-                loadingStatus: false
+                loadingStatus: false,
+                editId:'',
+                deleteID:''
             }
         },
         methods:{
@@ -168,20 +177,89 @@ import {GetSuitsList} from '@/api/api.js'
                 this.file = file;
                 return false;
             },
-            upload () {
-                this.loadingStatus = true;
-                setTimeout(() => {
-                    this.file = null;
-                    this.loadingStatus = false;
-                    this.$Message.success('Success')
-                }, 1500);
-            },
             getlist(){
                 GetSuitsList().then((res)=>{
                     let data = res.data
                     if(data.success==true){
                         this.tableData=data.data
                     }
+                })
+            },
+            changeimg(file){
+                
+                this.suitform.image=file
+                return false;
+            },
+            changeimgl(file){
+                this.suitform.imagel=file
+                return false;
+            },
+            addsuit(){
+                let _this=this
+                let faobj=document.getElementById("addshuits");
+                let formData =new FormData(faobj);
+                //原生JS
+                var oReq = new XMLHttpRequest();
+                
+                oReq.onreadystatechange=function(){
+                if(oReq.readyState==4){
+                    if(oReq.status==200){
+                        let res=$.parseJSON(oReq.responseText)
+                        console.log(res);
+                        if(res.success==true){
+                            _this.$Message.success("操作成功")
+                            _this.getlist()
+                            _this.addModal=false
+                        }else{
+                            _this.$Message.error(res.message)
+                        }
+
+                    }
+                }
+                };
+                oReq.open("POST", _this.gurl+"/api/market/add_suits");
+                oReq.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'))
+                oReq.send(formData); 
+            
+            },
+            editsuit(){
+                let _this=this
+                let faobj=document.getElementById("editshuits");
+                let formData =new FormData(faobj);
+                formData.append('Id',_this.editId)
+                //原生JS
+                var oReq = new XMLHttpRequest();
+                
+                oReq.onreadystatechange=function(){
+                if(oReq.readyState==4){
+                    if(oReq.status==200){
+                        let res=$.parseJSON(oReq.responseText)
+                        console.log(res);
+                        if(res.success==true){
+                            _this.$Message.success("操作成功")
+                            _this.getlist()
+                            _this.editModal=false
+                        }else{
+                            _this.$Message.error(res.message)
+                        }
+
+                    }
+                }
+                };
+                oReq.open("POST", _this.gurl+"/api/market/update_suits");
+                oReq.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'))
+                oReq.send(formData); 
+            },
+            deletes(){
+                DeleteSuits({Id:this.deleteID}).then((res) => {
+                        // console.log(res)
+                        if(res.data.success==true){
+                            this.$Message.success("操作成功")
+                            this.deleteM=false
+                        }else{
+                            this.$Message.error(res.message)
+                        }
+                        this.getlist()
                 })
             }
         },

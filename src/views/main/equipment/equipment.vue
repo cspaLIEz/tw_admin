@@ -4,7 +4,7 @@
 <template>
     <Card>
         <Form :label-width="100">
-            <FormItem label="支付4宝购买">
+            <FormItem label="支付宝购买">
                 <i-switch v-model="alipay"></i-switch >
             </FormItem> 
             <FormItem label="微信购买">
