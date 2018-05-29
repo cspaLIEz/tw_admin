@@ -3,11 +3,12 @@ import env from '../../build/env';
 import queryString from 'querystring'
 
 const ajaxUrl = env === 'development'
-? 'http://localhost:5002'
+? 'http://adminapi.tanwandao.com'
 : env === 'production'
     ? 'http://adminapi.tanwandao.com'
     : 'https://debug.url.com';
-
+//http://localhost:5002
+//http://adminapi.tanwandao.com
 let options = {
   baseURL:ajaxUrl,
   timeout: 30000,
