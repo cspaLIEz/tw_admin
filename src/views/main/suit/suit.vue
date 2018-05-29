@@ -71,6 +71,7 @@ import axios from '@/libs/axios';
         data() {
             return {
                 gurl:"http://adminapi.tanwandao.com",
+                // gurl:'http://localhost:5002',
                 deleteM:false,
                 suitform:{
                     id:0,
@@ -106,7 +107,7 @@ import axios from '@/libs/axios';
                                         'src':params.row.suitImgUrl
                                     },
                                     style: {
-                                        width: "50px"
+                                        width: "100%"
                                     }  
                                 }
                             )
@@ -119,6 +120,9 @@ import axios from '@/libs/axios';
                                 {
                                     attrs:{
                                         'src':params.row.detailedImgUrl
+                                    },
+                                    style: {
+                                        width: "100%"
                                     }  
                                 }
                             )

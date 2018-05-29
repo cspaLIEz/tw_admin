@@ -11,7 +11,11 @@
          <Alert v-if="isshow" style="margin-top:10px">
             <span style="margin-right:20px">{{responsdata.botName}}</span>
             <span style="margin-right:20px">验证码:{{responsdata.code}}</span>
-            <span style="margin-right:20px">{{responsdata.message}}</span>
+            <!-- <span style="margin-right:20px">{{responsdata.message}}</span> -->
+            <!-- <span v-html="htmldata"></span> -->
+            <a v-if="statev==1" @click="blanker" target="_blank" :src="tzurl">{{responsdata.message}}</a>
+            <span v-if="statev==2">{{responsdata.message}}</span>
+            <span v-if="statev==3" @click="isshow=false">{{responsdata.message}}</span>
         </Alert>
         <Checkbox @on-change="ist" style="margin-top:10px" v-model="single">只显示数量少于待发货的饰品</Checkbox>
         <Table style="margin-top:10px" border :columns="columns" :data="tableData"></Table>
@@ -30,6 +34,10 @@
         data() {
             return {
                 gurl:'http://adminapi.tanwandao.com',
+                // gurl:'http://localhost:5002',
+                tzurl:'',
+                statev:"",
+                htmldata:"",
                 isshow:false,
                 bhId:'',
                 understockOnly: false,
@@ -139,6 +147,19 @@
                     axios.get(url).then((res) => {
                         if(res.data.data!=null){
                             this.responsdata=res.data.data
+                            let ts=res.data.data.state
+                            if(ts==2){
+                                this.tzurl=`https://steamcommunity.com/tradeoffer/${res.data.data.tradeOfferId}`
+                                this.statev=1
+                            }else
+                            if(ts==8||ts==6||ts==10||ts==100||ts==11){
+                                this.statev=2
+                            }else{
+                                this.statev=3
+                            }
+                            if(ts!=0&&ts!=2&&ts!=3&&ts!=9){
+                                clearInterval(this.timer)
+                            }
                             this.isshow=true
                         }else{
                             this.isshow=false
@@ -155,6 +176,10 @@
                             this.tableData = respons.data
                         }
                     })
+            },
+            blanker(){
+                // console.log(111)
+                window.open(this.tzurl)
             }
 
         },

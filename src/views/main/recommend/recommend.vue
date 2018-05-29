@@ -9,29 +9,29 @@
     <Card>
         <Form :label-width="100">
             <Row>
-                <Col span="2" style="margin-left:20px">
+                <Col span="4" style="margin-left:20px">
                 <div class="box">精选</div>
-                <Input v-model="value1" type="textarea" :rows="12" placeholder=""></Input>
+                <Input v-model="value1" type="textarea" :rows="20" placeholder=""></Input>
                 <Button style="margin-top:10px" type="success" @click="updateList(1,0)">确定</Button>
                 </Col>
-                <Col span="2" style="margin-left:20px">
+                <Col span="4" style="margin-left:20px">
                 <div class="box">至宝</div>
-                <Input v-model="value2" type="textarea" :rows="12" placeholder=""></Input>
+                <Input v-model="value2" type="textarea" :rows="20" placeholder=""></Input>
                 <Button style="margin-top:10px" type="success" @click="updateList(2,1)">确定</Button>
                 </Col>
-                <Col span="2" style="margin-left:20px">
+                <Col span="4" style="margin-left:20px">
                 <div class="box">不朽</div>
-                <Input v-model="value3" type="textarea" :rows="12" placeholder=" "></Input>
+                <Input v-model="value3" type="textarea" :rows="20" placeholder=" "></Input>
                 <Button style="margin-top:10px" type="success" @click="updateList(3,2)">确定</Button>
                 </Col>
-                <Col span="2" style="margin-left:20px">
+                <Col span="4" style="margin-left:20px">
                 <div class="box">土豪</div>
-                <Input v-model="value4" type="textarea" :rows="12" placeholder=" "></Input>
+                <Input v-model="value4" type="textarea" :rows="20" placeholder=" "></Input>
                 <Button style="margin-top:10px" type="success" @click="updateList(4,3)">确定</Button>
                 </Col>
-                <Col span="2" style="margin-left:20px">
+                <Col span="4" style="margin-left:20px">
                 <div class="box">套装</div>
-                <Input v-model="value5" type="textarea" :rows="12" placeholder=" "></Input>
+                <Input v-model="value5" type="textarea" :rows="20" placeholder=" "></Input>
                 <Button style="margin-top:10px" type="success" @click="updateList(5,4)">确定</Button>
                 </Col>
                 
