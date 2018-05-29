@@ -3,7 +3,7 @@ import env from '../../build/env';
 import queryString from 'querystring'
 
 const ajaxUrl = env === 'development'
-? 'http://adminapi.tanwandao.com'
+? 'http://localhost:5002'
 : env === 'production'
     ? 'http://adminapi.tanwandao.com'
     : 'https://debug.url.com';
