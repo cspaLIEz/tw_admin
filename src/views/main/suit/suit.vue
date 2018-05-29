@@ -31,17 +31,17 @@
         <Modal v-model="editModal" title="编辑套装">
             <Form :label-width="100" v-model="suitform" method="post" enctype="multipart/form-data" id="editshuits">
                 <FormItem label="套装名称">
-                    <Input name="Name"></Input>
+                    <Input name="Name" v-if="tableData.length" v-model="tableData[index].name"></Input>
                 </FormItem> 
                 <FormItem label="套装部件">
-                    <Input name="AssetNames" placeholder="以逗号隔开"></Input>
+                    <Input name="AssetNames" placeholder="以逗号隔开" v-if="tableData.length" v-model="tableData[index].assetNames"></Input>
                 </FormItem> 
                 <FormItem label="套装图片">
-                    <input type="file" accept="image/*" name="Image">
+                    <input type="file" v-if="tableData.length" :accept='"image/" +tableData[index].suitImgUrl' name="Image">
                 </FormItem>
                 <!-- <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div>  -->
                 <FormItem label="套装游戏截图">
-                    <input type="file" accept="image/*" name="ImageLarge">
+                    <input type="file" v-if="tableData.length" :accept='"image/" +tableData[index].detailedImgUrl' name="ImageLarge">
                 </FormItem>
             </Form>    
             <div slot="footer">
@@ -139,7 +139,8 @@ import axios from '@/libs/axios';
                                         },
                                         on:{
                                             click:()=>{
-                                                this.editId=params.row.id
+                                                this.editId=params.row.id;
+                                                this.index = params.index;
                                                 this.editModal=true
                                             }
                                         }    
@@ -167,6 +168,7 @@ import axios from '@/libs/axios';
                     }
                 ],
                 tableData:[],
+                table:{},
                 file: null,
                 loadingStatus: false,
                 editId:'',
