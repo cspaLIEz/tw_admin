@@ -87,6 +87,9 @@ import {SaveRecommendedItems,GetRecommendedItems} from "@/api/api";
                         if (item.indexOf("，") > 1) {
                             item = item.replace(/，/ig, ',');
                         }
+                        if (item.indexOf(",") < 0){
+                            item+=",0"
+                        }
                         itemArr = item.split(',')
                         objData[`items[${index}].Name`] = this.trim(itemArr[0])
                         objData[`items[${index}].Price`] = this.trim(itemArr[1])
