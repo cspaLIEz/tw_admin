@@ -33,7 +33,7 @@
         name: "globalswith",
         data() {
             return {
-                gurl:'http://adminapi.tanwandao.com',
+                gurl:'http://adminapi.stmpai.com',
                 // gurl:'http://localhost:5002',
                 tzurl:'',
                 statev:"",
