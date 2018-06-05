@@ -53,6 +53,12 @@ export const save_dialog = data => axios.post('/api/global/save_dialog', data);
 //切换全局弹窗开关
 export const toggle_dialog = data => axios.post('/api/global/toggle_dialog', data);
 
+//获取价格异常列表
+export const GetErrorItemList = data => axios.get('/api/Market/GetErrorItemList',data);
+
+//保存价格异常列表
+export const SaveErrorItemList = data => axios.post('/api/Market/SaveErrorItemList',data)
+
 //登录
 // export const Login = data => axios.post('/api/auth/login', data);
 //注册

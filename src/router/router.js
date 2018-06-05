@@ -134,18 +134,28 @@ export const appRouter = [
             { path: '/equipment', title: '装备管理', name: 'resources_material', icon:'filing', component: () => import('@/views/main/equipment/equipment.vue') }
             // { path: 'template', title: '模板', name: 'resources_template', icon:'document-text', component: () => import('@/views/resources/template/template.vue') }
         ]
-    }
+    },
     /*{
-        path: '/journal',
+        path: '/abnormal',
+		icon: 'alert',
+		name: 'abnormal',
+		title: '自动改价异常监控',
+		component: Main,
+		children: [
+			{ path: '/abnormity',title: '自动改价监控异常',name: 'abnormal_information', icon:'information-circled', component: () => import('@/views/main/equipment/equipment.vue')}
+		]
+    }*/
+    {
+        path: '/abnormal',
         icon: 'ios-paper-outline',
-        name: 'journal',
-        title: '日志管理',
+        name: 'abnormal',
+        title: '自动改价监控异常',
         component: Main,
         children: [
-            { path: 'handle', title: '操作日志', name: 'journal_handle', icon: 'ios-cog', component: () => import('@/views/journal/handle/handle.vue') },
-            { path: 'broadcast-message', title: '插播消息日志', name: 'journal_broadcast-message', icon: 'ios-pricetags', component: () => import('@/views/journal/broadcast-message/broadcast-message.vue') }
+            { path: '/handle', title: '自动改价监控异常', name: 'journal_handle', icon: 'ios-cog', component: () => import('@/views/main/abnormity/abnormity.vue') },
+			/*{ path: 'broadcast-message', title: '插播消息日志', name: 'journal_broadcast-message', icon: 'ios-pricetags', component: () => import('@/views/journal/broadcast-message/broadcast-message.vue') }*/
         ]
-    },
+    }/*,
     {
         path: '/systems',
         icon: 'wrench',
